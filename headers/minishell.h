@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 00:49:05 by abosc            ###   ########.fr       */
+/*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
+/*   Updated: 2025/03/08 00:31:03 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H 
 
-int	main(int argc, char **argv, char **env)
-{
-	mininours(argc, argv, env);
-	return (0);
-}
+# include "./structures.h"
 
-void	minimours(int argc, char **argv, char **env)
-{
-	t_main	*datas;
+void	minimours(int argc, char **argv, char **env);
 
-	datas->argc = argc;
-	datas->argv = argv;
-	datas->env = env;
-	parser();
-}
+#endif
