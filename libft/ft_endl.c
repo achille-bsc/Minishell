@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_endl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 20:45:02 by alegrix          ###   ########.fr       */
+/*   Created: 2025/01/27 01:20:17 by alegrix           #+#    #+#             */
+/*   Updated: 2025/01/27 01:20:33 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H 
+int	ft_endl(char *str)
+{
+	int	i;
 
-# include <stdio.h>
-# include "./structures.h"
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-void	mininours(int argc, char **argv, char **env);
-
-#endif
+	i = 0;
+	while (str[i] != '\n' && str[i] != '\0')
+		i++;
+	if (str[i] == '\n')
+		return (1);
+	return (0);
+}

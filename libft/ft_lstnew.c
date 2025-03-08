@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 20:45:02 by alegrix          ###   ########.fr       */
+/*   Created: 2024/10/30 00:01:10 by alegrix           #+#    #+#             */
+/*   Updated: 2024/10/31 00:05:49 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H 
+#include "libft.h"
 
-# include <stdio.h>
-# include "./structures.h"
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*new;
 
-void	mininours(int argc, char **argv, char **env);
-
-#endif
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->content = content;
+	new->next = NULL;
+	return (new);
+}

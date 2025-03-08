@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 20:45:02 by alegrix          ###   ########.fr       */
+/*   Created: 2024/10/30 22:48:25 by alegrix           #+#    #+#             */
+/*   Updated: 2024/10/30 23:31:57 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H 
+#include "libft.h"
 
-# include <stdio.h>
-# include "./structures.h"
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*to_end;
 
-void	mininours(int argc, char **argv, char **env);
-
-#endif
+	if (!*lst)
+		*lst = new;
+	else
+	{
+		to_end = ft_lstlast(*lst);
+		to_end->next = new;
+	}
+}

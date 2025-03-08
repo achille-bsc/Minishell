@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 20:45:02 by alegrix          ###   ########.fr       */
+/*   Created: 2024/10/15 17:02:14 by alegrix           #+#    #+#             */
+/*   Updated: 2024/10/19 17:33:12 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H 
+#include "libft.h"
 
-# include <stdio.h>
-# include "./structures.h"
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
+void	*ft_memset(void *ptr, int value, size_t count)
 
-void	mininours(int argc, char **argv, char **env);
+{
+	size_t			i;
+	unsigned char	*editable;
 
-#endif
+	i = 0;
+	editable = ptr;
+	while (i < count)
+		editable[i++] = value;
+	return (ptr);
+}

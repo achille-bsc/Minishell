@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 20:45:02 by alegrix          ###   ########.fr       */
+/*   Created: 2024/10/15 16:57:53 by alegrix           #+#    #+#             */
+/*   Updated: 2024/10/19 17:33:28 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H 
+#include "libft.h"
 
-# include <stdio.h>
-# include "./structures.h"
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
 
-void	mininours(int argc, char **argv, char **env);
-
-#endif
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
