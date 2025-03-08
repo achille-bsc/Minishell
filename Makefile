@@ -1,11 +1,11 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-NAME = so_long
+NAME = minishell
 
 LIBFT = libft
 LIBFTPRINTF = libft/ft_printf
 
-SRCS = 
+SRCS = src/main.c src/redirection.c 
 
 OBJS = $(SRCS:.c=.o)
 

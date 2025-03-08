@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/08 23:42:15 by abosc            ###   ########.fr       */
+/*   Updated: 2025/03/09 00:02:59 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	open_file(t_exec *c, t_args *n)
 		return (open_file_in(c, n));
 	if (c->fout == -1)
 		return (perror("fderror"), -1);
+	return (1);
 }
 
 void	redir(t_exec *c)

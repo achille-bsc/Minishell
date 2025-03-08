@@ -6,7 +6,7 @@
 /*   By: alegrix <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 17:01:38 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/06 01:19:29 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/08 23:49:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 # define LIBFT_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000000
+#  define BUFFER_SIZE 100
 # endif
 
 # include <stdio.h>
-# include <bsd/string.h>
+# include <string.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "./ft_printf/ft_printf/ft_printf.h"
+# include "./ft_printf/dprintf/ft_dprintf.h"
 
 typedef struct s_list
 {

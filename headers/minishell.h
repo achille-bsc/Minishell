@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 23:39:45 by abosc            ###   ########.fr       */
+/*   Updated: 2025/03/08 23:59:37 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <unistd.h>
 
 # include "./structures.h"
-
-void	mininours(int argc, char **argv, char **env);
+# include "../libft/libft.h"
 
 #endif
