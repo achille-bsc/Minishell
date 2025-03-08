@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_dprintf.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alegrix <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 08:23:12 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/08 22:52:41 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/09 00:10:27 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#ifndef FT_DPRINTF_H
+# define FT_DPRINTF_H
 
 # include <stdint.h>
 # include <stdio.h>

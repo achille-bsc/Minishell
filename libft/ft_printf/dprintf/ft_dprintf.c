@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_dprintf.h"
 #include <stdarg.h>
 
 static int	dformatf(int fd, char symb, va_list list)
