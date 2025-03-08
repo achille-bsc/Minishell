@@ -6,13 +6,11 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/08 21:23:21 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/08 23:42:15 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-#include <fcntl.h>
-#include <unistd.h>
 
 int	heredoc(t_args *n)
 {
