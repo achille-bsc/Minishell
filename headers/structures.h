@@ -6,17 +6,29 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 23:56:05 by abosc            ###   ########.fr       */
+/*   Updated: 2025/03/09 04:32:47 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H 
 
+enum e_token
+{
+	OP,
+	HD,
+	WORD,
+	TR,
+	AP,
+	PIP
+};
+
 typedef struct s_args
 {
+	int				in_dquote;
+	int				in_quote;
 	char			**arg;
-	int				tok;
+	e_token			tok;
 	char			*name;
 	struct s_args	*next;
 }				t_args;
@@ -32,17 +44,11 @@ typedef struct s_exec
 typedef struct s_mnours
 {
 	int		argc;
-	char	**line;
+	char	*line;
 	char	**env;
 	int		nb_pipe;
 	t_exec	*ex;
 	int		act_exec;
 }				t_mnours;
 
-# define CMD 11
-# define PIP 12
-# define OP 13
-# define HD 14
-# define AP 15
-# define TR 16
 #endif
