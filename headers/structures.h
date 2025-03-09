@@ -15,7 +15,7 @@
 
 typedef struct s_args
 {
-	char			*arg;
+	char			**arg;
 	int				tok;
 	char			*name;
 	struct s_args	*next;
