@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/09 04:31:53 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/09 23:35:26 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	token_dir(char *l, int i, t_exec *cmd)
 		if (i++ == j + 2)
 			exit(1);
 	j = i;
-	while (ft_isalnum(l[i]) || l[i] == ''/' || l[i])
+	while (ft_isalnum(l[i]) || l[i] == '/' || l[i])
 		i++;
 	ft_strlcpy(tmp->args[0], l + j, i)
 }
