@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/08 23:59:37 by abosc            ###   ########.fr       */
+/*   Updated: 2025/03/09 23:36:39 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@
 
 # include "./structures.h"
 # include "../libft/libft.h"
+
+char	**parser(char *prompt);
 
 #endif
