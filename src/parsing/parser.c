@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 22:56:43 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/09 23:48:36 by abosc            ###   ########.fr       */
+/*   Updated: 2025/03/10 00:21:50 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,19 @@ static int	count_words(char *s, char c)
 		return (0);
 	while (*s)
 	{
-		if (*s != c && in_words == 0 && in_dquote == 0)
+		if (*s == '"' && in_dquote == 0)
+			in_dquote = 1;
+		else if (*s == '"' && in_dquote == 1)
+			in_dquote = 0;
+		if (in_dquote)
+			s++;
+		else if (*s != c && in_words == 0 && in_dquote == 0)
 		{
 			in_words = 1;
 			count++;
 		}
-		else if (*s == c)
-			in_words = 0;
-		if (*s == '"' && !in_dquote)
-			in_dquote = 1;
-		if (*s == '"' && in_dquote)
-			in_dquote = 0;
+		else if (*s == c && in_dquote == 0)
+			in_words = 0;	
 		s++;
 	}
 	return (count);
@@ -51,12 +53,14 @@ static char	*splitting(char *splitter, char *s, int *i, char c)
 	while (s[*i] && s[*i] == c)
 		(*i)++;
 	start = *i;
-	while (s[*i] && (s[*i] != c || in_dquote))
+	while (s[*i] && (s[*i] != c || in_dquote == 1))
 	{
-		if (c == '"' && !in_dquote)
+		if (s[*i] == '"' && in_dquote == 0)
 			in_dquote = 1;
-		if (c == '"' && in_dquote)
+		else if (s[*i] == '"' && in_dquote == 1)
 			in_dquote = 0;
+		if (in_dquote)
+			(*i)++;
 		len++;
 		(*i)++;
 	}
@@ -73,6 +77,7 @@ static char	**ft_split_with_dquotes(char const *s, char c)
 	i = 0;
 	j = 0;
 	result = malloc((count_words((char *)s, c) + 1) * sizeof(char *));
+	ft_putnbr_fd(count_words((char *)s, c), 1);
 	if (!result)
 		return (NULL);
 	while (j < count_words ((char *)s, c))
@@ -103,8 +108,8 @@ char	**parser(char *prompt)
 
 int	main(int argc, char *argv[])
 {
-	printf("%s", parser("\"coucou cava\" et toi")[0]);
-	printf("ksjd %s", parser("\"coucou cava\" et toi")[1]);
-	printf("zx,cm %s", parser("\"coucouc cava\" et toi")[2]);
+	printf("%s\n", parser("\"coucou cava\" et toi")[0]);
+	//printf("test: %s\n", parser("\"coucou cava\" et toi")[1]);
+	//printf("test 2:%s\n", parser("\"coucouc cava\" et toi")[2]);
 	return (EXIT_SUCCESS);
 }
