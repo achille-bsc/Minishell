@@ -6,11 +6,12 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/11 19:19:41 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/11 21:13:07 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+#include <fcntl.h>
 
 void	free_array(char **array)
 {
@@ -86,10 +87,12 @@ void	exec_cmd(char **envp, char **cmop)
 
 pid_t	child_factory(t_exec *c, char **env)
 {
-	char	**cmd;
 	pid_t	pid;
 	t_args	*tmp;
+	int		fd[2];
 
+	if (pipe(fd) == -1)
+		exit(1);
 	pid = fork();
 	if (pid == -1)
 		exit(1);
@@ -110,11 +113,11 @@ pid_t	child_factory(t_exec *c, char **env)
 	return (pid);
 }
 
-void	execute(t_mnours *d)
+void	execute(t_mnours *d, char **env)
 {
 	int		i;
 	int		j;
-	int		fd[0];
+	int		fd[2];
 	t_exec	*cmd;
 	int		*pid_stock;
 
@@ -125,13 +128,39 @@ void	execute(t_mnours *d)
 	{
 		if (cmd->fout == 0 && cmd->next)
 		{
+			ft_printf("yes");
 			pipe(fd);
 			cmd->fout = fd[1];
 			cmd->next->fin = fd[0];
 		}
-		pid_stock[i] = child_factory(cmd, d->env);
+		pid_stock[i] = child_factory(cmd, env);
 	}
 	j = 0;
 	while (i-- > 0)
 		waitpid(pid_stock[j++], NULL, 0);
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	(void)argc;
+	(void)argv;
+	t_mnours	*d;
+
+	d = ft_calloc(sizeof(t_mnours *), 1);
+	if (!d)
+		return (0);
+	d->ex = ft_calloc(sizeof(t_exec *), 1);
+	if (!(d->ex))
+		return (0);
+	d->ex->fin = open("main.c", O_RDONLY, 0644);
+	d->ex->fout = open("Test", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	d->ex->args = ft_calloc(sizeof(t_args *), 1);
+	if (!(d->ex->args))
+		return (0);
+	d->ex->args->tok = CMD;
+	d->ex->args->args = malloc(sizeof(char **));
+	d->ex->args->args[0] = ft_strdup("cat");
+	d->ex->args->args[1] = ft_strdup("-e");
+	d->ex->args->args[2] = NULL;
+	execute(d, env);
 }
