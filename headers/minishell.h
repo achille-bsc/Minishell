@@ -22,4 +22,6 @@
 # include "./structures.h"
 # include "../libft/libft.h"
 
+char	**parser(char *prompt);
+
 #endif
