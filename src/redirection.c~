@@ -60,6 +60,7 @@ void	here_doc(t_args *n, t_exec *c)
 		close(pipefd[1]);
 		c->l_hd = pipefd[0];
 		waitpid(pid, &status, 0);
+		if (status == 130)
 	}
 }
 
