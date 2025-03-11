@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/10 00:17:31 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/11 18:51:18 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	here_doc(t_args *n, t_exec *c)
 	pid_t	pid;
 	int		status;
 
+	resetfd(c->l_hd);
 	if (pipe(pipefd) == -1)
 		exit(1);
 	pid = fork();
@@ -99,15 +100,13 @@ int	open_file(t_exec *c, t_args *n)
 void	redir(t_exec *c)
 {
 	t_args	*n;
+	int		fd[2];
 
 	n = c->args;
 	while (n)
 	{
 		if (n->tok == HD)
-		{
-			resetfd(c->l_hd);
 			here_doc(n, c);
-		}
 		n = n->next;
 	}
 	n = c->args;
@@ -122,4 +121,5 @@ void	redir(t_exec *c)
 		}
 		n = n->next;
 	}
+
 }
