@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/10 00:07:00 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/13 23:52:11 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "./structures.h"
 # include "../libft/libft.h"
 
+t_env	*ft_envnew(char *line);
 char	**parser(char *prompt);
 
 #endif
