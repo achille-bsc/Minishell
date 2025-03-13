@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/13 21:47:07 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/14 00:09:34 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	exec_cmd(char **envp, char **cmop)
 		perror("Impossible Path");
 		exit(3);
 	}
-	ft_dprintf(2, "path : %s\ncm[0] : %s\ncm[1] : %s\ncm[2] : %s\n", path, cmop[0], cmop[1], cmop[2]);
 	execve(path, cmop, envp);
 	perror("Invailible commande");
 	free(path);
@@ -90,17 +89,13 @@ pid_t	child_factory(t_exec *c, char **env)
 {
 	pid_t	pid;
 	t_args	*tmp;
-	int		fd[2];
 
-	if (pipe(fd) == -1)
-		exit(1);
 	pid = fork();
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
 	{
 		tmp = c->args;
-		ft_printf("\n\n\n %d \n %d\n", c->fin, c->fout);
 		dup2(c->fin, STDIN_FILENO);
 		close(c->fin);
 		dup2(c->fout, STDOUT_FILENO);
@@ -113,8 +108,7 @@ pid_t	child_factory(t_exec *c, char **env)
 	dup2(c->fout, STDOUT_FILENO);
 	close(c->fout);
 	dup2(c->fin, STDIN_FILENO);
-	close(c->fin);
-	return (pid);
+	return (close(c->fin), pid);
 }
 
 void	execute(t_mnours *d, char **env)
@@ -139,12 +133,10 @@ void	execute(t_mnours *d, char **env)
 				cmd->next->fin = fd[0];
 			}
 		}
-		ft_dprintf(2, "indice : %d\nfd[0] : %d\nfd[1]%d\n", i, cmd->fin, cmd->fout);
 		pid_stock[i++] = child_factory(cmd, env);
 		cmd = cmd->next;
 	}
 	j = 0;
-	ft_printf("test5468\n");
 	while (i-- > 0)
 		waitpid(pid_stock[j++], NULL, 0);
 	free(pid_stock);
