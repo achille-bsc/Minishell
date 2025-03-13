@@ -23,5 +23,6 @@
 # include "../libft/libft.h"
 
 t_env	*ft_envnew(char *line);
+char	**parser(char *prompt);
 
 #endif
