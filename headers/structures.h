@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/13 22:26:10 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/20 00:18:24 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_args
 {
 	int				in_dquote;
 	int				in_quote;
-	char			**args;
 	enum e_token	tok;
 	char			*name;
 	struct s_args	*next;

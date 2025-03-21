@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 22:56:43 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/13 23:11:02 by abosc            ###   ########.fr       */
+/*   Updated: 2025/03/20 00:05:31 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,24 @@ int check_dquotes(char *prompt)
 	return (0);
 }
 
+int check_squotes(char *prompt)
+{
+	int i;
+	int squotes;
+
+	i = 0;
+	squotes = 0;
+	while (prompt[i])
+	{
+		if (prompt[i] == '\'')
+			squotes++;
+		i++;
+	}
+	if (squotes % 2 != 0)
+		return (1);
+	return (0);
+}
+
 int check_txt_afer_pipe(char *prompt)
 {
 	int i;
@@ -138,7 +156,7 @@ int check_txt_afer_pipe(char *prompt)
 	}
 	return (1);
 }
-char	**parser(char *prompt)
+void	parser(char *prompt)
 {
 	char	*prompt_cpy;
 	char	**spaces_splited_prompt;
@@ -153,16 +171,19 @@ char	**parser(char *prompt)
 		printf("Error: dquotes not closed\n");
 		exit(0);
 	}
+	if (check_squotes(prompt_cpy) == 1)
+	{
+		printf("Error: squotes not closed\n");
+		exit(0);
+	}
 	spaces_splited_prompt = ft_split_with_dquotes(prompt_cpy, ' ');
-
-	
-	return (spaces_splited_prompt);
+	tokener(spaces_splited_prompt);
 }
 
-int	main(void)
-{
-	printf("%s\n", parser("c\"a\"t \"Makefile 3\" | -e")[0]);
-	printf("test: %s\n", parser("c\"a\"t \"Makefile 3\"|\0")[1]);
-	printf("test 2: %s\n", parser("c\"at \"Makefile 3\" -e")[2]);
-	return (EXIT_SUCCESS);
-}
+// int	main(void)
+// {
+// 	printf("%s\n", parser("c\"a\"t \"Make'f'ile 3\" | -e")[0]);
+// 	printf("test: %s\n", parser("c\"a\"t \"Mak'efile 3\"|\0")[1]);
+// 	printf("test 2: %s\n", parser("c\"a\"t \"Makefile 3\" -e")[2]);
+// 	return (EXIT_SUCCESS);
+// }
