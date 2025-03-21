@@ -6,11 +6,10 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/09 23:36:08 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/13 23:53:07 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
 #include "../headers/minishell.h"
 
 void	resetfd(int fd)
@@ -22,37 +21,55 @@ void	resetfd(int fd)
 	}
 }
 
-int	heredoc2(t_args *n)
+int	heredoc2(t_args *n, int pipefd[2])
 {
-	int		pipefd[2];
 	char	*line;
 
-	if (pipe(pipefd) == -1)
-		exit(-1);
+	close(pipefd[0]);
 	while (1)
 	{
 		line = get_next_line(0);
-		if (ft_strncmp(line, n->arg[0], ft_strlen(n->arg[0])) == 0
-			&& ft_strlen(n->arg[0]) == ft_strlen(line) - 1)
+		if (ft_strncmp(line, n->args[0], ft_strlen(n->args[0])) == 0
+			&& ft_strlen(n->args[0]) == ft_strlen(line) - 1)
 		{
 			free(line);
 			get_next_line(-1);
 			close(pipefd[1]);
-			return (pipefd[0]);
+			exit(0);
 		}
 		write(pipefd[1], line, ft_strlen(line));
 		free (line);
 	}
 }
 
-int	heredoc(t_args *n, t_exec *c)
+void	here_doc(t_args *n, t_exec *c)
+{
+	int		pipefd[2];
+	pid_t	pid;
+	int		status;
+
+	resetfd(c->l_hd);
+	if (pipe(pipefd) == -1)
+		exit(1);
+	pid = fork();
+	if (pid == -1)
+		exit(1);
+	if (pid == 0)
+		heredoc2(n, pipefd);
+	else
+	{
+		close(pipefd[1]);
+		c->l_hd = pipefd[0];
+		waitpid(pid, &status, 0);
+	}
+}
 
 int	open_file_in(t_exec *c, t_args *n)
 {
 	if (n->tok == OP)
 	{
-		resetfd(c->fin)
-		c->fin = open(n->arg[0], O_RDONLY, 0644);
+		resetfd(c->fin);
+		c->fin = open(n->args[0], O_RDONLY, 0644);
 		if (c->fin == -1)
 			return (perror("file not found (fderror)"), -1);
 	}
@@ -66,12 +83,12 @@ int	open_file(t_exec *c, t_args *n)
 	if (n->tok == AP)
 	{
 		resetfd(c->fout);
-		c->fout = open(n->arg[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
+		c->fout = open(n->args[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	else if (n->tok == TR)
 	{
 		resetfd(c->fout);
-		c->fout = open(n->arg[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		c->fout = open(n->args[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	}
 	else
 		return (open_file_in(c, n));
@@ -83,15 +100,13 @@ int	open_file(t_exec *c, t_args *n)
 void	redir(t_exec *c)
 {
 	t_args	*n;
+	int		fd[2];
 
 	n = c->args;
 	while (n)
 	{
 		if (n->tok == HD)
-		{
-			resetfd(c->l_hd);
-			heredoc(n, c);
-		}
+			here_doc(n, c);
 		n = n->next;
 	}
 	n = c->args;
@@ -107,4 +122,3 @@ void	redir(t_exec *c)
 		n = n->next;
 	}
 }
-

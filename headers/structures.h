@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/09 23:36:56 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/20 00:18:24 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,22 @@ enum e_token
 {
 	OP,
 	HD,
-	WORD,
+	CMD,
 	TR,
 	AP,
 	PIP
 };
 
+typedef struct s_env
+{
+	char			*line;
+	struct s_env	*next;
+}				t_env;
+
 typedef struct s_args
 {
 	int				in_dquote;
 	int				in_quote;
-	char			**args;
 	enum e_token	tok;
 	char			*name;
 	struct s_args	*next;
@@ -46,10 +51,15 @@ typedef struct s_mnours
 {
 	int		argc;
 	char	*line;
-	char	**env;
 	int		nb_pipe;
 	t_exec	*ex;
 	int		act_exec;
 }				t_mnours;
+
+typedef struct s_gnours
+{
+	t_env		*env;
+	t_mnours	*mini;
+}				t_gnours;
 
 #endif

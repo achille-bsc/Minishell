@@ -12,74 +12,49 @@
 
 #include "libft.h"
 
-static int	count_words(char *s, char c)
+static size_t	ft_countwords(char const *s, char c)
 {
-	int	in_words;
-	int	count;
+	size_t	count;
 
 	count = 0;
-	in_words = 0;
-	if (!s)
-		return (0);
 	while (*s)
 	{
-		if (*s != c && in_words == 0)
-		{
-			in_words = 1;
-			count++;
-		}
-		else if (*s == c)
-		{
-			in_words = 0;
-		}
-		s++;
+		while (*s == c)
+			s++;
+		if (*s)
+			count ++;
+		while (*s != c && *s)
+			s++;
 	}
 	return (count);
 }
 
-char	*splitting(char *splitter, char *s, int *i, char c)
-{
-	int	start;
-	int	len;
-
-	len = 0;
-	while (s[*i] && s[*i] == c)
-		(*i)++;
-	start = *i;
-	while (s[*i] && s[*i] != c)
-	{
-		len++;
-		(*i)++;
-	}
-	splitter = ft_substr((char *)s, start, len);
-	return (splitter);
-}
-
 char	**ft_split(char const *s, char c)
 {
-	char	**result;
+	char	**split;
+	size_t	len;
 	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	result = malloc((count_words((char *)s, c) + 1) * sizeof(char *));
-	if (!result)
+	split = (char **)malloc(sizeof(char *) * (ft_countwords(s, c) + 1));
+	if (!s || !split)
 		return (NULL);
-	while (j < count_words ((char *)s, c))
+	i = 0;
+	while (*s)
 	{
-		result[j] = splitting(result[j], (char *)s, &i, c);
-		if (!result[j])
+		while (*s == c && *s)
+			s++;
+		if (*s)
 		{
-			while (j--)
-				free(result[j]);
-			free(result);
-			return (NULL);
+			if (!ft_strchr(s, c))
+				len = ft_strlen(s);
+			else
+				len = ft_strchr(s, c) - s;
+			split[i++] = ft_substr(s, 0, len);
+			s += len;
 		}
-		j++;
 	}
-	result[j] = NULL;
-	return (result);
+	split[i] = NULL;
+	return (split);
 }
 /*
 int	main(void)
