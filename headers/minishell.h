@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/13 23:52:11 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/03/24 01:57:10 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@
 
 t_env	*ft_envnew(char *line);
 char	**parser(char *prompt);
+
+// ----- Parsing -----
+void	tokener(char **parsed_prompt);
 
 #endif
