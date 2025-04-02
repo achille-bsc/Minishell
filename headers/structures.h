@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/13 22:26:10 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/04/02 22:47:28 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ enum e_token
 	HD,
 	CMD,
 	TR,
-	AP,
-	PIP
+	AP
 };
 
 typedef struct s_env
 {
-	char			*line;
+	char			*name;
+	char			*value;
 	struct s_env	*next;
 }				t_env;
 
