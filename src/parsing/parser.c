@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 22:56:43 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/20 00:05:31 by abosc            ###   ########.fr       */
+/*   Updated: 2025/03/24 01:54:46 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ char	**ft_split_with_dquotes(char const *s, char c)
 	return (split);
 }
 
-int check_dquotes(char *prompt)
+int	check_dquotes(char *prompt)
 {
-	int i;
-	int dquotes;
+	int	i;
+	int	dquotes;
 
 	i = 0;
 	dquotes = 0;
@@ -118,10 +118,10 @@ int check_dquotes(char *prompt)
 	return (0);
 }
 
-int check_squotes(char *prompt)
+int	check_squotes(char *prompt)
 {
-	int i;
-	int squotes;
+	int	i;
+	int	squotes;
 
 	i = 0;
 	squotes = 0;
@@ -136,16 +136,16 @@ int check_squotes(char *prompt)
 	return (0);
 }
 
-int check_txt_afer_pipe(char *prompt)
+int	check_txt_afer_pipe(char *prompt)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	while(prompt[i])
+	while (prompt[i])
 	{
 		if (prompt[i] == '|')
 		{
-			while(prompt[i] == ' ' || prompt[i] == '\t')
+			while (prompt[i] == ' ' || prompt[i] == '\t')
 				i++;
 			if (prompt[i++] != '\0')
 				return (1);
@@ -160,6 +160,7 @@ void	parser(char *prompt)
 {
 	char	*prompt_cpy;
 	char	**spaces_splited_prompt;
+
 	prompt_cpy = ft_strdup(prompt);
 	if (check_txt_afer_pipe(prompt_cpy) == 0)
 	{

@@ -6,18 +6,35 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/20 01:01:41 by abosc            ###   ########.fr       */
+/*   Updated: 2025/04/22 18:53:09 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void tokener(char **parsed_prompt)
+#include "../../headers/minishell.h"
+
+t_list	*get_words(char *prompt)
 {
-	int i;
-	
-	i = 0;
-	while(parsed_prompt[i])
+	t_list	*words;
+	t_list	*init_word;
+	int		i;
+	int		in_dquote;
+	int		in_squote;
+
+	words = ft_calloc(sizeof(t_list), sizeof(prompt));
+	init_word = words;
+	while (prompt[i])
 	{
-		
-		i++;
+		in_dquote = set_dquote(prompt[i], in_dquote);
+		in_squote = set_squote(prompt[i], in_squote);
+		if (!in_dquote &&  (prompt[i] == '<' || prompt[i] == '>'))
 	}
+	return (words);
+}
+
+t_list	*tokener(char *prompt)
+{
+	t_list	*words;
+
+	words = get_words(prompt);
+	return (words);
 }
