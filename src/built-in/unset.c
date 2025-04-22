@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:56:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/14 00:31:06 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/04/22 18:43:00 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_unset(t_env *env, char *line)
 	t_env	*tmp_pre;
 
 	tmp = env;
-	if (ft_strcmp(tmp->line, line) == 0)
+	if (ft_strncmp(tmp->name, line, ft_strlen(line)) == 0 )
 	{
 		env = env->next;
 		free(tmp);
