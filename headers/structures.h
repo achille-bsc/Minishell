@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/02 22:47:28 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:06:34 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ enum e_token
 	AP
 };
 
+enum e_quote
+{
+	NO_Q,
+	S_Q,
+	D_Q
+};
+
 typedef struct s_env
 {
 	char			*name;
@@ -31,9 +38,7 @@ typedef struct s_env
 
 typedef struct s_args
 {
-	int				in_dquote;
-	int				in_quote;
-	char			**args;
+	enum e_quote	quote;
 	enum e_token	tok;
 	char			*name;
 	struct s_args	*next;
@@ -55,12 +60,7 @@ typedef struct s_mnours
 	int		nb_pipe;
 	t_exec	*ex;
 	int		act_exec;
+	char	*pwd;
 }				t_mnours;
-
-typedef struct s_gnours
-{
-	t_env		*env;
-	t_mnours	*mini;
-}				t_gnours;
 
 #endif

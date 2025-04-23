@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/22 18:03:37 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:06:37 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,8 @@
 t_env	*ft_envnew(char *line);
 char	**parser(char *prompt);
 void	ft_env(t_env *env);
+
+// ----- Parsing -----
+void	tokener(char **parsed_prompt);
 
 #endif
