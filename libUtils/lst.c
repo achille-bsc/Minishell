@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
+/*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
 /*   Updated: 2025/04/22 22:46:15 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H 
+#include "../../headers/minishell.h"
 
-# include <sys/wait.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
+t_args	*ft_lstsize(t_args *lst)
+{
+	int		i;
+	t_args	*tmp;
 
-# include "./structures.h"
-# include "../libft/libft.h"
-
-t_env	*ft_envnew(char *line);
-char	**parser(char *prompt);
-
-// --------- Parsing ---------
-t_args	*tokener(char *prompt);
-// ----- Parsing | Utils -----
-
-int	set_dquote(char c, int in_dquote);
-int	set_squote(char c, int in_squote);
-int	handle_redir(char *prompt, int i, char *word);
-
-#endif
+	i = 0;
+	tmp = lst;
+	if (!lst)
+		return (0);
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
+}

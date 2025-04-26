@@ -1,0 +1,28 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build",
+			"type": "shell",
+			"command": "make",
+			"group": "build",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": "$gcc"
+		},
+		{
+			"label": "run",
+			"type": "shell",
+			"command": "./a.out",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"dependsOn": "build",
+			"presentation": {
+				"reveal": "always"
+			}
+		}
+	]
+}

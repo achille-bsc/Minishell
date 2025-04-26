@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/22 18:53:21 by abosc            ###   ########.fr       */
+/*   Updated: 2025/04/26 23:44:54 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,11 @@ typedef struct s_mnours
 	int		act_exec;
 	char	*pwd;
 }				t_mnours;
+
+typedef struct s_lst
+{
+	char			*content;
+	struct s_lst	*next;
+}					t_lst;
 
 #endif
