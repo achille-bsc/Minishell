@@ -61,6 +61,7 @@ typedef struct s_mnours
 	t_exec	*ex;
 	int		act_exec;
 	char	*pwd;
+	t_env	*env;
 }				t_mnours;
 
 #endif
