@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 22:56:43 by abosc             #+#    #+#             */
-/*   Updated: 2025/03/24 01:54:46 by abosc            ###   ########.fr       */
+/*   Updated: 2025/04/26 23:27:35 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ void	parser(char *prompt)
 {
 	char	*prompt_cpy;
 	char	**spaces_splited_prompt;
+	t_args	*tokens;
 
 	prompt_cpy = ft_strdup(prompt);
 	if (check_txt_afer_pipe(prompt_cpy) == 0)
@@ -178,7 +179,8 @@ void	parser(char *prompt)
 		exit(0);
 	}
 	spaces_splited_prompt = ft_split_with_dquotes(prompt_cpy, ' ');
-	tokener(spaces_splited_prompt);
+	tokens = tokener(spaces_splited_prompt);
+	parsing(tokens);
 }
 
 // int	main(void)

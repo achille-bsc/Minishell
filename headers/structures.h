@@ -64,4 +64,10 @@ typedef struct s_mnours
 	t_env	*env;
 }				t_mnours;
 
+typedef struct s_lst
+{
+	char			*content;
+	struct s_lst	*next;
+}					t_lst;
+
 #endif
