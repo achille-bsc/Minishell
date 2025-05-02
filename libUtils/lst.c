@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 22:41:47 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/22 18:03:17 by alegrix          ###   ########.fr       */
+/*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
+/*   Updated: 2025/04/22 22:46:15 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	ft_env(t_env *env)
+t_args	*ft_lstsize(t_args *lst)
 {
-	t_env	*tmp;
+	int		i;
+	t_args	*tmp;
 
-	tmp = env;
+	i = 0;
+	tmp = lst;
+	if (!lst)
+		return (0);
 	while (tmp)
 	{
-		ft_printf("%s%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
+		i++;
 	}
+	return (i);
 }

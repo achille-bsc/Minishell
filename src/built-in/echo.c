@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 22:41:47 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/22 18:03:17 by alegrix          ###   ########.fr       */
+/*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
+/*   Updated: 2025/04/30 23:04:22 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	ft_env(t_env *env)
+void	ft_echo(char **line)
 {
-	t_env	*tmp;
+	int	nl;
+	int	i;
 
-	tmp = env;
-	while (tmp)
+	nl = 0;
+	if (ft_strncmp(line[1], "-n", 2) == 0 && ft_strlen(line[1]) == 2)
+		nl = 1;
+	i = nl + 1;
+	while (line[i])
 	{
-		ft_printf("%s%s\n", tmp->name, tmp->value);
-		tmp = tmp->next;
+		if (i > 1 || (i == 1 && nl == 0))
+			ft_printf(" ");
+		ft_printf("%s", line[i++]);
 	}
+	if (nl == 0)
+		ft_printf("\n");
 }

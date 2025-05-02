@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/30 23:39:47 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/02 15:42:40 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,14 @@
 
 t_env	*ft_envnew(char *line);
 char	**parser(char *prompt);
+void	ft_env(t_env *env);
 
-// ----- Parsing -----
-t_list	*tokener(char **parsed_prompt);
+// --------- Parsing ---------
+t_args	*tokener(char *prompt);
+// ----- Parsing | Utils -----
+
+int	set_dquote(char c, int in_dquote);
+int	set_squote(char c, int in_squote);
+int	handle_redir(char *prompt, int i, char *word);
 
 #endif

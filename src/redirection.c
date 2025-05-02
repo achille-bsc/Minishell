@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/13 23:53:07 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/04/30 21:44:26 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	heredoc2(t_args *n, int pipefd[2])
 	while (1)
 	{
 		line = get_next_line(0);
-		if (ft_strncmp(line, n->args[0], ft_strlen(n->args[0])) == 0
-			&& ft_strlen(n->args[0]) == ft_strlen(line) - 1)
+		if (ft_strncmp(line, n->name, ft_strlen(n->name)) == 0
+			&& ft_strlen(n->name) == ft_strlen(line) - 1)
 		{
 			free(line);
 			get_next_line(-1);
@@ -69,7 +69,7 @@ int	open_file_in(t_exec *c, t_args *n)
 	if (n->tok == OP)
 	{
 		resetfd(c->fin);
-		c->fin = open(n->args[0], O_RDONLY, 0644);
+		c->fin = open(n->name, O_RDONLY, 0644);
 		if (c->fin == -1)
 			return (perror("file not found (fderror)"), -1);
 	}
@@ -83,12 +83,12 @@ int	open_file(t_exec *c, t_args *n)
 	if (n->tok == AP)
 	{
 		resetfd(c->fout);
-		c->fout = open(n->args[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
+		c->fout = open(n->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	else if (n->tok == TR)
 	{
 		resetfd(c->fout);
-		c->fout = open(n->args[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		c->fout = open(n->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	}
 	else
 		return (open_file_in(c, n));
