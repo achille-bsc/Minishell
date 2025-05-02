@@ -2,3 +2,5 @@
 *.o
 *.a
 minishell
+commitmsg.txt
+.vscode/settings.json
