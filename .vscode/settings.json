@@ -4,5 +4,14 @@
 		"libft.h": "c",
 		"stdlib.h": "c",
 		"structures.h": "c"
-	}
+	},
+	"todo-tree.tree.showBadges": true,
+	"conventionalCommits.scopes": [
+		"structure",
+		"parsing",
+		"tokener",
+		"execution",
+		"all",
+		"env"
+	]
 }

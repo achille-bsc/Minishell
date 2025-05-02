@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/30 21:44:26 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/02 16:17:31 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	open_file(t_exec *c, t_args *n)
 void	redir(t_exec *c)
 {
 	t_args	*n;
-	int		fd[2];
+	// int		fd[2]; // FIXME: unused variable 'fd' (line: 103)
 
 	n = c->args;
 	while (n)

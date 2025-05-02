@@ -5,7 +5,7 @@ NAME = minishell
 LIBFT = libft
 LIBFTPRINTF = libft/ft_printf
 
-SRCS = src/main.c src/redirection.c 
+SRCS = src/main.c src/redirection.c src/set_env.c src/varenv.c src/freeall.c src/execute.c
 
 OBJS = $(SRCS:.c=.o)
 

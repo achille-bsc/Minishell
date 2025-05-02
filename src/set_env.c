@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:14:03 by alegrix           #+#    #+#             */
-/*   Updated: 2025/03/13 22:58:35 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/02 16:19:39 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ t_env	*ft_envnew(char *line)
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	new->line = line;
+	new->value = line;
 	new->next = NULL;
 	return (new);
 }
 
-void	set_env(t_gnours *g, char **env)
+void	set_env(t_mnours *g, char **env)
 {
 	int		i;
 	t_env	*tmp;
