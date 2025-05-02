@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/26 23:44:54 by abosc            ###   ########.fr       */
+/*   Updated: 2025/04/22 19:06:34 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ enum e_token
 	HD,
 	CMD,
 	TR,
-	AP,
-	PIP
+	AP
 };
 
 enum e_quote
@@ -32,7 +31,8 @@ enum e_quote
 
 typedef struct s_env
 {
-	char			*line;
+	char			*name;
+	char			*value;
 	struct s_env	*next;
 }				t_env;
 
@@ -61,6 +61,7 @@ typedef struct s_mnours
 	t_exec	*ex;
 	int		act_exec;
 	char	*pwd;
+	t_env	*env;
 }				t_mnours;
 
 typedef struct s_lst
