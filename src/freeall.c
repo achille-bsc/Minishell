@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/29 22:31:23 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/04/30 23:28:16 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ void	free_mnours(t_mnours *data)
 		free_env(data->env);
 	if (data->ex)
 		free_exec(data->ex);
+	free(data);
 }
 
 void	ft_error(char *msg, t_mnours *data)
 {
 	ft_dprintf(2, "%s\n", msg);
-	free_mnours(data);
+	if (data)
+		free_mnours(data);
 }
