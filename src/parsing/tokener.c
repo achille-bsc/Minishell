@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/06 18:42:08 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:54:44 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_lst	*get_words(char *prompt)
 }
 
 t_args	*tokener(char *prompt)
-{readline
+{
 	t_lst	*words;
 	t_args	*tokens;
 
