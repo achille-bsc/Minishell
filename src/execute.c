@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/30 21:46:42 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:14:40 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,12 @@ pid_t	child_factory(t_exec *c, char **env)
 		exit(1);
 	if (pid == 0)
 	{
-		tmp = c->args;
 		dup2(c->fin, STDIN_FILENO);
 		close(c->fin);
 		dup2(c->fout, STDOUT_FILENO);
 		close(c->fout);
-		while (tmp->tok != CMD && tmp)
-			tmp = tmp->next;
-		access_path(tmp->args, env);
-		exec_cmd(env, tmp->args);
+		access_path(c->lst, env);
+		exec_cmd(env, c->lst);
 	}
 	dup2(c->fout, STDOUT_FILENO);
 	close(c->fout);
@@ -142,6 +139,7 @@ void	execute(t_mnours *d, char **env)
 	free(pid_stock);
 }
 
+/*
 int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -186,4 +184,4 @@ int	main(int argc, char **argv, char **env)
 	free(tmp->args);
 	free(tmp);
 	free(d);
-}
+}*/

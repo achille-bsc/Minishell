@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/02 16:10:18 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/06 18:09:23 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # include "./structures.h"
 # include "../libft/libft.h"
@@ -32,9 +32,9 @@ void	ft_env(t_env *env);
 t_args	*tokener(char *prompt);
 
 // ----- Parsing | Utils -----
-int	set_dquote(char c, int in_dquote);
-int	set_squote(char c, int in_squote);
-int	handle_redir(char *prompt, int i, char *word);
+int		set_dquote(char c, int in_dquote);
+int		set_squote(char c, int in_squote);
+int		handle_redir(char *prompt, int i, char *word);
 
 // ----- Free | Error -----
 void	ft_error(char *msg, t_mnours *data);
