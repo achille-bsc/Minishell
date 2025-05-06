@@ -14,7 +14,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT)
 	$(MAKE) -C $(LIBFTPRINTF)
-	$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT) -lftprintf -lft -L $(LIBFTPRINTF) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT) -lreadline -lftprintf -lft -L $(LIBFTPRINTF) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/06 18:14:40 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:15:31 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	exec_cmd(char **envp, char **cmop)
 pid_t	child_factory(t_exec *c, char **env)
 {
 	pid_t	pid;
-	t_args	*tmp;
 
 	pid = fork();
 	if (pid == -1)

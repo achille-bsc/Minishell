@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/06 18:02:51 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:44:41 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ int	ft_lstargssize(t_args *lst)
 		i++;
 	}
 	return (i);
+}
+
+void	free_lst(char **lst)
+{
+	int	i;
+
+	i = 0;
+	while (lst[i])
+		free(lst[i++]);
+	free(lst);
 }
 
 void	ft_lstconvert(t_mnours *mini, t_exec *data)

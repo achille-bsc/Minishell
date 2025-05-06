@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/06 17:50:25 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:22:48 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ enum e_token
 	HD,
 	CMD,
 	TR,
-	AP
+	AP,
+	PIP
 };
 
 enum e_quote

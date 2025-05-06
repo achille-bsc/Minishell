@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/29 22:31:23 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:44:58 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	free_exec(t_exec *exe)
 		temp = exe->next;
 		if (exe->args)
 			free_args(exe->args);
-		free(exe);
+		if (exe->lst)
+			free(exe->lst);
 		exe = temp;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/02 16:11:34 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/06 18:27:05 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,14 @@ void	prompter(t_mnours *mnours, char **env)
 }
 
 int	main(int argc, char **argv, char **env)
-{	
+{
 	t_mnours	*mininours;
-	
+
 	(void)argc;
 	(void)argv;
 	mininours = ft_calloc(sizeof(t_mnours), 1);
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
-	
 	prompter(mininours, env);
 	return (0);
 }
-
