@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/02 16:01:04 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/06 18:22:48 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ enum e_token
 	HD,
 	CMD,
 	TR,
-	AP
+	AP,
+	PIP
 };
 
 enum e_quote
@@ -51,6 +52,7 @@ typedef struct s_exec
 	int				fout;
 	struct s_exec	*next;
 	t_args			*args;
+	char			**lst;
 }				t_exec;
 
 typedef struct s_mnours

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/26 21:37:32 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/06 18:54:44 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_lst	*get_words(char *prompt)
 			}
 			if (prompt[i++] == ' ')
 				continue;
-			words->content = ft_calloc(sizeof(char), sizeof(1));
+			words->content = ft_calloc(sizeof(char), 1);
 			words->content[0] = prompt[i];
 			words->next = ft_calloc(sizeof(t_lst), sizeof(prompt + i));
 			words = words->next;
@@ -137,6 +137,5 @@ t_args	*tokener(char *prompt)
 		}
 		tokens = tokens->next;
 	}
-	
 	return (tokens);
 }

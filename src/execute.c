@@ -6,7 +6,11 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/02 17:41:58 by abosc            ###   ########.fr       */
+=======
+/*   Updated: 2025/05/06 18:15:31 by alegrix          ###   ########.fr       */
+>>>>>>> 066f4cc364a1ad6b4ec1cb2a6426b8d791a53c58
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +92,20 @@ void	exec_cmd(char **envp, char **cmop)
 pid_t	child_factory(t_exec *c, char **env)
 {
 	pid_t	pid;
-	t_args	*tmp;
 
 	pid = fork();
 	if (pid == -1)
 		exit(1);
 	if (pid == 0)
 	{
-		tmp = c->args;
 		dup2(c->fin, STDIN_FILENO);
 		close(c->fin);
 		dup2(c->fout, STDOUT_FILENO);
 		close(c->fout);
-		while (tmp->tok != CMD && tmp)
-			tmp = tmp->next;
-		access_path(tmp->name, env);
-		exec_cmd(env, tmp->name);
+		while (c->tok != CMD && c)
+			c = c->next;
+		access_path(c->name, env);
+		exec_cmd(env, c->name);
 	}
 	dup2(c->fout, STDOUT_FILENO);
 	close(c->fout);
@@ -142,6 +144,7 @@ void	execute(t_mnours *d, char **env)
 	free(pid_stock);
 }
 
+/*
 int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
@@ -186,4 +189,4 @@ int	main(int argc, char **argv, char **env)
 	free(tmp->args);
 	free(tmp);
 	free(d);
-}
+}*/

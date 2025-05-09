@@ -12,6 +12,7 @@
 		"tokener",
 		"execution",
 		"all",
-		"env"
+		"env",
+		"merge conflicts"
 	]
 }
