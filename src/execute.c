@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/30 21:46:42 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/02 17:41:58 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_array(char **array)
 	return ;
 }
 
-void	access_path(char **cmd, char **env)
+void	access_path(char *cmd, char **env)
 {
 	if (cmd[0] == NULL)
 		exit(EXIT_FAILURE);
@@ -102,8 +102,8 @@ pid_t	child_factory(t_exec *c, char **env)
 		close(c->fout);
 		while (tmp->tok != CMD && tmp)
 			tmp = tmp->next;
-		access_path(tmp->args, env);
-		exec_cmd(env, tmp->args);
+		access_path(tmp->name, env);
+		exec_cmd(env, tmp->name);
 	}
 	dup2(c->fout, STDOUT_FILENO);
 	close(c->fout);
@@ -160,10 +160,10 @@ int	main(int argc, char **argv, char **env)
 	if (!(d->ex->args))
 		return (0);
 	d->ex->args->tok = CMD;
-	d->ex->args->args = ft_calloc(sizeof(char *), 3);
-	d->ex->args->args[0] = ft_strdup("cat");
-	d->ex->args->args[1] = ft_strdup("-e");
-	d->ex->args->args[2] = NULL;
+	d->ex->args->name = ft_calloc(sizeof(char *), 3);
+	d->ex->args->name[0] = ft_strdup("cat");
+	d->ex->args->name[1] = ft_strdup("-e");
+	d->ex->args->name[2] = NULL;
 	d->ex->next = ft_calloc(sizeof(t_exec), 1);
 	tmp = d->ex->next;
 	if (!(tmp))
@@ -175,14 +175,14 @@ int	main(int argc, char **argv, char **env)
 	    return (0);
 	tmp->args->tok = CMD;
 	d->nb_pipe = 2;
-	tmp->args->args = ft_calloc(sizeof(char *), 3);
-	tmp->args->args[0] = ft_strdup("cat");
-	tmp->args->args[1] = ft_strdup("-e");
-	tmp->args->args[2] = NULL;
+	tmp->args->name = ft_calloc(sizeof(char *), 3);
+	tmp->args->name[0] = ft_strdup("cat");
+	tmp->args->name[1] = ft_strdup("-e");
+	tmp->args->name[2] = NULL;
 	execute(d, env);
-	free(tmp->args->args[2]);
-	free(tmp->args->args[1]);
-	free(tmp->args->args[0]);
+	free(tmp->args->name[2]);
+	free(tmp->args->name[1]);
+	free(tmp->args->name[0]);
 	free(tmp->args);
 	free(tmp);
 	free(d);

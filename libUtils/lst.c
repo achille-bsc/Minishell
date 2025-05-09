@@ -6,13 +6,13 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/22 22:46:15 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/02 17:26:19 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "../headers/minishell.h"
 
-t_args	*ft_lstsize(t_args *lst)
+int	ft_args_lstsize(t_args *lst)
 {
 	int		i;
 	t_args	*tmp;

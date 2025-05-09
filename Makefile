@@ -5,7 +5,16 @@ NAME = minishell
 LIBFT = libft
 LIBFTPRINTF = libft/ft_printf
 
-SRCS = src/main.c src/redirection.c src/set_env.c src/varenv.c src/freeall.c src/execute.c
+SRCS =	commitmsg.txt files headers libUtils Makefile parser.c src \
+		headers/minishell.h headers/structures.h \
+		libUtils/lst.c \
+		src/built-in src/execute.c src/freeall.c src/freeall.o src/main.c src/main.o \
+		src/parsing src/redirection.c src/redirection.o src/set_env.c src/set_env.o \
+		src/varenv.c src/varenv.o \
+		src/built-in/echo.c src/built-in/env.c src/built-in/export.c src/built-in/unset.c \
+		src/parsing/parser.c src/parsing/parsing.c src/parsing/tokener.c \
+		src/parsing/utils.c
+
 
 OBJS = $(SRCS:.c=.o)
 
