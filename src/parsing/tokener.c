@@ -6,11 +6,18 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/10 02:45:39 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/10 02:59:36 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+int set_dquote(char prompt, int in_quote)
+{
+	if (prompt == '"')
+		in_quote = !in_quote;
+	return (in_quote);
+}
 
 t_lst	*get_words(char *prompt)
 {
@@ -147,7 +154,7 @@ void news_exec(t_args *tokens, t_exec *exe, t_mnours *mnours)
 	n_exec = ft_calloc(sizeof(t_exec), 1);
 	if (!n_exec)
 		ft_error("malloc error", mnours);
-	n_exec = tokens->next;
+	n_exec->args = tokens->next;
 	exe->next = n_exec;
 }
 void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours)

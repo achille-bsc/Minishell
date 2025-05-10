@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/10 00:39:35 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/10 02:54:06 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@
 # include "../libft/libft.h"
 
 t_env	*ft_envnew(char *line);
-char	**parser(char *prompt);
 void	ft_env(t_env *env);
 
 // ---- Parsing | Tokening ----
-t_args	*tokener(char *prompt);
+void	parser(char *prompt);
+void	parsing(t_args *tokens);
+t_args	*tokener(t_mnours *mnours);
+void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
 // ----- Parsing | Utils -----
 int		set_dquote(char c, int in_dquote);

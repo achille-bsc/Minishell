@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 22:56:43 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/26 23:27:35 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/10 02:52:40 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	check_txt_afer_pipe(char *prompt)
 void	parser(char *prompt)
 {
 	char	*prompt_cpy;
-	char	**spaces_splited_prompt;
+	// char	**spaces_splited_prompt;
 	t_args	*tokens;
 
 	prompt_cpy = ft_strdup(prompt);
@@ -178,8 +178,8 @@ void	parser(char *prompt)
 		printf("Error: squotes not closed\n");
 		exit(0);
 	}
-	spaces_splited_prompt = ft_split_with_dquotes(prompt_cpy, ' ');
-	tokens = tokener(spaces_splited_prompt);
+	// spaces_splited_prompt = ft_split_with_dquotes(prompt_cpy, ' ');
+	tokens = tokener(prompt_cpy);
 	parsing(tokens);
 }
 

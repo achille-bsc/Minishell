@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:27:46 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/10 00:22:37 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/10 02:53:33 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	parsing(t_args *tokens)
 	int		i;
 
 	i = 0;
+	token = tokens;
 	while(token->next)
 	{
 		if (i == 0 && token->tok == PIP)
