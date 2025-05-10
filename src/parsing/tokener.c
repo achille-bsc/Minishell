@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/06 18:54:44 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/10 00:59:40 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ t_lst	*get_words(char *prompt)
 	return (init_word);
 }
 
-t_args	*tokener(char *prompt)
+t_args	*tokener(t_mnours *mnours)
 {
 	t_lst	*words;
 	t_args	*tokens;
 
-	words = get_words(prompt);
-	tokens = ft_calloc(sizeof(t_args), sizeof(prompt));
+	words = get_words(mnours->line);
+	tokens = ft_calloc(sizeof(t_args), sizeof(mnours->line));
 	if (!words)
 		return (perror("Error: Memory allocation failed"), NULL);
 	while (words->next)
@@ -129,7 +129,7 @@ t_args	*tokener(char *prompt)
 			tokens->quote = NO_Q;
 		}
 		words = words->next;
-		tokens->next = ft_calloc(sizeof(t_args), sizeof(prompt));
+		tokens->next = ft_calloc(sizeof(t_args), sizeof(mnours->line));
 		if (!tokens->next)
 		{
 			perror("Error: Memory allocation failed");
@@ -138,4 +138,13 @@ t_args	*tokener(char *prompt)
 		tokens = tokens->next;
 	}
 	return (tokens);
+}
+t_mnours	*set_tok_in_mnours(t_args *tokens, t_mnours *mnours)
+{
+	t_exec	*exec;
+
+	exec = ft_calloc(sizeof(t_exec), 1);
+	exec->args = tokens;
+	mnours->ex = exec;
+	return (mnours);
 }
