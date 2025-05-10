@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/10 00:59:40 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/10 02:45:39 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,40 @@ t_args	*tokener(t_mnours *mnours)
 	}
 	return (tokens);
 }
-t_mnours	*set_tok_in_mnours(t_args *tokens, t_mnours *mnours)
-{
-	t_exec	*exec;
 
-	exec = ft_calloc(sizeof(t_exec), 1);
-	exec->args = tokens;
-	mnours->ex = exec;
-	return (mnours);
+void news_exec(t_args *tokens, t_exec *exe, t_mnours *mnours)
+{
+	t_exec	*n_exec;
+	
+	n_exec = ft_calloc(sizeof(t_exec), 1);
+	if (!n_exec)
+		ft_error("malloc error", mnours);
+	n_exec = tokens->next;
+	exe->next = n_exec;
+}
+void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours)
+{
+	t_args	*tmp;
+	t_exec	*f_exec;
+	t_exec	*tmp_exec;
+
+	f_exec = ft_calloc(sizeof(t_exec), 1);
+	if (!f_exec)
+		ft_error("malloc error", mnours);
+	f_exec->args = tokens;
+	tmp_exec = f_exec;
+	while (tokens)
+	{
+		if (tokens->tok == PIP)
+		{
+			tmp = tokens;
+			news_exec(tokens, tmp_exec, mnours);
+			tmp_exec = tmp_exec->next;
+			tokens = tokens->next;
+			tmp_exec->args = tokens;
+			free(tmp);
+		}
+		else
+			tokens = tokens->next;
+	}
 }
