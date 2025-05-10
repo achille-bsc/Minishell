@@ -5,12 +5,11 @@ NAME = minishell
 LIBFT = libft
 LIBFTPRINTF = libft/ft_printf
 
-SRCS =	commitmsg.txt files headers libUtils Makefile parser.c src \
-		headers/minishell.h headers/structures.h \
+SRCS =	parser.c \
 		libUtils/lst.c \
-		src/built-in src/execute.c src/freeall.c src/freeall.o src/main.c src/main.o \
-		src/parsing src/redirection.c src/redirection.o src/set_env.c src/set_env.o \
-		src/varenv.c src/varenv.o \
+		src/execute.c src/freeall.c src/main.c \
+		src/redirection.c src/set_env.c \
+		src/varenv.c \
 		src/built-in/echo.c src/built-in/env.c src/built-in/export.c src/built-in/unset.c \
 		src/parsing/parser.c src/parsing/parsing.c src/parsing/tokener.c \
 		src/parsing/utils.c
