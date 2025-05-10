@@ -6,11 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/02 17:41:58 by abosc            ###   ########.fr       */
-=======
-/*   Updated: 2025/05/06 18:15:31 by alegrix          ###   ########.fr       */
->>>>>>> 066f4cc364a1ad6b4ec1cb2a6426b8d791a53c58
+/*   Updated: 2025/05/10 01:58:33 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +26,7 @@ void	free_array(char **array)
 	return ;
 }
 
-void	access_path(char *cmd, char **env)
+void	access_path(char **cmd, char **env)
 {
 	if (cmd[0] == NULL)
 		exit(EXIT_FAILURE);
@@ -102,10 +98,8 @@ pid_t	child_factory(t_exec *c, char **env)
 		close(c->fin);
 		dup2(c->fout, STDOUT_FILENO);
 		close(c->fout);
-		while (c->tok != CMD && c)
-			c = c->next;
-		access_path(c->name, env);
-		exec_cmd(env, c->name);
+		access_path(c->lst, env);
+		exec_cmd(env, c->lst);
 	}
 	dup2(c->fout, STDOUT_FILENO);
 	close(c->fout);
