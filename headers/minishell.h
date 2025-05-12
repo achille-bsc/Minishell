@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/10 02:54:06 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/13 00:54:36 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*ft_envnew(char *line);
 void	ft_env(t_env *env);
 
 // ---- Parsing | Tokening ----
-void	parser(char *prompt);
+void	parser(char *prompt, t_mnours *data);
 void	parsing(t_args *tokens);
 t_args	*tokener(t_mnours *mnours);
 void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
