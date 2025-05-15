@@ -29,7 +29,9 @@ t_lst	*get_words(char *prompt)
 
 	i = 0;
 	j = 0;
+	in_quote = 0;
 	words = ft_calloc(sizeof(t_lst), sizeof(prompt));
+	words->content = ft_calloc(sizeof(char), ft_strlen(prompt));
 	init_word = words;
 	while (prompt[i])
 	{
@@ -67,7 +69,6 @@ t_lst	*get_words(char *prompt)
 		}
 		else
 		{
-			ft_printf("%c", prompt[i]);
 			words->content[j] = prompt[i];
 			j++;
 		}
