@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/10 01:58:33 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/16 22:05:56 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void	execute(t_mnours *d, char **env)
 	pid_t	*pid_stock;
 
 	cmd = d->ex;
+	ft_lstconvert(d, cmd);
+	redir(cmd);
 	i = 0;
 	pid_stock = ft_calloc(sizeof(int), d->nb_pipe);
 	while (i < d->nb_pipe)

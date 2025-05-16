@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/13 00:54:36 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/16 22:05:03 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,8 @@ int		handle_redir(char *prompt, int i, char *word);
 void	ft_error(char *msg, t_mnours *data);
 
 // -------- Util | lst --------
-int	ft_args_lstsize(t_args *lst);
+int		ft_args_lstsize(t_args *lst);
+void	ft_lstconvert(t_mnours *mini, t_exec *data);
+
+void	redir(t_exec *c);
 #endif

@@ -6,11 +6,16 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/13 00:50:59 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/16 22:02:09 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+
+void	for_an_exec(t_mnours *mnours)
+{
+	redir(mnours->ex);
+}
 
 void	prompter(t_mnours *mnours, char **env)
 {
@@ -19,8 +24,9 @@ void	prompter(t_mnours *mnours, char **env)
 	{
 		mnours->line = readline("Mininours raconte nous une histoire > ");
 		add_history(mnours->line);
-		// TODO: Historique a mettre en place
 		set_tok_in_mnours(tokener(mnours), mnours);
+		if (mnours->ex == NULL)
+			ft_printf("kiwi\n\n\n");
 		free(mnours->line);
 	}
 }
