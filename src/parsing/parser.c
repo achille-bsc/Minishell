@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 22:56:43 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/13 00:53:52 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 19:15:51 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,32 +156,32 @@ int	check_txt_afer_pipe(char *prompt)
 	}
 	return (1);
 }
-void	parser(char *prompt, t_mnours *mnours)
-{
-	char	*prompt_cpy;
-	// char	**spaces_splited_prompt;
-	t_args	*tokens;
+// void	parser(char *prompt, t_mnours *mnours)
+// {
+// 	char	*prompt_cpy;
+// 	// char	**spaces_splited_prompt;
+// 	t_args	*tokens;
 
-	prompt_cpy = ft_strdup(prompt);
-	if (check_txt_afer_pipe(prompt_cpy) == 0)
-	{
-		printf("Error: syntax error near unexpected token '|'\n");
-		exit(0);
-	}
-	if (check_dquotes(prompt_cpy) == 1)
-	{
-		printf("Error: dquotes not closed\n");
-		exit(0);
-	}
-	if (check_squotes(prompt_cpy) == 1)
-	{
-		printf("Error: squotes not closed\n");
-		exit(0);
-	}
-	// spaces_splited_prompt = ft_split_with_dquotes(prompt_cpy, ' ');
-	tokens = tokener(mnours);
-	parsing(tokens);
-}
+// 	prompt_cpy = ft_strdup(prompt);
+// 	if (check_txt_afer_pipe(prompt_cpy) == 0)
+// 	{
+// 		printf("Error: syntax error near unexpected token '|'\n");
+// 		exit(0);
+// 	}
+// 	if (check_dquotes(prompt_cpy) == 1)
+// 	{
+// 		printf("Error: dquotes not closed\n");
+// 		exit(0);
+// 	}
+// 	if (check_squotes(prompt_cpy) == 1)
+// 	{
+// 		printf("Error: squotes not closed\n");
+// 		exit(0);
+// 	}
+// 	// spaces_splited_prompt = ft_split_with_dquotes(prompt_cpy, ' ');
+// 	tokens = tokener(mnours);
+// 	parsing(tokens);
+// }
 
 // int	main(void)
 // {

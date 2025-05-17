@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokener.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/17 02:19:16 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 20:43:23 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-int set_dquote(char prompt, int in_quote)
+int	set_dquote(char prompt, int in_quote)
 {
 	if (prompt == '"')
 		in_quote = !in_quote;
@@ -55,22 +55,26 @@ t_lst	*get_words(char *prompt)
 		}
 		else if (!in_quote && (prompt[i] == '|' || prompt[i] == ' '))
 		{
+			ft_printf("\n\n\nin_quote: %i\nprompt[%i]: \"%c\"\n\n\n", in_quote,
+				i, prompt[i]);
 			if (j > 0)
 			{
 				words->content[j] = '\0';
 				words->next = ft_calloc(sizeof(t_lst), 1);
 				words = words->next;
-				words->content = ft_calloc(sizeof(char), ft_strlen(prompt) + i);
+				words->content = ft_calloc(sizeof(char), ft_strlen(prompt) - i);
 				j = 0;
 			}
-			if (prompt[i++] == ' ')
-				continue ;
-			words->content = ft_calloc(sizeof(char), 1);
-			words->content[0] = prompt[i];
-			words->next = ft_calloc(sizeof(t_lst), 1);
-			words = words->next;
-			words->content = ft_calloc(sizeof(char), ft_strlen(prompt) + i);
-			j = 0;
+			if (prompt[i] == '|')
+			{
+				words->content = ft_calloc(sizeof(char), 1);
+				words->content[0] = prompt[i];
+				ft_printf("word content: %s", words->content);
+				words->next = ft_calloc(sizeof(t_lst), 1);
+				words = words->next;
+				words->content = ft_calloc(sizeof(char), ft_strlen(prompt) - i);
+				j = 0;
+			}
 		}
 		else
 		{
@@ -82,12 +86,16 @@ t_lst	*get_words(char *prompt)
 	return (init_word);
 }
 
-t_args	*tokener(t_mnours *mnours)
+t_exec	*tokener(t_mnours *mnours)
 {
 	t_lst	*words;
 	t_args	*tokens;
 	t_args	*init_token;
+	t_exec	*exec;
+	t_exec	*init_exec;
 
+	exec = ft_calloc(sizeof(t_exec), 1);
+	init_exec = exec;
 	words = get_words(mnours->line);
 	tokens = ft_calloc(sizeof(t_args), sizeof(mnours->line));
 	if (!tokens)
@@ -95,16 +103,16 @@ t_args	*tokener(t_mnours *mnours)
 	init_token = tokens;
 	while (words)
 	{
-		ft_printf("words->content %c\n", words->content[0]);
+		ft_printf("words->content %s\n", words->content);
 		if (words->content[0] == '<' && words->content[1] == '<')
 		{
-			tokens->tok = OP; 
+			tokens->tok = HD;
 			tokens->name = ft_strdup(words->content);
 			tokens->quote = NO_Q;
 		}
 		else if (words->content[0] == '<')
 		{
-			tokens->tok = HD;
+			tokens->tok = OP;
 			tokens->name = ft_strdup(words->content);
 			tokens->quote = NO_Q;
 		}
@@ -123,17 +131,22 @@ t_args	*tokener(t_mnours *mnours)
 		}
 		else if (words->content[0] == '|')
 		{
+			exec->args = init_token;
+			exec->next = ft_calloc(sizeof(t_exec), 1);
+			exec = exec->next;
+			tokens = ft_calloc(sizeof(t_args), 1);
+			init_token = tokens;
 			mnours->nb_pipe += 1;
-			tokens->tok = PIP;
-			tokens->name = ft_strdup(words->content);
-			tokens->quote = NO_Q;
+			words = words->next;
+			continue ;
+			// write_args(mnours);
 		}
-		else if (words->content[0] == ' ')
-		{
-			tokens->tok = CMD;
-			tokens->name = ft_strdup(words->content);
-			tokens->quote = NO_Q;
-		}
+		// else if (words->content[0] == ' ')
+		// {
+		// 	tokens->tok = CMD;
+		// 	tokens->name = ft_strdup(words->content);
+		// 	tokens->quote = NO_Q;
+		// }
 		else if (words->content[0] == '\'' || words->content[0] == '\"')
 		{
 			tokens->tok = CMD;
@@ -152,20 +165,25 @@ t_args	*tokener(t_mnours *mnours)
 		words = words->next;
 		if (words)
 		{
-			tokens->next = ft_calloc(sizeof(t_args), sizeof(mnours->line));
-			if (!tokens->next)
+			if (!(words->content[0] == '|'))
 			{
-				perror("Error: Memory allocation failed");
-				return (NULL);
+				tokens->next = ft_calloc(sizeof(t_args), 1);
+				if (!tokens->next)
+				{
+					perror("Error: Memory allocation failed");
+					return (NULL);
+				}
+				tokens = tokens->next;
 			}
-			tokens = tokens->next;
 		}
 	}
-	ft_printf("tokens fin enum %d et name %s\n", init_token->tok, init_token->name);
-	return (init_token);
+	ft_printf("tokens fin enum %d et name %s\n", init_token->tok,
+		init_token->name);
+	exec->args = init_token;
+	return (init_exec);
 }
 
-void news_exec(t_args *tokens, t_exec *exe, t_mnours *mnours)
+void	news_exec(t_args *tokens, t_exec *exe, t_mnours *mnours)
 {
 	t_exec	*n_exec;
 
@@ -175,33 +193,4 @@ void news_exec(t_args *tokens, t_exec *exe, t_mnours *mnours)
 	n_exec->args = tokens->next;
 	mnours->ex = n_exec;
 	exe = exe->next;
-}
-void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours)
-{
-	t_args	*tmp;
-	t_exec	*f_exec;
-	t_exec	*tmp_exec;
-
-	f_exec = ft_calloc(sizeof(t_exec), 1);
-	if (!f_exec)
-		ft_error("malloc error", mnours);
-	f_exec->args = tokens;
-	tmp_exec = f_exec;
-	while (tokens)
-	{
-		if (tokens->tok == PIP)
-		{
-			tmp = tokens;
-			news_exec(tokens, tmp_exec, mnours);
-			tmp_exec = tmp_exec->next;
-			tokens = tokens->next;
-			tmp_exec->args = tokens;
-			free(tmp);
-		}
-		else
-		{
-			tokens = tokens->next;
-		}
-	}
-	mnours->ex = f_exec;
 }

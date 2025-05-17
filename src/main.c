@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/17 02:17:39 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 20:22:26 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	prompter(t_mnours *mnours, char **env)
 			free(mnours->line);
 		mnours->line = readline("Mininours raconte nous une histoire > ");
 		add_history(mnours->line);
-		t_args *test = 	tokener(mnours);
-		set_tok_in_mnours(test, mnours);
+		mnours->ex = tokener(mnours);
+		write_args(mnours->ex);
 		execute(mnours, env);
 		free_exec(mnours->ex);
 	}
@@ -43,4 +43,30 @@ int	main(int argc, char **argv, char **env)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
 	prompter(mininours, env);
 	return (0);
+}
+
+void	write_args(t_exec *exec)
+{
+	t_exec	*ex;
+	t_args	*arg;
+
+	ex = exec;
+	arg = ex->args;
+	while (ex)
+	{
+		ft_printf("--- Exec ---\n");
+		while (arg)
+		{
+			ft_printf("ARG:\n");
+			ft_printf("    - Quote: %i\n", arg->quote);
+			ft_printf("    - Token: %i\n", arg->tok);
+			ft_printf("    - Name:  %s\n", arg->name);
+			ft_printf("    - next:  %i\n", arg->next == NULL ? 0 : 1);
+			arg = arg->next;
+		}
+		ex = ex->next;
+		if (!ex)
+			return ;
+		arg = ex->args;
+	}
 }

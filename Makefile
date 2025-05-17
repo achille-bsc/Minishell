@@ -17,7 +17,7 @@ SRCS =	parser.c \
 
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME)
+all: $(NAME) clean
 
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT)

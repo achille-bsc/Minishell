@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/17 01:36:45 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 19:35:16 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	ft_env(t_env *env);
 // ---- Parsing | Tokening ----
 void	parser(char *prompt, t_mnours *data);
 void	parsing(t_args *tokens);
-t_args	*tokener(t_mnours *mnours);
-void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
+t_exec	*tokener(t_mnours *mnours);
+// void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
 // ----- Parsing | Utils -----
 int		set_dquote(char c, int in_dquote);
@@ -48,5 +48,8 @@ void	ft_lstconvert(t_mnours *mini, t_exec *data);
 
 void	redir(t_exec *c);
 void	execute(t_mnours *d, char **env);
+
+// -------- Tests | Print tokener --------
+void write_args(t_exec *exec);
 
 #endif
