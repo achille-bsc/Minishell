@@ -6,12 +6,13 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/17 01:53:45 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 21:58:15 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 #include <fcntl.h>
+#include <unistd.h>
 
 void	free_array(char **array)
 {
@@ -94,12 +95,26 @@ pid_t	child_factory(t_exec *c, char **env)
 		exit(1);
 	if (pid == 0)
 	{
-		dup2(c->fin, STDIN_FILENO);
-		close(c->fin);
-		dup2(c->fout, STDOUT_FILENO);
-		close(c->fout);
+		if (c->fin != 0)
+		{
+			dup2(c->fin, STDIN_FILENO);
+			close(c->fin);
+		}
+		if (c->fout != 1)
+		{
+			dup2(c->fout, STDOUT_FILENO);
+			close(c->fout);
+		}
 		access_path(c->lst, env);
 		exec_cmd(env, c->lst);
+	}
+	if (c->pipe == IN)
+	{
+		close(c->fin);
+	}
+	if (c->pipe == OUT)
+	{
+		close(c->fout);
 	}
 	return (pid);
 }
@@ -113,23 +128,25 @@ void	execute(t_mnours *d, char **env)
 	pid_t	*pid_stock;
 
 	cmd = d->ex;
-	ft_printf("cmd in exec : %s\n", cmd->args->name);
 	ft_lstconvert(d, cmd);
 	redir(cmd);
 	i = 0;
 	pid_stock = ft_calloc(sizeof(int), d->nb_pipe);
-	while (i < d->nb_pipe + 1)
+	while (i <= d->nb_pipe)
 	{
-		if (cmd->fout == 0 && cmd->next)
+		if (cmd->fout == 1 && cmd->next)
 		{
 			redir(cmd->next);
 			if (cmd->next->fin == 0)
 			{
 				pipe(fd);
 				cmd->fout = fd[1];
+				cmd->pipe = OUT;
 				cmd->next->fin = fd[0];
+				cmd->next->pipe = IN;
 			}
 		}
+		ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->args->name, cmd->pipe);
 		pid_stock[i++] = child_factory(cmd, env);
 		cmd = cmd->next;
 	}

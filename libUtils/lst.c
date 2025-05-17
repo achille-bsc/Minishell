@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/10 00:39:51 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/17 20:58:39 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,33 @@ void	free_lst(char **lst)
 
 void	ft_lstconvert(t_mnours *mini, t_exec *data)
 {
+	t_exec	*dat_tmp;
 	t_args	*tmp;
 	int		i;
 
-	i = 0;
-	tmp = data->args;
-	while (tmp)
+	dat_tmp = data;
+	while (dat_tmp)
 	{
-		if (tmp->tok == CMD)
-			i++;
-		tmp = tmp->next;
+		i = 0;
+		tmp = dat_tmp->args;
+		while (tmp)
+		{
+			if (tmp->tok == CMD)
+				i++;
+			tmp = tmp->next;
+		}
+		dat_tmp->lst = malloc(sizeof(char *) * (i + 1));
+		if (!dat_tmp->lst)
+			ft_error("malloc error", mini);
+		i = 0;
+		tmp = dat_tmp->args;
+		while (tmp)
+		{
+			if (tmp->tok == CMD)
+				dat_tmp->lst[i++] = tmp->name;
+			tmp = tmp->next;
+		}
+		dat_tmp->lst[i] = NULL;
+		dat_tmp = dat_tmp->next;
 	}
-	data->lst = malloc(sizeof(char *) * (i + 1));
-	if (!data)
-		ft_error("malloc error", mini);
-	i = 0;
-	tmp = data->args;
-	while (tmp)
-	{
-		if (tmp->tok == CMD)
-			data->lst[i++] = tmp->name;
-		tmp = tmp->next;
-	}
-	data->lst[i] = NULL;
 }

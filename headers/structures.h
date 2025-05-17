@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/06 18:22:48 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 21:59:17 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ enum e_token
 	AP,
 	PIP
 };
+
+enum e_pipefd
+{
+	NONE,
+	IN,
+	OUT
+};
+
 
 enum e_quote
 {
@@ -47,6 +55,7 @@ typedef struct s_args
 
 typedef struct s_exec
 {
+	enum e_pipefd	pipe;
 	int				l_hd;
 	int				fin;
 	int				fout;

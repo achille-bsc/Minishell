@@ -6,17 +6,19 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/16 23:55:32 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 21:51:35 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void	resetfd(int fd)
+void	resetfd(int fd, int fout)
 {
 	if (fd != 0)
 	{
 		close(fd);
+		if (fout == 1)
+			fd = 1;
 		fd = 0;
 	}
 }
@@ -48,7 +50,7 @@ void	here_doc(t_args *n, t_exec *c)
 	pid_t	pid;
 	int		status;
 
-	resetfd(c->l_hd);
+	resetfd(c->l_hd, 0);
 	if (pipe(pipefd) == -1)
 		exit(1);
 	pid = fork();
@@ -68,7 +70,7 @@ int	open_file_in(t_exec *c, t_args *n)
 {
 	if (n->tok == OP)
 	{
-		resetfd(c->fin);
+		resetfd(c->fin, 0);
 		c->fin = open(n->name, O_RDONLY, 0644);
 		if (c->fin == -1)
 			return (perror("file not found (fderror)"), -1);
@@ -82,12 +84,12 @@ int	open_file(t_exec *c, t_args *n)
 {
 	if (n->tok == AP)
 	{
-		resetfd(c->fout);
+		resetfd(c->fout, 1);
 		c->fout = open(n->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	else if (n->tok == TR)
 	{
-		resetfd(c->fout);
+		resetfd(c->fout, 1);
 		c->fout = open(n->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	}
 	else
@@ -101,6 +103,8 @@ void	redir(t_exec *c)
 {
 	t_args	*n;
 
+	if (c->fout == 0)
+		c->fout = 1;
 	n = c->args;
 	while (n)
 	{
