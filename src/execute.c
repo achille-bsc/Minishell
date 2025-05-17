@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/16 22:05:56 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:53:45 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,7 @@ pid_t	child_factory(t_exec *c, char **env)
 		access_path(c->lst, env);
 		exec_cmd(env, c->lst);
 	}
-	dup2(c->fout, STDOUT_FILENO);
-	close(c->fout);
-	dup2(c->fin, STDIN_FILENO);
-	return (close(c->fin), pid);
+	return (pid);
 }
 
 void	execute(t_mnours *d, char **env)
@@ -116,14 +113,16 @@ void	execute(t_mnours *d, char **env)
 	pid_t	*pid_stock;
 
 	cmd = d->ex;
+	ft_printf("cmd in exec : %s\n", cmd->args->name);
 	ft_lstconvert(d, cmd);
 	redir(cmd);
 	i = 0;
 	pid_stock = ft_calloc(sizeof(int), d->nb_pipe);
-	while (i < d->nb_pipe)
+	while (i < d->nb_pipe + 1)
 	{
 		if (cmd->fout == 0 && cmd->next)
 		{
+			redir(cmd->next);
 			if (cmd->next->fin == 0)
 			{
 				pipe(fd);

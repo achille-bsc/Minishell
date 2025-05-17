@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/16 21:54:15 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/16 23:55:32 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ void	redir(t_exec *c)
 {
 	t_args	*n;
 
-	if (c == NULL)
-		ft_printf("kiwi");
 	n = c->args;
 	while (n)
 	{
