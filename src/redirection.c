@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/17 21:51:35 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:51:20 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	resetfd(int fd, int fout)
 {
-	if (fd != 0)
+	if (fd != 0 && fd != 1)
 	{
 		close(fd);
 		if (fout == 1)
 			fd = 1;
-		fd = 0;
+		else
+			fd = 0;
 	}
 }
 

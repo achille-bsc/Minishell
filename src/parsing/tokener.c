@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/17 20:43:23 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/20 00:52:46 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_lst	*get_words(char *prompt)
 	in_quote = 0;
 	words = ft_calloc(sizeof(t_lst), 1);
 	words->content = ft_calloc(sizeof(char), ft_strlen(prompt));
-	ft_printf("prompt and len : %s et %d\n", prompt, ft_strlen(prompt));
 	init_word = words;
 	while (prompt[i])
 	{
@@ -47,8 +46,7 @@ t_lst	*get_words(char *prompt)
 				words->content = ft_calloc(sizeof(char), ft_strlen(prompt) + i);
 				j = 0;
 			}
-			i = handle_redir(prompt, i, words->content);
-			words->next = ft_calloc(sizeof(t_lst), 1);
+			i = handle_redir(prompt, i, words);
 			words = words->next;
 			words->content = ft_calloc(sizeof(char), ft_strlen(prompt) + i);
 			j = 0;
@@ -107,27 +105,34 @@ t_exec	*tokener(t_mnours *mnours)
 		if (words->content[0] == '<' && words->content[1] == '<')
 		{
 			tokens->tok = HD;
+			words->content += 2;
 			tokens->name = ft_strdup(words->content);
 			tokens->quote = NO_Q;
+			words->content -= 2;
 		}
 		else if (words->content[0] == '<')
 		{
 			tokens->tok = OP;
+			words->content++;
 			tokens->name = ft_strdup(words->content);
 			tokens->quote = NO_Q;
+			words->content--;
 		}
 		else if (words->content[0] == '>' && words->content[1] == '>')
 		{
+			words->content += 2;
 			tokens->tok = AP;
 			tokens->name = ft_strdup(words->content);
 			tokens->quote = NO_Q;
+			words->content -= 2;
 		}
 		else if (words->content[0] == '>')
 		{
+			words->content++;
 			tokens->tok = TR;
 			tokens->name = ft_strdup(words->content);
 			tokens->quote = NO_Q;
-			ft_printf("tokens %d et %s\n", tokens->tok, tokens->name);
+			words->content--;
 		}
 		else if (words->content[0] == '|')
 		{
@@ -180,6 +185,7 @@ t_exec	*tokener(t_mnours *mnours)
 	ft_printf("tokens fin enum %d et name %s\n", init_token->tok,
 		init_token->name);
 	exec->args = init_token;
+	check_args(init_exec);
 	return (init_exec);
 }
 

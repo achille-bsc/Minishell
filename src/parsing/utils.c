@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/04/22 22:38:34 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/20 00:53:05 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,50 @@ int	set_quote(char c, int in_quote)
 		in_quote = 0;
 	return (in_quote);
 }
-int	handle_redir(char *prompt, int i, char *word)
-{	
-	word = ft_calloc(sizeof(char), 2);
-	word[0] = prompt[i];
-	if (prompt[i + 1] == prompt[i])
+
+void	check_args(t_exec *exec)
+{
+	t_exec	*tmp;
+	t_args	*pre_tmpa;
+	t_args	*tmpa;
+
+	tmp = exec;
+	while (tmp)
 	{
-		word[1] = prompt[i];
-		i++;
+		tmpa = tmp->args;
+		while (tmpa)
+		{
+			if (!tmpa->name)
+			{
+				pre_tmpa->next = NULL;
+				free_args(tmpa);
+			}
+			if (tmpa->name[0] == ' ' || tmpa->name[0] == '\0')
+			{
+				pre_tmpa->next = NULL;
+				free_args(tmpa);
+			}
+			pre_tmpa = tmpa;
+			tmpa = tmpa->next;
+		}
+		tmp = tmp->next;
 	}
-	else
-		word[1] = '\0';
+}
+
+int	handle_redir(char *prompt, int i, t_lst *word)
+{
+	int	j;
+
+	j = 0;
+	if (prompt[i] == prompt[i + 1])
+		word->content[j++] = prompt[i++];
+	word->content[j++] = prompt[i++];
+	while (prompt[i] == ' ')
+		i++;
+	while (prompt[i] && prompt[i] != ' ' && prompt[i] != '<' && prompt[i] != '>')
+		word->content[j++] = prompt[i++];
+	word->next = ft_calloc(sizeof(t_lst), 1);
+	if (!word->next)
+		exit(1);
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/10 00:40:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/19 23:27:26 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	free_args(t_args *args)
 	while (args)
 	{
 		temp = (args)->next;
-		free(args->name);
+		if (args->name)
+			free(args->name);
 		free(args);
 		args = temp;
 	}
