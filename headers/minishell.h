@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/19 23:31:51 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/20 18:59:17 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ t_exec	*tokener(t_mnours *mnours);
 // ----- Parsing | Utils -----
 int		set_dquote(char c, int in_dquote);
 int		set_squote(char c, int in_squote);
-int		handle_redir(char *prompt, int i, t_lst *word);
+int		handle_redir(char *prompt, int i, t_lst **word);
 void	check_args(t_exec *exec);
+int		complete(int i, char *prompt, t_lst **word, int *in_quote);
+t_lst	*create_word(void);
 
 // ------- Free | Error -------
 void	ft_error(char *msg, t_mnours *data);

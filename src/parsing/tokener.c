@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/20 00:52:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/20 19:08:17 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,69 +19,42 @@ int	set_dquote(char prompt, int in_quote)
 	return (in_quote);
 }
 
+int	capipe(char *prompt, int i, t_lst **word)
+{
+	(*word)->content = ft_calloc(sizeof(char), 2);
+	(*word)->content[0] = prompt[i++];
+	(*word)->next = ft_calloc(sizeof(t_lst), 1);
+	(*word) = (*word)->next;
+	return (i);
+}
+
 t_lst	*get_words(char *prompt)
 {
-	t_lst	*words;
-	t_lst	*init_word;
+	t_lst	*words[2];
 	int		i;
-	int		j;
 	int		in_quote;
 
 	i = 0;
-	j = 0;
 	in_quote = 0;
-	words = ft_calloc(sizeof(t_lst), 1);
-	words->content = ft_calloc(sizeof(char), ft_strlen(prompt));
-	init_word = words;
+	words[1] = create_word();
+	words[0] = words[1];
 	while (prompt[i])
 	{
 		in_quote = set_dquote(prompt[i], in_quote);
 		if (!in_quote && (prompt[i] == '<' || prompt[i] == '>'))
-		{
-			if (j > 0)
-			{
-				words->content[j] = '\0';
-				words->next = ft_calloc(sizeof(t_lst), 1);
-				words = words->next;
-				words->content = ft_calloc(sizeof(char), ft_strlen(prompt) + i);
-				j = 0;
-			}
-			i = handle_redir(prompt, i, words);
-			words = words->next;
-			words->content = ft_calloc(sizeof(char), ft_strlen(prompt) + i);
-			j = 0;
-		}
-		else if (!in_quote && (prompt[i] == '|' || prompt[i] == ' '))
-		{
-			ft_printf("\n\n\nin_quote: %i\nprompt[%i]: \"%c\"\n\n\n", in_quote,
-				i, prompt[i]);
-			if (j > 0)
-			{
-				words->content[j] = '\0';
-				words->next = ft_calloc(sizeof(t_lst), 1);
-				words = words->next;
-				words->content = ft_calloc(sizeof(char), ft_strlen(prompt) - i);
-				j = 0;
-			}
-			if (prompt[i] == '|')
-			{
-				words->content = ft_calloc(sizeof(char), 1);
-				words->content[0] = prompt[i];
-				ft_printf("word content: %s", words->content);
-				words->next = ft_calloc(sizeof(t_lst), 1);
-				words = words->next;
-				words->content = ft_calloc(sizeof(char), ft_strlen(prompt) - i);
-				j = 0;
-			}
-		}
+			i = handle_redir(prompt, i, &(words[1]));
+		else if (!in_quote && prompt[i] == '|')
+			capipe(prompt, i, &(words[1]));
+		else if (!in_quote && (prompt[i] == ' ' || prompt[i] == '\t'))
+			while (prompt[i] == ' ' || prompt[i] == '\t')
+				i++;
 		else
-		{
-			words->content[j] = prompt[i];
-			j++;
-		}
-		i++;
+			i = complete(i, prompt, &(words[1]), &in_quote);
 	}
-	return (init_word);
+	words[1] = words[0];
+	while ((words[1])->next->content)
+		(words[1]) = words[1]->next;
+	return (free((words[1])->next), words[1]->next = NULL, words[0]);
 }
 
 t_exec	*tokener(t_mnours *mnours)
