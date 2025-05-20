@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/20 21:32:28 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/21 00:50:35 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,17 @@ void	tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok)
 void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 {
 	t_args	*pre_token;
-	t_lst	*words;
+	t_lst	*words[2];
 	t_exec	*init_exec;
 
 	init_exec = exec;
-	words = get_words(mnours->line);
-	while (words)
+	words[0] = get_words(mnours->line);
+	words[1] = words[0];
+	while (words[1])
 	{
-		if (words->content[0] == '<' || words->content[0] == '>')
-			pre_token = maybe_redir(&tokens, words);
-		else if (words->content[0] == '|')
+		if (words[1]->content[0] == '<' || words[1]->content[0] == '>')
+			pre_token = maybe_redir(&tokens, words[1]);
+		else if (words[1]->content[0] == '|')
 		{
 			tok_pipe(mnours, exec, pre_token);
 			exec = exec->next;
@@ -119,10 +120,10 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 			exec->args = tokens;
 		}
 		else
-			pre_token = and_tok(CMD, &tokens, words, 0);
-		words = words->next;
+			pre_token = and_tok(CMD, &tokens, words[1], 0);
+		words[1] = words[1]->next;
 	}
-	return (pre_token->next = NULL, free(tokens));
+	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens));
 }
 
 void	set_token(t_mnours *data)

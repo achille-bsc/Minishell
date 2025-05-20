@@ -6,11 +6,24 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/19 23:27:26 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/20 22:10:39 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+
+void	ft_free_word(t_lst *word)
+{
+	t_lst	*tmp;
+
+	tmp = word;
+	while (word)
+	{
+		tmp = word;
+		word = word->next;
+		free(tmp);
+	}
+}
 
 void	free_env(t_env *env)
 {
