@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/17 22:28:02 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:07:25 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_args
 
 typedef struct s_exec
 {
+	int				is_build;
 	enum e_pipefd	pipe;
 	int				l_hd;
 	int				fin;

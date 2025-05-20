@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/20 22:13:24 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/21 00:53:09 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_error(char *msg, t_mnours *data);
 void	free_exec(t_exec *exe);
 void	free_args(t_args *args);
 void	ft_free_word(t_lst *word);
+void	free_mnours(t_mnours *data);
 
 // -------- Util | lst --------
 int		ft_args_lstsize(t_args *lst);

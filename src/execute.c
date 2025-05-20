@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/20 22:02:19 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:20:09 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,13 @@ void	exec_cmd(char **envp, char **cmop)
 	free(path);
 }
 
-pid_t	child_factory(t_exec *c, char **env)
+void	dup_close(int fd, int fileno)
+{
+	dup2(fd, fileno);
+	close(fd);
+}
+
+pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 {
 	pid_t	pid;
 
@@ -96,26 +102,21 @@ pid_t	child_factory(t_exec *c, char **env)
 	if (pid == 0)
 	{
 		if (c->fin != 0)
-		{
-			dup2(c->fin, STDIN_FILENO);
-			close(c->fin);
-		}
+			dup_close(c->fin, STDIN_FILENO);
 		if (c->fout != 1)
+			dup_close(c->fout, STDOUT_FILENO);
+		if (c->is_build == 0)
 		{
-			dup2(c->fout, STDOUT_FILENO);
-			close(c->fout);
+			access_path(c->lst, env);
+			exec_cmd(env, c->lst);
 		}
-		access_path(c->lst, env);
-		exec_cmd(env, c->lst);
+		else
+			exec_build();
 	}
 	if (c->pipe == IN)
-	{
 		close(c->fin);
-	}
 	if (c->pipe == OUT)
-	{
 		close(c->fout);
-	}
 	return (pid);
 }
 
@@ -147,7 +148,7 @@ void	execute(t_mnours *d, char **env)
 			}
 		}
 		ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->lst[0], cmd->pipe);
-		pid_stock[i++] = child_factory(cmd, env);
+		pid_stock[i++] = child_factory(d, cmd, env);
 		cmd = cmd->next;
 	}
 	j = 0;
