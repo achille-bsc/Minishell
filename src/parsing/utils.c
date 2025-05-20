@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/20 18:59:07 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/20 21:06:39 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	check_args(t_exec *exec)
 	tmp = exec;
 	while (tmp)
 	{
+		ft_printf("%s\n\n\n", tmpa->name);
 		tmpa = tmp->args;
 		while (tmpa)
 		{
@@ -53,7 +54,7 @@ void	check_args(t_exec *exec)
 				pre_tmpa->next = NULL;
 				free_args(tmpa);
 			}
-			if (tmpa->name[0] == ' ' || tmpa->name[0] == '\0')
+			else if (tmpa->name[0] == ' ' || tmpa->name[0] == '\0')
 			{
 				pre_tmpa->next = NULL;
 				free_args(tmpa);

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/17 21:55:26 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/20 21:02:05 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	prompter(t_mnours *mnours, char **env)
 			free(mnours->line);
 		mnours->line = readline("Mininours raconte nous une histoire > ");
 		add_history(mnours->line);
-		mnours->ex = tokener(mnours);
+		set_token(mnours);
 		write_args(mnours->ex);
 		execute(mnours, env);
 		free_exec(mnours->ex);
