@@ -8,9 +8,10 @@ LIBFTPRINTF = libft/ft_printf
 SRCS =	parser.c \
 		libUtils/lst.c \
 		src/execute.c src/freeall.c src/main.c \
-		src/redirection.c src/set_env.c \
-		src/varenv.c \
-		src/built-in/echo.c src/built-in/env.c src/built-in/export.c src/built-in/unset.c \
+		src/pre_execute.c src/redirection.c src/set_env.c src/varenv.c \
+		src/built-in/echo.c src/built-in/env.c src/built-in/export.c \
+		src/built-in/unset.c src/built-in/exit.c \
+		# src/built-in/cd.c src/built-in/pwd.c
 		src/parsing/parser.c src/parsing/parsing.c src/parsing/tokener.c \
 		src/parsing/utils.c
 
