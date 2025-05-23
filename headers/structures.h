@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/21 01:07:25 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/23 21:44:00 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ typedef struct s_exec
 
 typedef struct s_mnours
 {
-	int		argc;
-	char	*line;
-	int		nb_pipe;
-	t_exec	*ex;
-	int		act_exec;
-	char	*pwd;
-	t_env	*env;
-	int		exit;
+	int				argc;
+	char			*line;
+	int				nb_pipe;
+	t_exec			*ex;
+	int				act_exec;
+	char			*pwd;
+	t_env			*env;
+	unsigned char	exit;
+	int				is_exit;
 }				t_mnours;
 
 typedef struct s_lst
