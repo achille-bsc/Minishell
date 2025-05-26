@@ -3,4 +3,4 @@
 --track-fds=yes
 --trace-children=yes
 --track-origins=yes
---suppressions=additional_files/readline.supp
+--suppressions=suppression.supp
