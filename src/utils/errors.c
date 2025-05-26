@@ -15,8 +15,6 @@
 void	ft_error(char *msg, t_mnours *data)
 {
 	ft_dprintf(2, "%s\n", msg);
-	if (data->nb_pipe > 0)
-		free_mnours(data);
-	else
-		free_exec(data->ex);
+	free_exec(data->ex);
+	free(data->line);
 }

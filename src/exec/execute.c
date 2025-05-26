@@ -131,7 +131,7 @@ void	execute(t_mnours *d, char **env)
 		}
 		is_buildtin(cmd, cmd->lst[0]);
 		// ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->lst[0], cmd->pipe);
-		if (d->nb_pipe > 0)
+		if (d->nb_pipe > 0 || cmd->is_build == 0)
 			pid_stock[i] = child_factory(d, cmd, env);
 		else
 			exec_build(d, cmd->lst);
