@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pre_execute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/21 01:18:36 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:58:19 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 int	is_buildtin(t_exec *exe, char *cmd)
 {
@@ -32,4 +32,7 @@ int	is_buildtin(t_exec *exe, char *cmd)
 		return (0);
 }
 
-void	exec_build()
+void	exec_build(void)
+{
+	return (NULL);
+}
