@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:56:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/23 21:05:45 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:49:33 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_env	*ft_unset2(t_env *env, char *line)
 	t_env	*tmp;
 
 	init_env = env;
-	if (ft_strncmp(tmp->name, line, ft_strlen(line)) == 0
-		&& ft_strlen(tmp->name) - 1 == ft_strlen(line))
+	if (ft_strncmp(env->name, line, ft_strlen(line)) == 0
+		&& ft_strlen(env->name) - 1 == ft_strlen(line))
 	{
 		init_env = init_env->next;
 		free(env);

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/26 23:57:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/27 00:48:00 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 			exec_cmd(env, c->lst);
 		}
 		else
-			exec_build();
+			exec_build(data, c->lst);
 	}
 	if (c->pipe == IN)
 		close(c->fin);

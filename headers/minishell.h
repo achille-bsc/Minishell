@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 00:41:35 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:48:32 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	redir(t_exec *c);
 void	execute(t_mnours *d, char **env);
 void	exec_build(t_mnours *data, char **l);
 
+void	ft_exit(t_mnours *data, char **line);
 void	ft_echo(char **line);
 void	ft_env(t_env *env);
 void	ft_export(t_env *env, char **line);
