@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 00:48:32 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:54:27 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	check_args(t_exec *exec);
 int		complete(int i, char *prompt, t_lst **word, int *in_quote);
 t_lst	*create_word(void);
 void	verif(t_mnours *mnours);
+int		is_buildtin(t_exec *exe, char *cmd);
 
 // ------- Free | Error -------
 void	ft_error(char *msg, t_mnours *data);

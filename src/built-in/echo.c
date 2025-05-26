@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/06 19:05:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 01:00:38 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_echo(char **line)
 	int	j;
 	int	k;
 
+	ft_printf("%s\n\n");
 	nl = 0;
 	k = 1;
 	while (ft_strncmp(line[k], "-n", 2))

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 00:48:00 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:56:29 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	execute(t_mnours *d, char **env)
 				cmd->next->pipe = IN;
 			}
 		}
+		is_buildtin(cmd, cmd->lst[0]);
 		// ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->lst[0], cmd->pipe);
 		pid_stock[i++] = child_factory(d, cmd, env);
 		cmd = cmd->next;
