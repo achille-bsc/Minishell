@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/26 23:58:43 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/27 01:30:31 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	ft_free_word(t_lst *word)
 	tmp = word;
 	while (word)
 	{
+		ft_printf("test\n");
 		tmp = word;
 		word = word->next;
+		free(tmp->content);
 		free(tmp);
 	}
 }

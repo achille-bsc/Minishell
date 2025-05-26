@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 00:56:29 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 01:24:15 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ void	execute(t_mnours *d, char **env)
 	ft_lstconvert(d, cmd);
 	redir(cmd);
 	i = 0;
-	pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
+	if (d->nb_pipe > 0)
+		pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 	while (i <= d->nb_pipe)
 	{
 		if (cmd->fout == 1 && cmd->next)
@@ -130,13 +131,20 @@ void	execute(t_mnours *d, char **env)
 		}
 		is_buildtin(cmd, cmd->lst[0]);
 		// ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->lst[0], cmd->pipe);
-		pid_stock[i++] = child_factory(d, cmd, env);
+		if (d->nb_pipe > 0)
+			pid_stock[i] = child_factory(d, cmd, env);
+		else
+			exec_build(d, cmd->lst);
 		cmd = cmd->next;
+		i++;
 	}
-	j = 0;
-	while (i-- > 0)
-		waitpid(pid_stock[j++], NULL, 0);
-	free(pid_stock);
+	if (d->nb_pipe > 0)
+	{
+		j = 0;
+		while (i-- > 0)
+			waitpid(pid_stock[j++], NULL, 0);
+		free(pid_stock);
+	}
 }
 
 /*
