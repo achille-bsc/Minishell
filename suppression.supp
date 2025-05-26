@@ -1,0 +1,32 @@
+{
+   <readline>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:readline
+   ...
+}
+{
+   <add_history>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:add_history
+   ...
+}
+{
+   <bin_cmds>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/bin/*
+   ...
+}
+{
+   <sbin_cmds>
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:/usr/sbin/*
+   ...
+}
