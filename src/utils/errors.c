@@ -18,5 +18,5 @@ void	ft_error(char *msg, t_mnours *data)
 	if (data->nb_pipe > 0)
 		free_mnours(data);
 	else
-		free(data->ex)
+		free_exec(data->ex);
 }
