@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 00:13:53 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/27 00:37:36 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	for_an_exec(t_mnours *mnours)
 
 void	prompter(t_mnours *mnours, char **env)
 {
-	while (mnours->exit == 0)
+	char	stop;
+
+	while (mnours->is_exit == 0)
 	{
 		if (mnours->line)
 			free(mnours->line);
@@ -32,7 +34,9 @@ void	prompter(t_mnours *mnours, char **env)
 		free_exec(mnours->ex);
 		mnours->nb_pipe = 0;
 	}
+	stop = mnours->exit;
 	free_mnours(mnours);
+	exit(stop);
 }
 
 int	main(int argc, char **argv, char **env)

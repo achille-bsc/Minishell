@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 00:30:59 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/27 00:37:34 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	ft_lstconvert(t_mnours *mini, t_exec *data);
 
 void	redir(t_exec *c);
 void	execute(t_mnours *d, char **env);
+
+void	ft_echo(char **line);
+void	ft_env(t_env *env);
+void	ft_export(t_env *env, char **line);
+t_env	*ft_unset(t_env *env, char **line);
 
 // -------- Tests | Print tokener --------
 void	write_args(t_exec *exec);
