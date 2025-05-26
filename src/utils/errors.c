@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:37:38 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/26 23:38:14 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/27 01:42:14 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,8 @@
 void	ft_error(char *msg, t_mnours *data)
 {
 	ft_dprintf(2, "%s\n", msg);
-	free_mnours(data);
+	if (data->nb_pipe > 0)
+		free_mnours(data);
+	else
+		free(data->ex)
 }

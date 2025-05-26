@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 01:30:31 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 01:39:32 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	ft_free_word(t_lst *word)
 	tmp = word;
 	while (word)
 	{
-		ft_printf("test\n");
 		tmp = word;
 		word = word->next;
 		free(tmp->content);
@@ -66,6 +65,7 @@ void	free_exec(t_exec *exe)
 			free_args(exe->args);
 		if (exe->lst)
 			free(exe->lst);
+		free(exe);
 		exe = temp;
 	}
 }
@@ -80,4 +80,5 @@ void	free_mnours(t_mnours *data)
 		free_env(data->env);
 	if (data->ex)
 		free_exec(data->ex);
+	free(data);
 }
