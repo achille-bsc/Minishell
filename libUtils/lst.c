@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/17 20:58:39 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:01:24 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ void	ft_lstconvert(t_mnours *mini, t_exec *data)
 	int		i;
 
 	dat_tmp = data;
+	i = 0;
+	converter(dat_tmp, tmp, mini, i);
+}
+
+void converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
+{
 	while (dat_tmp)
 	{
 		i = 0;

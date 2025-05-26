@@ -6,11 +6,11 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/20 22:10:39 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:58:43 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 void	ft_free_word(t_lst *word)
 {
@@ -78,10 +78,4 @@ void	free_mnours(t_mnours *data)
 		free_env(data->env);
 	if (data->ex)
 		free_exec(data->ex);
-}
-
-void	ft_error(char *msg, t_mnours *data)
-{
-	ft_dprintf(2, "%s\n", msg);
-	free_mnours(data);
 }

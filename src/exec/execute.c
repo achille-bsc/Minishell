@@ -6,26 +6,13 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/21 01:20:09 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:57:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 #include <fcntl.h>
 #include <unistd.h>
-
-void	free_array(char **array)
-{
-	int	index;
-
-	if (!array)
-		return ;
-	index = 0;
-	while (array[index])
-		free(array[index++]);
-	free(array);
-	return ;
-}
 
 void	access_path(char **cmd, char **env)
 {
@@ -86,12 +73,6 @@ void	exec_cmd(char **envp, char **cmop)
 	free(path);
 }
 
-void	dup_close(int fd, int fileno)
-{
-	dup2(fd, fileno);
-	close(fd);
-}
-
 pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 {
 	pid_t	pid;
@@ -147,7 +128,7 @@ void	execute(t_mnours *d, char **env)
 				cmd->next->pipe = IN;
 			}
 		}
-		ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->lst[0], cmd->pipe);
+		// ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->lst[0], cmd->pipe);
 		pid_stock[i++] = child_factory(d, cmd, env);
 		cmd = cmd->next;
 	}
@@ -183,12 +164,12 @@ int	main(int argc, char **argv, char **env)
 	d->ex->next = ft_calloc(sizeof(t_exec), 1);
 	tmp = d->ex->next;
 	if (!(tmp))
-	    return (0);
+		return (0);
 	tmp->fin = open("redirection.c", O_RDONLY, 0644);
 	tmp->fout = open("Test", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	tmp->args = ft_calloc(sizeof(t_args), 1);
 	if (!(d->ex->args))
-	    return (0);
+		return (0);
 	tmp->args->tok = CMD;
 	d->nb_pipe = 2;
 	tmp->args->name = ft_calloc(sizeof(char *), 3);

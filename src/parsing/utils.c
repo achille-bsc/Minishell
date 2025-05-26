@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/20 21:06:39 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:55:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	check_args(t_exec *exec)
 	tmp = exec;
 	while (tmp)
 	{
-		ft_printf("%s\n\n\n", tmpa->name);
 		tmpa = tmp->args;
 		while (tmpa)
 		{
@@ -107,7 +106,6 @@ int	handle_redir(char *lne, int i, t_lst **word)
 	if (!(*word)->content)
 		exit(1);
 	j = 0;
-	ft_printf("line %s\nchar %c\nindice %d\n", lne, lne[i], i);
 	if (lne[i] == lne[i + 1])
 		(*word)->content[j++] = lne[i++];
 	(*word)->content[j++] = lne[i++];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/23 21:44:37 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:32:38 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ void	write_args(t_exec *exec)
 			ft_printf("    - Quote: %i\n", arg->quote);
 			ft_printf("    - Token: %i\n", arg->tok);
 			ft_printf("    - Name:  %s\n", arg->name);
-			ft_printf("    - next:  %i\n", arg->next == NULL ? 0 : 1);
+			if (arg->next)
+				ft_printf("    - next:  Yes\n");
+			else
+				ft_printf("    - next:  No\n");
 			arg = arg->next;
 		}
 		ex = ex->next;

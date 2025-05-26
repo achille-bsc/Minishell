@@ -6,23 +6,11 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/20 00:51:20 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:58:32 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
-
-void	resetfd(int fd, int fout)
-{
-	if (fd != 0 && fd != 1)
-	{
-		close(fd);
-		if (fout == 1)
-			fd = 1;
-		else
-			fd = 0;
-	}
-}
+#include "../../headers/minishell.h"
 
 int	heredoc2(t_args *n, int pipefd[2])
 {
@@ -41,7 +29,7 @@ int	heredoc2(t_args *n, int pipefd[2])
 			exit(0);
 		}
 		write(pipefd[1], line, ft_strlen(line));
-		free (line);
+		free(line);
 	}
 }
 
@@ -120,7 +108,7 @@ void	redir(t_exec *c)
 			open_file(c, n);
 		if (n->tok == HD)
 		{
-			close (c->fin);
+			close(c->fin);
 			c->fin = c->l_hd;
 		}
 		n = n->next;

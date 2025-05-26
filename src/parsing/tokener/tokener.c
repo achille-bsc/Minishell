@@ -6,27 +6,11 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/21 00:50:35 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:52:50 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
-
-int	set_dquote(char prompt, int in_quote)
-{
-	if (prompt == '"')
-		in_quote = !in_quote;
-	return (in_quote);
-}
-
-int	capipe(char *prompt, int i, t_lst **word)
-{
-	(*word)->content = ft_calloc(sizeof(char), 2);
-	(*word)->content[0] = prompt[i++];
-	(*word)->next = ft_calloc(sizeof(t_lst), 1);
-	(*word) = (*word)->next;
-	return (i);
-}
+#include "../../../headers/minishell.h"
 
 t_lst	*get_words(char *prompt)
 {
@@ -87,16 +71,6 @@ t_args	*maybe_redir(t_args **token, t_lst *words)
 		return (and_tok(TR, token, words, 1));
 }
 
-void	tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok)
-{
-	exec->next = ft_calloc(sizeof(t_exec), 1);
-	if (!exec->next)
-		ft_error("Alloc exec", data);
-	free(pre_tok->next);
-	pre_tok->next = NULL;
-	data->nb_pipe++;
-}
-
 void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 {
 	t_args	*pre_token;
@@ -124,15 +98,4 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 		words[1] = words[1]->next;
 	}
 	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens));
-}
-
-void	set_token(t_mnours *data)
-{
-	data->ex = ft_calloc(sizeof(t_exec), 1);
-	if (!data->ex)
-		ft_error("Malloc error", data);
-	data->ex->args = ft_calloc(sizeof(t_args), 1);
-	if (!data->ex->args)
-		ft_error("Malloc error", data);
-	tokener(data, data->ex, data->ex->args);
 }

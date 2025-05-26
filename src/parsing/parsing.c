@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 23:27:46 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/19 21:16:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:50:24 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	parsing(t_args *tokens)
 			printf("Error: syntax error near unexpected token '|'\n");
 			return ;
 		}
-
 		if (token->tok == CMD && token->next->tok == PIP)
 		{
 			printf("Error: syntax error near unexpected token '|'\n");

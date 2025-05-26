@@ -6,11 +6,11 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/23 20:52:49 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:32:54 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../../headers/minishell.h"
 
 int	is_buildtin(t_exec *exe, char *cmd)
 {
