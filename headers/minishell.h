@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/26 23:54:31 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/27 00:30:59 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		handle_redir(char *prompt, int i, t_lst **word);
 void	check_args(t_exec *exec);
 int		complete(int i, char *prompt, t_lst **word, int *in_quote);
 t_lst	*create_word(void);
+void	verif(t_mnours *mnours);
 
 // ------- Free | Error -------
 void	ft_error(char *msg, t_mnours *data);

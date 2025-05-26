@@ -7,15 +7,16 @@ LIBFTPRINTF = libft/ft_printf
 
 # TODO: Add this to the SRCS when files will be created
 # src/built-in/cd.c src/built-in/pwd.c
-SRCS =	parser.c \
+SRCS =	src/main.c src/set_env.c src/varenv.c \
 		libUtils/lst.c \
-		src/execute.c src/freeall.c src/main.c \
-		src/pre_execute.c src/redirection.c src/set_env.c src/varenv.c \
+		src/utils/errors.c src/utils/freeall.c \
+		src/parsing/parser.c src/parsing/parsing.c src/parsing/utils.c \
+		src/parsing/verifs.c \
+		src/parsing/tokener/tokener.c src/parsing/tokener/utils.c \
+		src/exec/execute.c src/exec/pre_execute.c src/exec/redirection.c \
+		src/exec/utils.c \
 		src/built-in/echo.c src/built-in/env.c src/built-in/export.c \
 		src/built-in/unset.c src/built-in/exit.c \
-		src/parsing/parser.c src/parsing/parsing.c src/parsing/tokener.c \
-		src/parsing/utils.c
-
 
 OBJS = $(SRCS:.c=.o)
 
