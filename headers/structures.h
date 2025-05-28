@@ -6,14 +6,14 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/23 21:44:00 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/29 01:51:32 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
-# define STRUCTURES_H 
+# define STRUCTURES_H
 
-enum e_token
+enum				e_token
 {
 	OP,
 	HD,
@@ -23,14 +23,14 @@ enum e_token
 	PIP
 };
 
-enum e_pipefd
+enum				e_pipefd
 {
 	NONE,
 	IN,
 	OUT
 };
 
-enum e_quote
+enum				e_quote
 {
 	NO_Q,
 	S_Q,
@@ -42,7 +42,7 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	struct s_env	*next;
-}				t_env;
+}					t_env;
 
 typedef struct s_args
 {
@@ -50,7 +50,7 @@ typedef struct s_args
 	enum e_token	tok;
 	char			*name;
 	struct s_args	*next;
-}				t_args;
+}					t_args;
 
 typedef struct s_exec
 {
@@ -62,10 +62,11 @@ typedef struct s_exec
 	struct s_exec	*next;
 	t_args			*args;
 	char			**lst;
-}				t_exec;
+}					t_exec;
 
 typedef struct s_mnours
 {
+	int				prev_status;
 	int				argc;
 	char			*line;
 	int				nb_pipe;
@@ -75,7 +76,7 @@ typedef struct s_mnours
 	t_env			*env;
 	unsigned char	exit;
 	int				is_exit;
-}				t_mnours;
+}					t_mnours;
 
 typedef struct s_lst
 {

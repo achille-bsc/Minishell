@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 01:19:56 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/29 01:12:35 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 {
 	t_args	*pre_token;
 	t_lst	*words[2];
-	t_exec	*init_exec;
+	// t_exec	*init_exec;
 
-	init_exec = exec;
+	// init_exec = exec;
 	words[1] = get_words(mnours->line);
 	words[0] = words[1];
 	while (words[1])

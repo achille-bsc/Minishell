@@ -17,6 +17,7 @@ SRCS =	src/main.c src/set_env.c src/varenv.c \
 		src/exec/utils.c \
 		src/built-in/echo.c src/built-in/env.c src/built-in/export.c \
 		src/built-in/unset.c src/built-in/exit.c \
+		src/signals/signals.c #src/parsing/signals/utils.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -34,7 +35,7 @@ fclean: clean
 	$(MAKE) -C $(LIBFT) -s fclean
 	$(MAKE) -C $(LIBFTPRINTF) -s fclean
 	rm -f $(NAME)
-	
+
 re: fclean all
 
 .PHONY: all clean fclean re

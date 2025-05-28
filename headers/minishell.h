@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 01:46:02 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/29 01:13:12 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -77,5 +78,7 @@ int		set_dquote(char c, int in_dquote);
 int		capipe(char *prompt, int i, t_lst **word);
 void	tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void	set_token(t_mnours *data);
+void	signals(void);
+void	sigint_handler(int sig);
 
 #endif

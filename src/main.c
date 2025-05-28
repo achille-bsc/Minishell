@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 01:43:50 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/29 01:46:44 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	prompter(t_mnours *mnours, char **env)
 		if (mnours->line)
 			free(mnours->line);
 		mnours->line = readline("Mininours raconte nous une histoire > ");
+		if (!mnours->line)
+		{
+			ft_printf("exit\n");
+			free_mnours(mnours);
+			exit(0);
+		}
 		add_history(mnours->line);
 		if (verif(mnours))
 			continue;
@@ -46,6 +52,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	signals();
 	mininours = ft_calloc(sizeof(t_mnours), 1);
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
