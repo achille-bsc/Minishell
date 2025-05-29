@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/29 01:13:12 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/29 02:30:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,8 @@ void	tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void	set_token(t_mnours *data);
 void	signals(void);
 void	sigint_handler(int sig);
+
+
+t_env	*set_env(char **env);
 
 #endif
