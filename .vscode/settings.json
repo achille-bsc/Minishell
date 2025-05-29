@@ -14,7 +14,8 @@
 		"libft.h": "c",
 		"stdlib.h": "c",
 		"structures.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"type_traits": "c"
 	},
 	"todo-tree.tree.showBadges": true,
 	"conventionalCommits.scopes": [

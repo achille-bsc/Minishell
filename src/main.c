@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/29 01:46:44 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/29 02:03:12 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	signals();
+	set_env(env);
 	mininours = ft_calloc(sizeof(t_mnours), 1);
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);

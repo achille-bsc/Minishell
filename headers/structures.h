@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/29 01:51:32 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/29 01:58:18 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_exec
 
 typedef struct s_mnours
 {
+	int				exit_status;
 	int				prev_status;
 	int				argc;
 	char			*line;
