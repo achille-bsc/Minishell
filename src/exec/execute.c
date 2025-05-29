@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 01:24:15 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/30 00:33:09 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	execute(t_mnours *d, char **env)
 	ft_lstconvert(d, cmd);
 	redir(cmd);
 	i = 0;
-	if (d->nb_pipe > 0)
+	if (d->nb_pipe >g 0 || is_buildtin(cmd, cmd->lst[0]) == 0)
 		pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 	while (i <= d->nb_pipe)
 	{
@@ -132,7 +132,10 @@ void	execute(t_mnours *d, char **env)
 		is_buildtin(cmd, cmd->lst[0]);
 		// ft_printf("\n\n\nIndice : %i\nFile IN : %d\nFile OUT : %d\nName : %s\nPipe enum : %d\n", i, cmd->fin, cmd->fout, cmd->lst[0], cmd->pipe);
 		if (d->nb_pipe > 0 || cmd->is_build == 0)
+		{
+			ft_printf("COUCOUUUUUUUUU\n");
 			pid_stock[i] = child_factory(d, cmd, env);
+		}
 		else
 			exec_build(d, cmd->lst);
 		cmd = cmd->next;

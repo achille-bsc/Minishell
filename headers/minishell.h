@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/29 02:30:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/29 02:33:40 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ void	signals(void);
 void	sigint_handler(int sig);
 
 
-t_env	*set_env(char **env);
+// t_env	*set_env(char **env);
 
 #endif
