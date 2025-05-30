@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:14:03 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/02 16:19:39 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/30 02:33:17 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ t_env	*ft_envnew(char *line)
 {
 	t_env	*new;
 
-	new = malloc(sizeof(t_list));
+	new = ft_calloc(sizeof(t_env), 1);
 	if (!new)
 		return (NULL);
-	new->value = line;
+	new->name = ft_split(line, '=')[0];
+	new->value = ft_split(line, '=')[1];
 	new->next = NULL;
 	return (new);
 }

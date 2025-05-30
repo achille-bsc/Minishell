@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_execute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 00:32:54 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/30 01:02:35 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ void	exec_build(t_mnours *data, char **l)
 		ft_exit(data, l);
 //	else if (!ft_strncmp(l[0], "pwd", ft_strlen(l[0])) && ft_strlen(l[0]) == 3)
 //		ft_pwd (data, env);
+	else if (!ft_strncmp(l[0], "cd", ft_strlen(l[0])) && ft_strlen(l[0]) == 2)
+	{
+		ft_cd(l, data);
+	}
+	else
+	{
+		ft_printf("Mininours: %s: command not found\n", l[0]);
+		data->is_exit = 1;
+	}
 	if (data->nb_pipe > 0)
 	{
 		free_mnours(data);

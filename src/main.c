@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/30 00:09:15 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/30 02:33:26 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,41 @@ void	write_args(t_exec *exec)
 	}
 }
 
+char *init_prompt()
+{
+	char *prompt;
+	char *name;
+	char *pwd;
+
+	pwd = ft_calloc(sizeof(char), 1024);
+	getcwd(pwd, 1024);
+	if (!pwd)
+		return ("\033[34mMininours>\033[0m ");
+	name = getenv("USER");
+	name = ft_strjoin("\033[32m", name);
+	name = ft_strjoin(name, "\033[0m ");
+	pwd = ft_strjoin("\033[33m", pwd);
+	pwd = ft_strjoin(pwd, "\033[0m ");
+	prompt = ft_strjoin(name, pwd);
+	prompt = ft_strjoin(prompt, "\033[34mMininours>\033[0m ");
+	free(pwd);
+	free(name);
+	if (!prompt)
+		return ("\033[34mMininours>\033[0m ");
+	return (prompt);
+}
+
 void	prompter(t_mnours *mnours, char **env)
 {
 	char	stop;
+	char *prompt;
 
 	while (mnours->is_exit == 0)
 	{
 		if (mnours->line)
 			free(mnours->line);
-		mnours->line = readline("Mininours raconte nous une histoire > ");
+		prompt = init_prompt();
+		mnours->line = readline(prompt);
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
@@ -63,9 +89,9 @@ void	prompter(t_mnours *mnours, char **env)
 		}
 		add_history(mnours->line);
 		if (verif(mnours))
-			continue;
+			continue ;
 		set_token(mnours);
-		write_args(mnours->ex);
+		// write_args(mnours->ex);
 		execute(mnours, env);
 		if (mnours->is_exit == 0)
 			free_exec(mnours->ex);
@@ -73,6 +99,27 @@ void	prompter(t_mnours *mnours, char **env)
 	stop = mnours->exit;
 	free_mnours(mnours);
 	exit(stop);
+}
+
+void	init(t_mnours *mnours, char **env)
+{
+	mnours->exit_status = 0;
+	mnours->prev_status = 0;
+	mnours->argc = 0;
+	mnours->line = NULL;
+	mnours->nb_pipe = 0;
+	mnours->ex = NULL;
+	mnours->act_exec = 0;
+	mnours->pwd = ft_calloc(sizeof(char), 1024);
+	getcwd(mnours->pwd, 1024);
+	mnours->oldpwd = ft_calloc(sizeof(char), 1024);
+	getcwd(mnours->oldpwd, 1024);
+	ft_printf("path: %s\n", mnours->pwd);
+	if (!mnours->pwd)
+		ft_error("Error: Memory allocation error", mnours);
+	set_env(mnours, env);
+	mnours->exit = 0;
+	mnours->is_exit = 0;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -85,6 +132,7 @@ int	main(int argc, char **argv, char **env)
 	mininours = ft_calloc(sizeof(t_mnours), 1);
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
+	init(mininours, env);
 	prompter(mininours, env);
 	return (0);
 }

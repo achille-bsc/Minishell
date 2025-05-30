@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/29 02:33:40 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/30 02:34:03 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ void	set_token(t_mnours *data);
 void	signals(void);
 void	sigint_handler(int sig);
 
+int		ft_cd(char **line, t_mnours *mnours);
+int		get_array_size(char **array);
 
-// t_env	*set_env(char **env);
+void	set_env(t_mnours *g, char **env);
+char	*ft_getenv(char *name, t_env *env);
 
 #endif
