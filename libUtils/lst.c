@@ -88,14 +88,27 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 		{
 			if (tmp->tok == CMD)
 			{
-				char *quoted_removed = remove_quotes(tmp->name, tmp->quote);
+				// Appliquer l'expansion des variables d'environnement AVANT de supprimer les guillemets
+				// mais seulement si ce ne sont pas des guillemets simples
+				char *expanded_name;
+				if (tmp->quote != S_Q) // Pas d'expansion avec les guillemets simples
+				{
+					expanded_name = replace_variable(ft_strdup(tmp->name), mini->env);
+				}
+				else
+				{
+					expanded_name = ft_strdup(tmp->name);
+				}
+				
+				char *quoted_removed = remove_quotes(expanded_name, tmp->quote);
 				dat_tmp->lst[i++] = quoted_removed;
+				
+				// Libérer la mémoire allouée
+				free(expanded_name);
 			}
 			tmp = tmp->next;
 		}
 		dat_tmp->lst[i] = NULL;
-		// Appliquer l'expansion des variables d'environnement
-		dat_tmp->lst = var_search(dat_tmp->lst, mini->env);
 		dat_tmp = dat_tmp->next;
 	}
 }
