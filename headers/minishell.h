@@ -27,6 +27,9 @@
 t_env	*ft_envnew(char *line);
 void	ft_env(t_env *env);
 
+// ---- Variables d'environnement ----
+char	**var_search(char **tab, t_env *env);
+
 // ---- Parsing | Tokening ----
 void	parser(char *prompt, t_mnours *data);
 void	parsing(t_args *tokens);

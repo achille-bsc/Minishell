@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/31 04:55:19 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 06:58:43 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,16 @@ int	check_quotes(int type, char *line)
 // > echo '"$test"'
 int	verif(t_mnours *mnours)
 {
+	int	i;
+
+	// Vérification des lignes vides ou contenant seulement des espaces
+	if (!mnours->line || !mnours->line[0])
+		return (1);
+	i = 0;
+	while (mnours->line[i] && (mnours->line[i] == ' ' || mnours->line[i] == '\t'))
+		i++;
+	if (!mnours->line[i])
+		return (1);
 	if (check_quotes(1, mnours->line) == 1)
 	{
 		ft_error("Syntax Error: incorrect quotes (single)", mnours);

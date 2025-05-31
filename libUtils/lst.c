@@ -94,6 +94,8 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 			tmp = tmp->next;
 		}
 		dat_tmp->lst[i] = NULL;
+		// Appliquer l'expansion des variables d'environnement
+		dat_tmp->lst = var_search(dat_tmp->lst, mini->env);
 		dat_tmp = dat_tmp->next;
 	}
 }
