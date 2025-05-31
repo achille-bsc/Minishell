@@ -25,6 +25,7 @@
 		"execution",
 		"all",
 		"env",
-		"merge conflicts"
+		"merge conflicts",
+		"built-in"
 	]
 }

@@ -6,16 +6,11 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/30 02:33:26 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 02:19:08 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
-
-void	for_an_exec(t_mnours *mnours)
-{
-	redir(mnours->ex);
-}
 
 void	write_args(t_exec *exec)
 {
@@ -46,11 +41,11 @@ void	write_args(t_exec *exec)
 	}
 }
 
-char *init_prompt()
+char	*init_prompt(void)
 {
-	char *prompt;
-	char *name;
-	char *pwd;
+	char	*prompt;
+	char	*name;
+	char	*pwd;
 
 	pwd = ft_calloc(sizeof(char), 1024);
 	getcwd(pwd, 1024);
@@ -73,25 +68,22 @@ char *init_prompt()
 void	prompter(t_mnours *mnours, char **env)
 {
 	char	stop;
-	char *prompt;
 
 	while (mnours->is_exit == 0)
 	{
 		if (mnours->line)
 			free(mnours->line);
-		prompt = init_prompt();
-		mnours->line = readline(prompt);
+		mnours->line = readline(init_prompt());
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
 			free_mnours(mnours);
-			exit(0);
+			mnours->is_exit = 1;
 		}
 		add_history(mnours->line);
 		if (verif(mnours))
 			continue ;
 		set_token(mnours);
-		// write_args(mnours->ex);
 		execute(mnours, env);
 		if (mnours->is_exit == 0)
 			free_exec(mnours->ex);
