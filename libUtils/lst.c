@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 00:19:28 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 08:07:16 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 				{
 					expanded_name = ft_strdup(tmp->name);
 				}
-				
+
 				char *quoted_removed = remove_quotes(expanded_name, tmp->quote);
 				dat_tmp->lst[i++] = quoted_removed;
-				
+
 				// Libérer la mémoire allouée
 				free(expanded_name);
 			}

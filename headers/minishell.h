@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/31 04:14:29 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 08:02:00 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,7 @@ void	set_env(t_mnours *g, char **env);
 char	*ft_getenv(char *name, t_env *env);
 t_env	*get_env(t_mnours *mnours, char *var);
 char	*replacer(t_mnours *mnours, char *line);
+
+int ft_pwd(t_mnours *mnours);
 
 #endif
