@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/30 02:12:40 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 05:09:44 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_mnours
 	char			*oldpwd;
 	t_env			*env;
 	unsigned char	exit;
+	int				exit_code;
 	int				is_exit;
 }					t_mnours;
 

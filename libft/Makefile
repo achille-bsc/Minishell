@@ -43,7 +43,8 @@ SRC =	ft_isalpha.c\
 	ft_lstiter.c\
 	ft_lstmap.c\
 	get_next_line.c\
-	ft_endl.c
+	ft_endl.c\
+	ft_strstr.c
 
 CC = gcc
 

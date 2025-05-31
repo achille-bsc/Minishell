@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/31 02:19:08 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 04:18:08 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	init(t_mnours *mnours, char **env)
 	getcwd(mnours->pwd, 1024);
 	mnours->oldpwd = ft_calloc(sizeof(char), 1024);
 	getcwd(mnours->oldpwd, 1024);
-	ft_printf("path: %s\n", mnours->pwd);
 	if (!mnours->pwd)
 		ft_error("Error: Memory allocation error", mnours);
 	set_env(mnours, env);
