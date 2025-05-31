@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:14:03 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/31 04:55:42 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 06:35:45 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,22 @@
 t_env	*ft_envnew(char *line)
 {
 	t_env	*new;
+	char	**split_result;
 
 	new = ft_calloc(sizeof(t_env), 1);
 	if (!new)
 		return (NULL);
-	new->name = ft_split(line, '=')[0];
-	new->value = ft_split(line, '=')[1];
+	split_result = ft_split(line, '=');
+	if (!split_result)
+	{
+		free(new);
+		return (NULL);
+	}
+	if (split_result[0])
+		new->name = ft_strdup(split_result[0]);
+	if (split_result[1])
+		new->value = ft_strdup(split_result[1]);
+	free_array(split_result);
 	new->next = NULL;
 	return (new);
 }
@@ -28,16 +38,23 @@ t_env	*ft_envnew(char *line)
 void	set_env(t_mnours *g, char **env)
 {
 	int		i;
-	t_env	*tmp;
+	t_env	*current;
+	t_env	*new_env;
 
+	if (!env || !env[0])
+		return;
 	g->env = ft_envnew(env[0]);
-	tmp = g->env;
-	tmp = tmp->next;
+	current = g->env;
 	i = 1;
 	while (env[i])
 	{
-		tmp = ft_envnew(env[i++]);
-		tmp = tmp->next;
+		new_env = ft_envnew(env[i]);
+		if (new_env)
+		{
+			current->next = new_env;
+			current = new_env;
+		}
+		i++;
 	}
 }
 

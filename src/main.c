@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/31 04:18:08 by abosc            ###   ########.fr       */
+/*   Updated: 2025/05/31 06:35:41 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,42 @@ char	*init_prompt(void)
 	char	*prompt;
 	char	*name;
 	char	*pwd;
+	char	*temp;
 
 	pwd = ft_calloc(sizeof(char), 1024);
 	getcwd(pwd, 1024);
 	if (!pwd)
 		return ("\033[34mMininours>\033[0m ");
 	name = getenv("USER");
-	name = ft_strjoin("\033[32m", name);
-	name = ft_strjoin(name, "\033[0m ");
-	pwd = ft_strjoin("\033[33m", pwd);
-	pwd = ft_strjoin(pwd, "\033[0m ");
+	temp = ft_strjoin("\033[32m", name);
+	name = ft_strjoin(temp, "\033[0m ");
+	free(temp);
+	temp = ft_strjoin("\033[33m", pwd);
+	free(pwd);
+	pwd = ft_strjoin(temp, "\033[0m ");
+	free(temp);
 	prompt = ft_strjoin(name, pwd);
-	prompt = ft_strjoin(prompt, "\033[34mMininours>\033[0m ");
+	temp = ft_strjoin(prompt, "\033[34mMininours>\033[0m ");
+	free(prompt);
 	free(pwd);
 	free(name);
-	if (!prompt)
+	if (!temp)
 		return ("\033[34mMininours>\033[0m ");
-	return (prompt);
+	return (temp);
 }
 
 void	prompter(t_mnours *mnours, char **env)
 {
 	char	stop;
+	char	*prompt;
 
 	while (mnours->is_exit == 0)
 	{
 		if (mnours->line)
 			free(mnours->line);
-		mnours->line = readline(init_prompt());
+		prompt = init_prompt();
+		mnours->line = readline(prompt);
+		free(prompt);
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");

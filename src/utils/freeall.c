@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 01:39:32 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/31 06:35:43 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	free_mnours(t_mnours *data)
 		free(data->line);
 	if (data->pwd)
 		free(data->pwd);
+	if (data->oldpwd)
+		free(data->oldpwd);
 	if (data->env)
 		free_env(data->env);
 	if (data->ex)
