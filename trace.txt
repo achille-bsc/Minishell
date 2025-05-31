@@ -87,72 +87,57 @@ $ echo $INEXISTANTE
 $ export TESTVAR=42; echo $TESTVAR
 ❌ export simple : KO
 [1;36mMinishell:[0m
-|TESTVAR=42; isn't a valid identifier
-echo isn't a valid identifier|
+|$TESTVAR isn't a valid identifier|
 [1;36mBash     :[0m
 |42|
 
 $ export TESTVAR='hello world'; echo $TESTVAR
 ❌ export avec espaces : KO
 [1;36mMinishell:[0m
-|TESTVAR='hello isn't a valid identifier
-world'; isn't a valid identifier
-echo isn't a valid identifier|
+|$TESTVAR isn't a valid identifier|
 [1;36mBash     :[0m
 |hello world|
 
 $ export TESTVAR=; echo $TESTVAR
 ❌ export vide : KO
 [1;36mMinishell:[0m
-|TESTVAR=; isn't a valid identifier
-echo isn't a valid identifier|
+|$TESTVAR isn't a valid identifier|
 [1;36mBash     :[0m
 ||
 
 $ export TESTVAR; echo $TESTVAR
 ❌ export sans valeur : KO
 [1;36mMinishell:[0m
-|TESTVAR; isn't a valid identifier
-echo isn't a valid identifier|
+|$TESTVAR isn't a valid identifier|
 [1;36mBash     :[0m
 ||
 
 $ export A=1 B=2; echo $A $B
 ❌ export plusieurs : KO
 [1;36mMinishell:[0m
-|A=1 isn't a valid identifier
-B=2; isn't a valid identifier
-echo isn't a valid identifier|
+|$A isn't a valid identifier
+$B isn't a valid identifier|
 [1;36mBash     :[0m
 |1 2|
 
 $ export X=1; export X=2; echo $X
 ❌ export overwrite : KO
 [1;36mMinishell:[0m
-|X=1; isn't a valid identifier
-export isn't a valid identifier
-X=2; isn't a valid identifier
-echo isn't a valid identifier|
+|$X isn't a valid identifier|
 [1;36mBash     :[0m
 |2|
 
 $ export X=hello; export Y=$X; echo $Y
 ❌ export expansion : KO
 [1;36mMinishell:[0m
-|X=hello; isn't a valid identifier
-export isn't a valid identifier
-Y=$X; isn't a valid identifier
-echo isn't a valid identifier|
+|$Y isn't a valid identifier|
 [1;36mBash     :[0m
 |hello|
 
 $ export TESTVAR=test; unset TESTVAR; echo $TESTVAR
 ❌ unset simple : KO
 [1;36mMinishell:[0m
-|TESTVAR=test; isn't a valid identifier
-unset isn't a valid identifier
-TESTVAR; isn't a valid identifier
-echo isn't a valid identifier|
+|$TESTVAR isn't a valid identifier|
 [1;36mBash     :[0m
 ||
 
@@ -173,8 +158,7 @@ $ unset PATH; echo $PATH
 $ export CMD=echo; $CMD hello
 ❌ variable dans commande : KO
 [1;36mMinishell:[0m
-|CMD=echo; isn't a valid identifier
-hello isn't a valid identifier|
+|$CMD isn't a valid identifier|
 [1;36mBash     :[0m
 |hello|
 [1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
@@ -183,85 +167,85 @@ hello isn't a valid identifier|
 REDIRECTIONS
 [1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
 
-$ echo test > /tmp/tmp.U7SDsDRv7Y/f1; cat /tmp/tmp.U7SDsDRv7Y/f1; rm /tmp/tmp.U7SDsDRv7Y/f1
+$ echo test > /tmp/tmp.oDhLvNhfMV/f1; cat /tmp/tmp.oDhLvNhfMV/f1; rm /tmp/tmp.oDhLvNhfMV/f1
 ❌ > simple : KO
 [1;36mMinishell:[0m
-|test cat /tmp/tmp.U7SDsDRv7Y/f1; rm /tmp/tmp.U7SDsDRv7Y/f1|
+|test cat /tmp/tmp.oDhLvNhfMV/f1; rm /tmp/tmp.oDhLvNhfMV/f1|
 [1;36mBash     :[0m
 |test|
 
-$ echo test1 > /tmp/tmp.U7SDsDRv7Y/f2; echo test2 > /tmp/tmp.U7SDsDRv7Y/f2; cat /tmp/tmp.U7SDsDRv7Y/f2; rm /tmp/tmp.U7SDsDRv7Y/f2
+$ echo test1 > /tmp/tmp.oDhLvNhfMV/f2; echo test2 > /tmp/tmp.oDhLvNhfMV/f2; cat /tmp/tmp.oDhLvNhfMV/f2; rm /tmp/tmp.oDhLvNhfMV/f2
 ❌ > écrasement : KO
 [1;36mMinishell:[0m
-|test1 echo test2 cat /tmp/tmp.U7SDsDRv7Y/f2; rm /tmp/tmp.U7SDsDRv7Y/f2|
+|test1 echo test2 cat /tmp/tmp.oDhLvNhfMV/f2; rm /tmp/tmp.oDhLvNhfMV/f2|
 [1;36mBash     :[0m
 |test2|
 
-$ echo line1 > /tmp/tmp.U7SDsDRv7Y/f3; echo line2 >> /tmp/tmp.U7SDsDRv7Y/f3; cat /tmp/tmp.U7SDsDRv7Y/f3; rm /tmp/tmp.U7SDsDRv7Y/f3
+$ echo line1 > /tmp/tmp.oDhLvNhfMV/f3; echo line2 >> /tmp/tmp.oDhLvNhfMV/f3; cat /tmp/tmp.oDhLvNhfMV/f3; rm /tmp/tmp.oDhLvNhfMV/f3
 ❌ >> append : KO
 [1;36mMinishell:[0m
-|line1 echo line2 cat /tmp/tmp.U7SDsDRv7Y/f3; rm /tmp/tmp.U7SDsDRv7Y/f3|
+|line1 echo line2 cat /tmp/tmp.oDhLvNhfMV/f3; rm /tmp/tmp.oDhLvNhfMV/f3|
 [1;36mBash     :[0m
 |line1
 line2|
 
-$ echo test >> /tmp/tmp.U7SDsDRv7Y/f4; cat /tmp/tmp.U7SDsDRv7Y/f4; rm /tmp/tmp.U7SDsDRv7Y/f4
+$ echo test >> /tmp/tmp.oDhLvNhfMV/f4; cat /tmp/tmp.oDhLvNhfMV/f4; rm /tmp/tmp.oDhLvNhfMV/f4
 ❌ >> sur fichier inexistant : KO
 [1;36mMinishell:[0m
-|test cat /tmp/tmp.U7SDsDRv7Y/f4; rm /tmp/tmp.U7SDsDRv7Y/f4|
+|test cat /tmp/tmp.oDhLvNhfMV/f4; rm /tmp/tmp.oDhLvNhfMV/f4|
 [1;36mBash     :[0m
 |test|
 
-$ echo test > /tmp/tmp.U7SDsDRv7Y/f5; cat < /tmp/tmp.U7SDsDRv7Y/f5; rm /tmp/tmp.U7SDsDRv7Y/f5
+$ echo test > /tmp/tmp.oDhLvNhfMV/f5; cat < /tmp/tmp.oDhLvNhfMV/f5; rm /tmp/tmp.oDhLvNhfMV/f5
 ❌ < simple : KO
 [1;36mMinishell:[0m
-|test cat rm /tmp/tmp.U7SDsDRv7Y/f5|
+|test cat rm /tmp/tmp.oDhLvNhfMV/f5|
 [1;36mBash     :[0m
 |test|
 
-$ cat < /tmp/tmp.U7SDsDRv7Y/inexistant
+$ cat < /tmp/tmp.oDhLvNhfMV/inexistant
 ❌ < fichier inexistant : KO
 [1;36mMinishell:[0m
 |file not found (fderror): No such file or directory|
 [1;36mBash     :[0m
-|/bin/bash: line 1: /tmp/tmp.U7SDsDRv7Y/inexistant: No such file or directory|
+|/bin/bash: line 1: /tmp/tmp.oDhLvNhfMV/inexistant: No such file or directory|
 
-$ echo test > /tmp/tmp.U7SDsDRv7Y/f6; cat < /tmp/tmp.U7SDsDRv7Y/f6 > /tmp/tmp.U7SDsDRv7Y/f7; cat /tmp/tmp.U7SDsDRv7Y/f7; rm /tmp/tmp.U7SDsDRv7Y/f6 /tmp/tmp.U7SDsDRv7Y/f7
+$ echo test > /tmp/tmp.oDhLvNhfMV/f6; cat < /tmp/tmp.oDhLvNhfMV/f6 > /tmp/tmp.oDhLvNhfMV/f7; cat /tmp/tmp.oDhLvNhfMV/f7; rm /tmp/tmp.oDhLvNhfMV/f6 /tmp/tmp.oDhLvNhfMV/f7
 ❌ < et > combinés : KO
 [1;36mMinishell:[0m
 |file not found (fderror): No such file or directory
-test cat cat /tmp/tmp.U7SDsDRv7Y/f7; rm /tmp/tmp.U7SDsDRv7Y/f6 /tmp/tmp.U7SDsDRv7Y/f7|
+test cat cat /tmp/tmp.oDhLvNhfMV/f7; rm /tmp/tmp.oDhLvNhfMV/f6 /tmp/tmp.oDhLvNhfMV/f7|
 [1;36mBash     :[0m
 |test|
 
-$ echo test > /tmp/tmp.U7SDsDRv7Y/f8 > /tmp/tmp.U7SDsDRv7Y/f9; cat /tmp/tmp.U7SDsDRv7Y/f9; rm /tmp/tmp.U7SDsDRv7Y/f8 /tmp/tmp.U7SDsDRv7Y/f9
+$ echo test > /tmp/tmp.oDhLvNhfMV/f8 > /tmp/tmp.oDhLvNhfMV/f9; cat /tmp/tmp.oDhLvNhfMV/f9; rm /tmp/tmp.oDhLvNhfMV/f8 /tmp/tmp.oDhLvNhfMV/f9
 ❌ multiple > : KO
 [1;36mMinishell:[0m
-|test cat /tmp/tmp.U7SDsDRv7Y/f9; rm /tmp/tmp.U7SDsDRv7Y/f8 /tmp/tmp.U7SDsDRv7Y/f9|
+|test cat /tmp/tmp.oDhLvNhfMV/f9; rm /tmp/tmp.oDhLvNhfMV/f8 /tmp/tmp.oDhLvNhfMV/f9|
 [1;36mBash     :[0m
 |test|
 
-$ echo hello | cat > /tmp/tmp.U7SDsDRv7Y/f10; cat /tmp/tmp.U7SDsDRv7Y/f10; rm /tmp/tmp.U7SDsDRv7Y/f10
+$ echo hello | cat > /tmp/tmp.oDhLvNhfMV/f10; cat /tmp/tmp.oDhLvNhfMV/f10; rm /tmp/tmp.oDhLvNhfMV/f10
 ❌ redirection avec pipe : KO
 [1;36mMinishell:[0m
 |cat: cat: No such file or directory
 cat: rm: No such file or directory
-cat: /tmp/tmp.U7SDsDRv7Y/f10: No such file or directory
+cat: /tmp/tmp.oDhLvNhfMV/f10: No such file or directory
 double free or corruption (out)|
 [1;36mBash     :[0m
 |hello|
 
-$ echo test | cat > /tmp/tmp.U7SDsDRv7Y/f11; cat < /tmp/tmp.U7SDsDRv7Y/f11 | wc > /tmp/tmp.U7SDsDRv7Y/f12; cat /tmp/tmp.U7SDsDRv7Y/f12; rm /tmp/tmp.U7SDsDRv7Y/f11 /tmp/tmp.U7SDsDRv7Y/f12
+$ echo test | cat > /tmp/tmp.oDhLvNhfMV/f11; cat < /tmp/tmp.oDhLvNhfMV/f11 | wc > /tmp/tmp.oDhLvNhfMV/f12; cat /tmp/tmp.oDhLvNhfMV/f12; rm /tmp/tmp.oDhLvNhfMV/f11 /tmp/tmp.oDhLvNhfMV/f12
 ❌ redirection complexe : KO
 [1;36mMinishell:[0m
 |file not found (fderror): No such file or directory
 test
-cat: catwc: cat: No such file or directory
-: No such file or directory
-wc: '/tmp/tmp.U7SDsDRv7Y/f12;': No such file or directory
+cat: cat: No such file or directory
+wc: cat: No such file or directory
+wc: '/tmp/tmp.oDhLvNhfMV/f12;': No such file or directory
 wc: rm: No such file or directory
-wc: /tmp/tmp.U7SDsDRv7Y/f11: No such file or directory
-wc: /tmp/tmp.U7SDsDRv7Y/f12: No such file or directory
+wc: /tmp/tmp.oDhLvNhfMV/f11: No such file or directory
+wc: /tmp/tmp.oDhLvNhfMV/f12: No such file or directory
 wc: write error|
 [1;36mBash     :[0m
 |      1       1       5|
@@ -326,8 +310,7 @@ double free or corruption (out)|
 $ export MSG=hello; echo $MSG | cat
 ❌ pipe avec variables : KO
 [1;36mMinishell:[0m
-|MSG=hello; isn't a valid identifier
-echo isn't a valid identifier|
+|$MSG isn't a valid identifier|
 [1;36mBash     :[0m
 |hello|
 
@@ -686,28 +669,21 @@ declare -x strlen="32"|
 $ export TEST=value; echo $TEST
 ❌ export simple : KO
 [1;36mMinishell:[0m
-|TEST=value; isn't a valid identifier
-echo isn't a valid identifier|
+|$TEST isn't a valid identifier|
 [1;36mBash     :[0m
 |value|
 
 $ export A=1 B=2 C=3; echo $A$B$C
 ❌ export multiple : KO
 [1;36mMinishell:[0m
-|A=1 isn't a valid identifier
-B=2 isn't a valid identifier
-C=3; isn't a valid identifier
-echo isn't a valid identifier|
+|$A$B$C isn't a valid identifier|
 [1;36mBash     :[0m
 |123|
 
 $ export TEST=value; unset TEST; echo $TEST
 ❌ unset simple : KO
 [1;36mMinishell:[0m
-|TEST=value; isn't a valid identifier
-unset isn't a valid identifier
-TEST; isn't a valid identifier
-echo isn't a valid identifier|
+|$TEST isn't a valid identifier|
 [1;36mBash     :[0m
 ||
 
@@ -777,17 +753,15 @@ $ echo ""
 $ export X=test; echo "hello $X"
 ❌ quotes avec variables : KO
 [1;36mMinishell:[0m
-|X=test; isn't a valid identifier
-echo isn't a valid identifier
-hello $X isn't a valid identifier|
+||
 [1;36mBash     :[0m
 |hello test|
 
 $ export X=test; echo 'hello $X'
 ❌ simple quotes avec variables : KO
 [1;36mMinishell:[0m
-|X=test; isn't a valid identifier
-echo isn't a valid identifier|
+|'hello isn't a valid identifier
+$X' isn't a valid identifier|
 [1;36mBash     :[0m
 |hello $X|
 
@@ -930,14 +904,14 @@ free(): double free detected in tcache 2|
 $ export 123=value
 ❌ export invalid : KO
 [1;36mMinishell:[0m
-||
+|123=value isn't a valid identifier|
 [1;36mBash     :[0m
 |/bin/bash: line 1: export: `123=value': not a valid identifier|
 
 $ export =value
 ❌ export avec = : KO
 [1;36mMinishell:[0m
-||
+|=value isn't a valid identifier|
 [1;36mBash     :[0m
 |/bin/bash: line 1: export: `=value': not a valid identifier|
 
@@ -1005,24 +979,21 @@ $ echo          hello          world
 $ export X=$X; echo $X
 ❌ variable recursive : KO
 [1;36mMinishell:[0m
-|X=$X; isn't a valid identifier
-echo isn't a valid identifier|
+|$X isn't a valid identifier|
 [1;36mBash     :[0m
 ||
 
 $ export PATH=; ls
 ❌ PATH vide : KO
 [1;36mMinishell:[0m
-|PATH=; isn't a valid identifier
-ls isn't a valid identifier|
+||
 [1;36mBash     :[0m
 |/bin/bash: line 1: ls: No such file or directory|
 
 $ export HOME=/inexistant; cd
 ❌ HOME inexistant : KO
 [1;36mMinishell:[0m
-|HOME=/inexistant; isn't a valid identifier
-cd isn't a valid identifier|
+||
 [1;36mBash     :[0m
 |/bin/bash: line 1: cd: /inexistant: No such file or directory|
 [1;35m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
@@ -1115,7 +1086,7 @@ systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-logind.service-11C3EI
 systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-resolved.service-HIPKoD
 systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-timesyncd.service-ohb38L
 systemd-private-2c3df597eda84f87b5968fcab6936503-upower.service-BVCQwH
-tmp.U7SDsDRv7Y
+tmp.oDhLvNhfMV
 vgdb-pipe-from-vgdb-to-1513703-by-abosc-on-???
 vgdb-pipe-shared-mem-vgdb-1513703-by-abosc-on-???
 vgdb-pipe-to-vgdb-from-1513703-by-abosc-on-???
@@ -1150,7 +1121,7 @@ systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-logind.service-11C3EI
 systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-resolved.service-HIPKoD
 systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-timesyncd.service-ohb38L
 systemd-private-2c3df597eda84f87b5968fcab6936503-upower.service-BVCQwH
-tmp.U7SDsDRv7Y
+tmp.oDhLvNhfMV
 vgdb-pipe-from-vgdb-to-1513703-by-abosc-on-???
 vgdb-pipe-shared-mem-vgdb-1513703-by-abosc-on-???
 vgdb-pipe-to-vgdb-from-1513703-by-abosc-on-???
@@ -1176,9 +1147,8 @@ B|
 $ export X=true; $X && echo OK
 ❌ avec variables : KO
 [1;36mMinishell:[0m
-|X=true; isn't a valid identifier
-echo isn't a valid identifier
-OK isn't a valid identifier|
+|$X isn't a valid identifier
+&& isn't a valid identifier|
 [1;36mBash     :[0m
 |OK|
 
@@ -1187,16 +1157,15 @@ $ echo hello | grep hello && echo found
 [1;36mMinishell:[0m
 |grep: &&: No such file or directory
 grep: echo: No such file or directory
-grep: found: No such file or directory
-munmap_chunk(): invalid pointer|
+grep: found: No such file or directory|
 [1;36mBash     :[0m
 |hello
 found|
 
-$ echo test > /tmp/tmp.U7SDsDRv7Y/f && cat /tmp/tmp.U7SDsDRv7Y/f && rm /tmp/tmp.U7SDsDRv7Y/f
+$ echo test > /tmp/tmp.oDhLvNhfMV/f && cat /tmp/tmp.oDhLvNhfMV/f && rm /tmp/tmp.oDhLvNhfMV/f
 ❌ avec redirections : KO
 [1;36mMinishell:[0m
-|test && cat /tmp/tmp.U7SDsDRv7Y/f && rm /tmp/tmp.U7SDsDRv7Y/f|
+|test && cat /tmp/tmp.oDhLvNhfMV/f && rm /tmp/tmp.oDhLvNhfMV/f|
 [1;36mBash     :[0m
 |test|
 
@@ -1302,7 +1271,7 @@ $ echo /tmp/*
 [1;36mMinishell:[0m
 |/tmp/*|
 [1;36mBash     :[0m
-|/tmp/abosc-code-zsh /tmp/{B3E0D502-6359-42C0-83DF-D71AFC10803A} /tmp/config-err-VNvb8O /tmp/home_watcher_logs-abosc /tmp/krb5cc_0 /tmp/krb5cc_101581_9Ul09b /tmp/krb5ccmachine_42LEHAVRE.FR /tmp/MozillaUpdateLock-4F96D1932A9F858E /tmp/node-jiti /tmp/nvim.abosc /tmp/pymp-svq_i6w8 /tmp/remote-file-71752ccfe2464e99 /tmp/snap-private-tmp /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-colord.service-oqvgAG /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-ModemManager.service-XAoe1i /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-power-profiles-daemon.service-T17F7E /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-redis-server.service-Ogg0vS /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-switcheroo-control.service-wV70ya /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-logind.service-11C3EI /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-resolved.service-HIPKoD /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-timesyncd.service-ohb38L /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-upower.service-BVCQwH /tmp/tmp.U7SDsDRv7Y /tmp/vgdb-pipe-from-vgdb-to-1513703-by-abosc-on-??? /tmp/vgdb-pipe-shared-mem-vgdb-1513703-by-abosc-on-??? /tmp/vgdb-pipe-to-vgdb-from-1513703-by-abosc-on-??? /tmp/vscode-typescript101581 /tmp/VSLiveshareLogs /tmp/vue-named-pipe-2.2.10-inferred-0 /tmp/vue-named-pipe-2.2.10-inferred-1 /tmp/vue-named-pipe-2.2.10-inferred-2 /tmp/vue-named-pipe-2.2.10-inferred-3 /tmp/vue-named-pipe-2.2.10-inferred-4 /tmp/vue-named-pipe-2.2.10-inferred-5|
+|/tmp/abosc-code-zsh /tmp/{B3E0D502-6359-42C0-83DF-D71AFC10803A} /tmp/config-err-VNvb8O /tmp/home_watcher_logs-abosc /tmp/krb5cc_0 /tmp/krb5cc_101581_9Ul09b /tmp/krb5ccmachine_42LEHAVRE.FR /tmp/MozillaUpdateLock-4F96D1932A9F858E /tmp/node-jiti /tmp/nvim.abosc /tmp/pymp-svq_i6w8 /tmp/remote-file-71752ccfe2464e99 /tmp/snap-private-tmp /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-colord.service-oqvgAG /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-ModemManager.service-XAoe1i /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-power-profiles-daemon.service-T17F7E /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-redis-server.service-Ogg0vS /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-switcheroo-control.service-wV70ya /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-logind.service-11C3EI /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-resolved.service-HIPKoD /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-systemd-timesyncd.service-ohb38L /tmp/systemd-private-2c3df597eda84f87b5968fcab6936503-upower.service-BVCQwH /tmp/tmp.oDhLvNhfMV /tmp/vgdb-pipe-from-vgdb-to-1513703-by-abosc-on-??? /tmp/vgdb-pipe-shared-mem-vgdb-1513703-by-abosc-on-??? /tmp/vgdb-pipe-to-vgdb-from-1513703-by-abosc-on-??? /tmp/vscode-typescript101581 /tmp/VSLiveshareLogs /tmp/vue-named-pipe-2.2.10-inferred-0 /tmp/vue-named-pipe-2.2.10-inferred-1 /tmp/vue-named-pipe-2.2.10-inferred-2 /tmp/vue-named-pipe-2.2.10-inferred-3 /tmp/vue-named-pipe-2.2.10-inferred-4 /tmp/vue-named-pipe-2.2.10-inferred-5|
 
 $ echo *.c
 ✅ star avec extension : OK
@@ -1358,13 +1327,13 @@ $ ls *.c
 $ echo *.h | wc -w
 ✅ star avec pipes : OK
 
-$ ls *.c > /tmp/tmp.U7SDsDRv7Y/f; cat /tmp/tmp.U7SDsDRv7Y/f; rm /tmp/tmp.U7SDsDRv7Y/f
+$ ls *.c > /tmp/tmp.oDhLvNhfMV/f; cat /tmp/tmp.oDhLvNhfMV/f; rm /tmp/tmp.oDhLvNhfMV/f
 ❌ star avec redirections : KO
 [1;36mMinishell:[0m
 |ls: cannot access '*.c': No such file or directory
 ls: cannot access 'cat': No such file or directory
 ls: cannot access 'rm': No such file or directory
-ls: cannot access '/tmp/tmp.U7SDsDRv7Y/f': No such file or directory|
+ls: cannot access '/tmp/tmp.oDhLvNhfMV/f': No such file or directory|
 [1;36mBash     :[0m
 |ls: cannot access '*.c': No such file or directory|
 
@@ -1409,12 +1378,11 @@ $ ls *.h && echo *.c | wc -w
 ls: cannot access '&&': No such file or directory
 ls: cannot access 'echo': No such file or directory
 ls: cannot access '*.c': No such file or directory
-0
-double free or corruption (out)|
+0|
 [1;36mBash     :[0m
 |ls: cannot access '*.h': No such file or directory|
 
-$ (ls *.c > /tmp/tmp.U7SDsDRv7Y/f) && (cat /tmp/tmp.U7SDsDRv7Y/f | wc -l) && rm /tmp/tmp.U7SDsDRv7Y/f
+$ (ls *.c > /tmp/tmp.oDhLvNhfMV/f) && (cat /tmp/tmp.oDhLvNhfMV/f | wc -l) && rm /tmp/tmp.oDhLvNhfMV/f
 ❌ complexe 1 : KO
 [1;36mMinishell:[0m
 |Impossible Path: No such file or directory

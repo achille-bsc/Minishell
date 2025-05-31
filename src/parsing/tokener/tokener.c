@@ -100,6 +100,15 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 				ft_error("Tokens alloc", mnours);
 			exec->args = tokens;
 		}
+		else if (words[1]->content[0] == ';')
+		{
+			tok_semicolon(mnours, exec, pre_token);
+			exec = exec->next;
+			tokens = ft_calloc(sizeof(t_args), 1);
+			if (!tokens)
+				ft_error("Tokens alloc", mnours);
+			exec->args = tokens;
+		}
 		else
 			pre_token = and_tok(CMD, &tokens, words[1], 0);
 		words[1] = words[1]->next;

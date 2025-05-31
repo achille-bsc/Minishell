@@ -110,39 +110,62 @@ void	execute(t_mnours *d, char **env)
 	pid_t	*pid_stock;
 
 	cmd = d->ex;
-	ft_lstconvert(d, cmd);
-	redir(cmd);
-	i = 0;
-	if (d->nb_pipe > 0 || is_buildtin(cmd, cmd->lst[0]) == 0)
-		pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
-	while (i <= d->nb_pipe)
+	
+	// Si on a des pipes, on traite comme avant
+	if (d->nb_pipe > 0)
 	{
-		if (cmd->fout == 1 && cmd->next)
+		ft_lstconvert(d, cmd);
+		redir(cmd);
+		i = 0;
+		if (d->nb_pipe > 0 || is_buildtin(cmd, cmd->lst[0]) == 0)
+			pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
+		while (i <= d->nb_pipe)
 		{
-			redir(cmd->next);
-			if (cmd->next->fin == 0)
+			if (cmd->fout == 1 && cmd->next)
 			{
-				pipe(fd);
-				cmd->fout = fd[1];
-				cmd->pipe = OUT;
-				cmd->next->fin = fd[0];
-				cmd->next->pipe = IN;
+				redir(cmd->next);
+				if (cmd->next->fin == 0)
+				{
+					pipe(fd);
+					cmd->fout = fd[1];
+					cmd->pipe = OUT;
+					cmd->next->fin = fd[0];
+					cmd->next->pipe = IN;
+				}
 			}
+			is_buildtin(cmd, cmd->lst[0]);
+			if (d->nb_pipe > 0 || cmd->is_build == 0)
+				pid_stock[i] = child_factory(d, cmd, env);
+			else
+				exec_build(d, cmd->lst);
+			cmd = cmd->next;
+			i++;
 		}
-		is_buildtin(cmd, cmd->lst[0]);
-		if (d->nb_pipe > 0 || cmd->is_build == 0)
-			pid_stock[i] = child_factory(d, cmd, env);
-		else
-			exec_build(d, cmd->lst);
-		cmd = cmd->next;
-		i++;
+		if (d->nb_pipe > 0 || d->ex->is_build == 0)
+		{
+			j = 0;
+			while (i-- > 0)
+				waitpid(pid_stock[j++], NULL, 0);
+			free(pid_stock);
+		}
 	}
-	if (d->nb_pipe > 0 || d->ex->is_build == 0)
+	else
 	{
-		j = 0;
-		while (i-- > 0)
-			waitpid(pid_stock[j++], NULL, 0);
-		free(pid_stock);
+		// Pour les commandes séparées par ';' ou commandes simples
+		while (cmd)
+		{
+			ft_lstconvert(d, cmd);
+			redir(cmd);
+			is_buildtin(cmd, cmd->lst[0]);
+			if (cmd->is_build == 0)
+			{
+				pid_t pid = child_factory(d, cmd, env);
+				waitpid(pid, NULL, 0);
+			}
+			else
+				exec_build(d, cmd->lst);
+			cmd = cmd->next;
+		}
 	}
 }
 

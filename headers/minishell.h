@@ -82,7 +82,9 @@ void	resetfd(int fd, int fout);
 // ------- Tokener | Utils ------
 int		set_dquote(char c, int in_dquote);
 int		capipe(char *prompt, int i, t_lst **word);
+int		casemicolon(char *prompt, int i, t_lst **word);
 void	tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
+void	tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void	set_token(t_mnours *data);
 void	signals(void);
 void	sigint_handler(int sig);
