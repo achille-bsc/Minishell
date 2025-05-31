@@ -52,6 +52,7 @@ void	free_mnours(t_mnours *data);
 // -------- Util | lst --------
 int		ft_args_lstsize(t_args *lst);
 void	ft_lstconvert(t_mnours *mini, t_exec *data);
+char	*remove_quotes(char *str, int quote_type);
 
 void	redir(t_exec *c);
 void	execute(t_mnours *d, char **env);

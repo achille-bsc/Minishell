@@ -44,14 +44,20 @@ t_lst	*get_words(char *prompt)
 t_args	*and_tok(int en, t_args **token, t_lst *word, int nb_redir)
 {
 	t_args	*pre_tok;
+	int		len;
 
 	(*token)->tok = en;
 	word->content += nb_redir;
 	(*token)->name = ft_strdup(word->content);
-	if ((*token)->name[0] == '\'')
-		(*token)->quote = S_Q;
-	if ((*token)->name[0] == '\"')
-		(*token)->quote = D_Q;
+	(*token)->quote = NO_Q;
+	len = ft_strlen((*token)->name);
+	if (len >= 2)
+	{
+		if ((*token)->name[0] == '\'' && (*token)->name[len - 1] == '\'')
+			(*token)->quote = S_Q;
+		else if ((*token)->name[0] == '\"' && (*token)->name[len - 1] == '\"')
+			(*token)->quote = D_Q;
+	}
 	word->content -= nb_redir;
 	(*token)->next = ft_calloc(sizeof(t_args), 1);
 	pre_tok = (*token);

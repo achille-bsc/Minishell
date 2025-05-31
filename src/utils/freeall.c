@@ -64,7 +64,7 @@ void	free_exec(t_exec *exe)
 		if (exe->args)
 			free_args(exe->args);
 		if (exe->lst)
-			free(exe->lst);
+			free_array(exe->lst);
 		free(exe);
 		exe = temp;
 	}
