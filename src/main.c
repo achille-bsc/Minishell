@@ -74,17 +74,11 @@ void	prompter(t_mnours *mnours, char **env)
 {
 	char	stop;
 	char	*prompt;
-	int		signal_status;
 
 	while (mnours->is_exit == 0)
 	{
 		if (mnours->line)
 			free(mnours->line);
-
-		// Vérifier si un signal a été reçu
-		signal_status = get_signal_status();
-		if (signal_status)
-			mnours->exit_status = signal_status;
 
 		prompt = init_prompt();
 		mnours->line = readline(prompt);
@@ -93,7 +87,7 @@ void	prompter(t_mnours *mnours, char **env)
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
-			mnours->exit = mnours->exit_status; // Utiliser exit_status comme code de sortie
+			mnours->exit = mnours->exit_status;
 			mnours->is_exit = 1;
 			break;
 		}

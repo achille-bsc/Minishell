@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 08:47:56 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,32 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 	signals_heredoc();
 	prompt = "> ";
 	clean_delimiter = get_clean_delimiter(n);
+
 	while (1)
 	{
 		line = readline(prompt);
+
+		/* Si readline retourne NULL */
 		if (!line)
 		{
+			/* Vérifier si c'est à cause d'un signal SIGINT */
+			if (g_signal_received == SIGINT)
+			{
+				free(clean_delimiter);
+				exit(130);  /* Code pour SIGINT */
+			}
+			/* Sinon c'est un EOF (Ctrl+D) normal */
 			ft_printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", clean_delimiter);
 			break;
 		}
+
 		if (ft_strncmp(line, clean_delimiter, ft_strlen(clean_delimiter)) == 0
 			&& ft_strlen(clean_delimiter) == ft_strlen(line))
 		{
 			free(line);
 			break;
 		}
+
 		// Expansion des variables uniquement si pas de quotes dans le délimiteur
 		if (should_expand_heredoc(n))
 		{

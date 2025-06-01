@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 01:05:23 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
+/*   Created: 2025/06/01 09:00:00 by abosc             #+#    #+#             */
+/*   Updated: 2025/06/01 09:00:00 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,122 +14,78 @@
 #include <signal.h>
 #include <readline/readline.h>
 #include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
+#include <stdio.h>
 
-#ifndef SA_RESTART
-#define SA_RESTART 0
-#endif
+/* Variable globale pour gérer les signaux et les processus */
+volatile sig_atomic_t g_signal_pid = 0;
 
-volatile sig_atomic_t g_signal_received = 0;
-
-static void sigint_handler(int sig)
+void	clear_rl_line(void)
 {
-	(void)sig;
-	g_signal_received = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	rl_on_new_line();
 }
 
-static void sigquit_handler(int sig)
+static void	handle_sigint(int code)
 {
-	(void)sig;
-	/* En mode interactif, SIGQUIT est ignoré */
-	write(STDOUT_FILENO, "\b\b  \b\b", 6);
+	(void)code;
+	printf("\n");
+	clear_rl_line();
+	if (g_signal_pid == 0)
+		rl_redisplay();
 }
 
-static void sigint_heredoc_handler(int sig)
+static void	handle_sigsegv(int code)
 {
-	(void)sig;
-	g_signal_received = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
-	exit(130);
+	(void)code;
+	write(2, "Segmentation fault\n", 19);
+	exit(11);
 }
 
-void signals(void)
+static void	handle_sigabrt(int code)
 {
-	struct sigaction sa_int, sa_quit;
-
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_handler = sigint_handler;
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = sigquit_handler;
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
+	(void)code;
+	write(1, "abort\n", 6);
 }
 
-void signals_heredoc(void)
+void	signals(void)
 {
-	struct sigaction sa_int, sa_quit;
-
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_handler = sigint_heredoc_handler;
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
+	signal(SIGINT, &handle_sigint);
+	signal(SIGSEGV, &handle_sigsegv);
+	signal(SIGABRT, &handle_sigabrt);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-void reset_signals_child(void)
+void	signals2(void)
 {
-	struct sigaction sa_int, sa_quit;
-
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_handler = SIG_DFL;
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = SIG_DFL;
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
+	signal(SIGQUIT, SIG_DFL);
 }
 
-void signals_ignore_temp(void)
+/* Fonction pour restaurer les signaux par défaut dans les processus enfants */
+void	reset_signals_child(void)
 {
-	struct sigaction sa_int, sa_quit;
-
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_handler = SIG_IGN;
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGSEGV, SIG_DFL);
+	signal(SIGABRT, SIG_DFL);
 }
 
-void signals_restore(void)
+/* Fonction pour ignorer temporairement les signaux */
+void	signals_ignore_temp(void)
 {
-	struct sigaction sa_int, sa_quit;
-
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_handler = sigint_handler;
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = sigquit_handler;
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-int get_signal_status(void)
+/* Fonction pour restaurer les signaux normaux */
+void	signals_restore(void)
 {
-	int status = g_signal_received;
-	if (status == SIGINT)
-	{
-		g_signal_received = 0;
-		return (130);
-	}
-	return (0);
+	signals();
+}
+
+/* Fonction pour les signaux dans heredoc */
+void	signals_heredoc(void)
+{
+	/* Dans heredoc, on laisse les signaux par défaut pour que Ctrl+C termine le processus */
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }
