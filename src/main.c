@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:51:33 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	prompter(t_mnours *mnours, char **env)
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
+			mnours->exit = mnours->exit_status; // Utiliser exit_status comme code de sortie
 			mnours->is_exit = 1;
 			break;
 		}
@@ -110,8 +111,13 @@ void	prompter(t_mnours *mnours, char **env)
 			continue ;
 		set_token(mnours);
 		execute(mnours, env);
+		// Ne libérer mnours->ex que si on ne sort pas du shell
+		// Si is_exit == 1, free_mnours s'en chargera
 		if (mnours->is_exit == 0)
+		{
 			free_exec(mnours->ex);
+			mnours->ex = NULL; // Éviter le double free
+		}
 	}
 	stop = mnours->exit;
 	free_mnours(mnours);

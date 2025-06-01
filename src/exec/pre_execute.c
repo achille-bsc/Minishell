@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:50:50 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	exec_build(t_mnours *data, char **l)
 	else
 	{
 		ft_printf("Mininours: %s: command not found\n", l[0]);
-		data->is_exit = 1;
+		data->exit_status = 127;
+		return;
 	}
 	if (data->nb_pipe > 0)
 	{
