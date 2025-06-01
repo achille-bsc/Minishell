@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 				if (tmp->quote != S_Q) // Pas d'expansion avec les guillemets simples
 				{
 					expanded_name = replace_variable(tmp->name, mini->env);
+					if (!expanded_name)
+						expanded_name = ft_strdup(tmp->name); // Fallback si échec
 				}
 				else
 				{

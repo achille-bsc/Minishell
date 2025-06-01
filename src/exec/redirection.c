@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,16 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 		if (should_expand_heredoc(n))
 		{
 			expanded_line = replace_variable(line, mnours->env);
-			write(pipefd[1], expanded_line, ft_strlen(expanded_line));
-			free(expanded_line);
+			if (expanded_line)
+			{
+				write(pipefd[1], expanded_line, ft_strlen(expanded_line));
+				free(expanded_line);
+			}
+			else
+			{
+				// Si l'expansion échoue, utiliser la ligne originale
+				write(pipefd[1], line, ft_strlen(line));
+			}
 		}
 		else
 			write(pipefd[1], line, ft_strlen(line));

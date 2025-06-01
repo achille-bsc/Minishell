@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ char	*replace_variable(char *str, t_env *env)
 	int		var_end;
 	int		found_var;
 
-	if (!str || !env)
-		return (str ? ft_strdup(str) : NULL);
+	if (!str)
+		return (NULL);
+	if (!env)
+		return (ft_strdup(str));
 
 	temp_str = ft_strdup(str); // Travailler sur une copie
 	if (!temp_str)
@@ -75,34 +77,55 @@ char	*replace_variable(char *str, t_env *env)
 			{
 				found_var = 1;
 				var_value = get_var_value(var_name, env);
+				before = ft_substr(temp_str, 0, i);
+				after = ft_strdup(temp_str + var_end);
+
+				// Vérifier que les allocations ont réussi
+				if (!before || !after)
+				{
+					if (before) free(before);
+					if (after) free(after);
+					free(var_name);
+					free(temp_str);
+					return (NULL);
+				}
+
 				if (var_value)
 				{
-					before = ft_substr(temp_str, 0, i);
-					after = ft_strdup(temp_str + var_end);
 					result = ft_calloc(ft_strlen(before) + ft_strlen(var_value) + ft_strlen(after) + 1, 1);
+					if (!result)
+					{
+						free(before);
+						free(after);
+						free(var_name);
+						free(temp_str);
+						return (NULL);
+					}
 					ft_strlcpy(result, before, ft_strlen(before) + 1);
 					ft_strlcat(result, var_value, ft_strlen(before) + ft_strlen(var_value) + 1);
 					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(var_value) + ft_strlen(after) + 1);
-					free(before);
-					free(after);
-					free(var_name);
-					free(temp_str);
-					return (replace_variable(result, env)); // Récursion pour autres variables
 				}
 				else
 				{
 					// Variable inexistante : remplacer par une chaîne vide
-					before = ft_substr(temp_str, 0, i);
-					after = ft_strdup(temp_str + var_end);
 					result = ft_calloc(ft_strlen(before) + ft_strlen(after) + 1, 1);
+					if (!result)
+					{
+						free(before);
+						free(after);
+						free(var_name);
+						free(temp_str);
+						return (NULL);
+					}
 					ft_strlcpy(result, before, ft_strlen(before) + 1);
 					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(after) + 1);
-					free(before);
-					free(after);
-					free(var_name);
-					free(temp_str);
-					return (replace_variable(result, env)); // Récursion pour autres variables
 				}
+
+				free(before);
+				free(after);
+				free(var_name);
+				free(temp_str);
+				return (replace_variable(result, env)); // Récursion pour autres variables
 			}
 		}
 		i++;
@@ -124,8 +147,12 @@ char	**var_search(char **tab, t_env *env)
 	{
 		old_str = tab[i];
 		new_str = replace_variable(tab[i], env);
-		free(old_str);
-		tab[i] = new_str;
+		if (new_str)
+		{
+			free(old_str);
+			tab[i] = new_str;
+		}
+		// Si replace_variable échoue, on garde l'ancienne chaîne
 		i++;
 	}
 	return (tab);

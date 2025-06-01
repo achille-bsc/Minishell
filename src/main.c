@@ -93,7 +93,6 @@ void	prompter(t_mnours *mnours, char **env)
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
-			free_mnours(mnours);
 			mnours->is_exit = 1;
 			break;
 		}
