@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/31 02:48:59 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ char	*replace_variable(char *str, t_env *env)
 
 	if (!str || !env)
 		return (str ? ft_strdup(str) : NULL);
-	
+
 	temp_str = ft_strdup(str); // Travailler sur une copie
 	if (!temp_str)
 		return (NULL);
-	
+
 	i = 0;
 	found_var = 0;
 	while (temp_str[i])

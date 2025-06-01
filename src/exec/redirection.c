@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 06:55:16 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ char	*get_clean_delimiter(t_args *delimiter)
 
 	if (!delimiter || !delimiter->name)
 		return (NULL);
-	
+
 	len = ft_strlen(delimiter->name);
 	if (len < 2)
 		return (ft_strdup(delimiter->name));
-	
+
 	// Si le délimiteur commence et finit par des guillemets
 	if ((delimiter->name[0] == '\'' && delimiter->name[len - 1] == '\'') ||
 		(delimiter->name[0] == '\"' && delimiter->name[len - 1] == '\"'))
@@ -31,7 +31,7 @@ char	*get_clean_delimiter(t_args *delimiter)
 		clean_delimiter = ft_substr(delimiter->name, 1, len - 2);
 		return (clean_delimiter);
 	}
-	
+
 	return (ft_strdup(delimiter->name));
 }
 
@@ -89,7 +89,7 @@ void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
 		perror("pipe");
 		return;
 	}
-	
+
 	signals_ignore_temp();
 	pid = fork();
 	if (pid == -1)
@@ -108,7 +108,7 @@ void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
 		c->l_hd = pipefd[0];
 		waitpid(pid, &status, 0);
 		signals_restore();
-		
+
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		{
 			close(pipefd[0]);

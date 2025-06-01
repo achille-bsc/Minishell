@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/31 06:35:41 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ void	prompter(t_mnours *mnours, char **env)
 	{
 		if (mnours->line)
 			free(mnours->line);
-		
+
 		// Vérifier si un signal a été reçu
 		signal_status = get_signal_status();
 		if (signal_status)
 			mnours->exit_status = signal_status;
-			
+
 		prompt = init_prompt();
 		mnours->line = readline(prompt);
 		free(prompt);
-		
+
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
@@ -97,7 +97,7 @@ void	prompter(t_mnours *mnours, char **env)
 			mnours->is_exit = 1;
 			break;
 		}
-		
+
 		// Ne pas traiter les lignes vides
 		if (!mnours->line[0])
 		{
@@ -105,7 +105,7 @@ void	prompter(t_mnours *mnours, char **env)
 			mnours->line = NULL;
 			continue;
 		}
-		
+
 		add_history(mnours->line);
 		if (verif(mnours))
 			continue ;

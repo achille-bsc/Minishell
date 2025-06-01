@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 01:05:23 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/01 06:55:16 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ static void sigint_heredoc_handler(int sig)
 void signals(void)
 {
 	struct sigaction sa_int, sa_quit;
-	
+
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_handler = sigint_handler;
 	sa_int.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa_int, NULL);
-	
+
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_handler = sigquit_handler;
 	sa_quit.sa_flags = SA_RESTART;
@@ -66,12 +66,12 @@ void signals(void)
 void signals_heredoc(void)
 {
 	struct sigaction sa_int, sa_quit;
-	
+
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_handler = sigint_heredoc_handler;
 	sa_int.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa_int, NULL);
-	
+
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = SA_RESTART;
@@ -81,12 +81,12 @@ void signals_heredoc(void)
 void reset_signals_child(void)
 {
 	struct sigaction sa_int, sa_quit;
-	
+
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_handler = SIG_DFL;
 	sa_int.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa_int, NULL);
-	
+
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_handler = SIG_DFL;
 	sa_quit.sa_flags = SA_RESTART;
@@ -96,12 +96,12 @@ void reset_signals_child(void)
 void signals_ignore_temp(void)
 {
 	struct sigaction sa_int, sa_quit;
-	
+
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_handler = SIG_IGN;
 	sa_int.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa_int, NULL);
-	
+
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_handler = SIG_IGN;
 	sa_quit.sa_flags = SA_RESTART;
@@ -111,12 +111,12 @@ void signals_ignore_temp(void)
 void signals_restore(void)
 {
 	struct sigaction sa_int, sa_quit;
-	
+
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_handler = sigint_handler;
 	sa_int.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa_int, NULL);
-	
+
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_handler = sigquit_handler;
 	sa_quit.sa_flags = SA_RESTART;

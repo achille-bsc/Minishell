@@ -28,7 +28,7 @@
 
 ### Tests validés :
 - **Heredoc simple** : `cat << eof` ✅
-- **Expansion de variables** : `cat << eof` avec `$USER` ✅ 
+- **Expansion de variables** : `cat << eof` avec `$USER` ✅
 - **Délimiteurs quotés** : `cat << 'eof'` (pas d'expansion) ✅
 - **Heredoc avec pipe** : `cat << eof | cat` ✅
 - **Valgrind clean** : 0 erreurs, 0 bytes perdus ✅
