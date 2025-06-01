@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:51:26 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/26 23:54:00 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 06:20:24 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok)
 
 void	set_token(t_mnours *data)
 {
+	data->nb_pipe = 0;  // Réinitialiser le nombre de pipes
 	data->ex = ft_calloc(sizeof(t_exec), 1);
 	if (!data->ex)
 		ft_error("Malloc error", data);

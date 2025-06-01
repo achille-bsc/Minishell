@@ -80,7 +80,20 @@ char	*replace_variable(char *str, t_env *env)
 					free(str);
 					return (replace_variable(result, env)); // Récursion pour autres variables
 				}
-				free(var_name);
+				else
+				{
+					// Variable inexistante : remplacer par une chaîne vide
+					before = ft_substr(str, 0, i);
+					after = ft_strdup(str + var_end);
+					result = ft_calloc(ft_strlen(before) + ft_strlen(after) + 1, 1);
+					ft_strlcpy(result, before, ft_strlen(before) + 1);
+					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(after) + 1);
+					free(before);
+					free(after);
+					free(var_name);
+					free(str);
+					return (replace_variable(result, env)); // Récursion pour autres variables
+				}
 			}
 		}
 		i++;

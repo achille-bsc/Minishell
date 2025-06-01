@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/30 00:52:36 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 06:20:24 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,10 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		else
 			exec_build(data, c->lst);
 	}
-	if (c->pipe == IN)
+	// Fermer les descripteurs dans le processus parent
+	if (c->pipe == IN && c->fin != 0)
 		close(c->fin);
-	if (c->pipe == OUT)
+	if (c->pipe == OUT && c->fout != 1)
 		close(c->fout);
 	return (pid);
 }
@@ -110,7 +111,7 @@ void	execute(t_mnours *d, char **env)
 	pid_t	*pid_stock;
 
 	cmd = d->ex;
-	
+
 	// Si on a des pipes, on traite comme avant
 	if (d->nb_pipe > 0)
 	{
@@ -138,6 +139,11 @@ void	execute(t_mnours *d, char **env)
 				pid_stock[i] = child_factory(d, cmd, env);
 			else
 				exec_build(d, cmd->lst);
+			// Fermer les descripteurs de pipe dans le processus parent
+			if (cmd->fout != 1)
+				close(cmd->fout);
+			if (cmd->fin != 0)
+				close(cmd->fin);
 			cmd = cmd->next;
 			i++;
 		}
