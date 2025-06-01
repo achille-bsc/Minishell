@@ -93,7 +93,7 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 				char *expanded_name;
 				if (tmp->quote != S_Q) // Pas d'expansion avec les guillemets simples
 				{
-					expanded_name = replace_variable(ft_strdup(tmp->name), mini->env);
+					expanded_name = replace_variable(tmp->name, mini->env);
 				}
 				else
 				{

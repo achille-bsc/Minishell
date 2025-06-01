@@ -33,12 +33,10 @@ void	free_array(char **array)
 
 void	resetfd(int fd, int fout)
 {
-	if (fd != 0 && fd != 1)
+	if (fd != -1 && fd != 0 && fd != 1)
 	{
 		close(fd);
-		if (fout == 1)
-			fd = 1;
-		else
-			fd = 0;
 	}
+	// Ne pas réassigner fd ici car c'est passé par valeur
+	(void)fout; // Éviter le warning unused parameter
 }

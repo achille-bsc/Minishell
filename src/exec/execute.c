@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 06:20:24 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 06:55:16 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		exit(1);
 	if (pid == 0)
 	{
+		reset_signals_child();
 		if (c->fin != 0)
 			dup_close(c->fin, STDIN_FILENO);
 		if (c->fout != 1)
@@ -116,7 +117,7 @@ void	execute(t_mnours *d, char **env)
 	if (d->nb_pipe > 0)
 	{
 		ft_lstconvert(d, cmd);
-		redir(cmd);
+		redir(cmd, d);
 		i = 0;
 		if (d->nb_pipe > 0 || is_buildtin(cmd, cmd->lst[0]) == 0)
 			pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
@@ -124,7 +125,7 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (cmd->fout == 1 && cmd->next)
 			{
-				redir(cmd->next);
+				redir(cmd->next, d);
 				if (cmd->next->fin == 0)
 				{
 					pipe(fd);
@@ -150,8 +151,10 @@ void	execute(t_mnours *d, char **env)
 		if (d->nb_pipe > 0 || d->ex->is_build == 0)
 		{
 			j = 0;
+			signals_ignore_temp();
 			while (i-- > 0)
 				waitpid(pid_stock[j++], NULL, 0);
+			signals_restore();
 			free(pid_stock);
 		}
 	}
@@ -161,12 +164,14 @@ void	execute(t_mnours *d, char **env)
 		while (cmd)
 		{
 			ft_lstconvert(d, cmd);
-			redir(cmd);
+			redir(cmd, d);
 			is_buildtin(cmd, cmd->lst[0]);
 			if (cmd->is_build == 0)
 			{
 				pid_t pid = child_factory(d, cmd, env);
+				signals_ignore_temp();
 				waitpid(pid, NULL, 0);
+				signals_restore();
 			}
 			else
 				exec_build(d, cmd->lst);

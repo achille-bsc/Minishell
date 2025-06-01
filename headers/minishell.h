@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/31 08:02:00 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 06:55:16 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ int		ft_args_lstsize(t_args *lst);
 void	ft_lstconvert(t_mnours *mini, t_exec *data);
 char	*remove_quotes(char *str, int quote_type);
 
-void	redir(t_exec *c);
+void	redir(t_exec *c, t_mnours *mnours);
 void	execute(t_mnours *d, char **env);
 void	exec_build(t_mnours *data, char **l);
+int		should_expand_heredoc(t_args *delimiter);
+char	*get_clean_delimiter(t_args *delimiter);
 
 void	ft_exit(t_mnours *data, char **line);
 void	ft_echo(char **line);
@@ -87,7 +89,13 @@ void	tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void	tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void	set_token(t_mnours *data);
 void	signals(void);
-void	sigint_handler(int sig);
+void	reset_signals_child(void);
+void	signals_heredoc(void);
+void	signals_ignore_temp(void);
+void	signals_restore(void);
+int		get_signal_status(void);
+
+extern volatile sig_atomic_t g_signal_received;
 
 int		ft_cd(char **line, t_mnours *mnours);
 int		get_array_size(char **array);

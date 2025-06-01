@@ -52,24 +52,33 @@ char	*replace_variable(char *str, t_env *env)
 	char	*var_value;
 	char	*before;
 	char	*after;
+	char	*temp_str;
 	int		i;
 	int		var_end;
+	int		found_var;
 
 	if (!str || !env)
-		return (str);
+		return (str ? ft_strdup(str) : NULL);
+	
+	temp_str = ft_strdup(str); // Travailler sur une copie
+	if (!temp_str)
+		return (NULL);
+	
 	i = 0;
-	while (str[i])
+	found_var = 0;
+	while (temp_str[i])
 	{
-		if (str[i] == '$')
+		if (temp_str[i] == '$')
 		{
-			var_name = extract_var_name(str, i + 1, &var_end);
+			var_name = extract_var_name(temp_str, i + 1, &var_end);
 			if (var_name)
 			{
+				found_var = 1;
 				var_value = get_var_value(var_name, env);
 				if (var_value)
 				{
-					before = ft_substr(str, 0, i);
-					after = ft_strdup(str + var_end);
+					before = ft_substr(temp_str, 0, i);
+					after = ft_strdup(temp_str + var_end);
 					result = ft_calloc(ft_strlen(before) + ft_strlen(var_value) + ft_strlen(after) + 1, 1);
 					ft_strlcpy(result, before, ft_strlen(before) + 1);
 					ft_strlcat(result, var_value, ft_strlen(before) + ft_strlen(var_value) + 1);
@@ -77,40 +86,46 @@ char	*replace_variable(char *str, t_env *env)
 					free(before);
 					free(after);
 					free(var_name);
-					free(str);
+					free(temp_str);
 					return (replace_variable(result, env)); // Récursion pour autres variables
 				}
 				else
 				{
 					// Variable inexistante : remplacer par une chaîne vide
-					before = ft_substr(str, 0, i);
-					after = ft_strdup(str + var_end);
+					before = ft_substr(temp_str, 0, i);
+					after = ft_strdup(temp_str + var_end);
 					result = ft_calloc(ft_strlen(before) + ft_strlen(after) + 1, 1);
 					ft_strlcpy(result, before, ft_strlen(before) + 1);
 					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(after) + 1);
 					free(before);
 					free(after);
 					free(var_name);
-					free(str);
+					free(temp_str);
 					return (replace_variable(result, env)); // Récursion pour autres variables
 				}
 			}
 		}
 		i++;
 	}
-	return (str);
+	// Aucune variable trouvée - retourner la copie
+	return (temp_str);
 }
 
 char	**var_search(char **tab, t_env *env)
 {
-	int	i;
+	int		i;
+	char	*old_str;
+	char	*new_str;
 
 	if (!tab || !env)
 		return (tab);
 	i = 0;
 	while (tab[i])
 	{
-		tab[i] = replace_variable(tab[i], env);
+		old_str = tab[i];
+		new_str = replace_variable(tab[i], env);
+		free(old_str);
+		tab[i] = new_str;
 		i++;
 	}
 	return (tab);

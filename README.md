@@ -63,18 +63,18 @@ make re     # Recompile tout
 ```
 mininours/
 ├── headers/              # Fichiers d'en-tête
-│   ├── minishell.h      # Déclarations principales
-│   └── structures.h     # Structures de données
-├── libft/               # Bibliothèque personnelle
-├── libUtils/            # Utilitaires pour les listes
-├── src/                 # Code source principal
-│   ├── main.c          # Point d'entrée
-│   ├── built-in/       # Commandes intégrées
-│   ├── exec/           # Système d'exécution
-│   ├── parsing/        # Analyseur syntaxique
-│   ├── signals/        # Gestion des signaux
-│   └── utils/          # Fonctions utilitaires
-└── Makefile            # Script de compilation
+│   ├── minishell.h       # Déclarations principales
+│   └── structures.h      # Structures de données
+├── libft/                # Bibliothèque personnelle
+├── libUtils/             # Utilitaires pour les listes
+├── src/                  # Code source principal
+│   ├── main.c            # Point d'entrée
+│   ├── built-in/         # Commandes intégrées
+│   ├── exec/             # Système d'exécution
+│   ├── parsing/          # Analyseur syntaxique
+│   ├── signals/          # Gestion des signaux
+│   └── utils/            # Fonctions utilitaires
+└── Makefile              # Script de compilation
 ```
 
 ## 🚀 Utilisation
@@ -139,7 +139,8 @@ Ce projet permet d'apprendre :
 
 ## 👥 Auteurs
 
-- **abosc** - Développeur principal
+- **abosc** | Développeur principal
+- **alegrix** | Développeur principal
 
 ## 📄 Licence
 
@@ -147,4 +148,4 @@ Ce projet est développé dans le cadre du cursus 42. Voir les règles de l'éco
 
 ---
 
-*"Un shell minimal mais fonctionnel - Mininours rugit doucement mais efficacement !"* 🐻
+*"Un shell minimal mais fonctionnel - Mininours raconte nours une histoire !"* 🐻
