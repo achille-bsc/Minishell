@@ -46,9 +46,9 @@ SRC =	ft_isalpha.c\
 	ft_endl.c\
 	ft_strstr.c
 
-CC = gcc
+CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -lbsd
+CFLAGS = -Wall -Werror -Wextra # -lbsd
 
 OBJ = ${SRC:.c=.o}
 

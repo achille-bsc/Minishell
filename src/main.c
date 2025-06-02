@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/01 07:51:33 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/02 09:11:16 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	write_args(t_exec *exec)
 
 char	*init_prompt(void)
 {
-	char	*prompt;
 	char	*name;
 	char	*pwd;
 	char	*temp;
@@ -51,22 +50,11 @@ char	*init_prompt(void)
 	pwd = ft_calloc(sizeof(char), 1024);
 	getcwd(pwd, 1024);
 	if (!pwd)
-		return ("\033[34mMininours>\033[0m ");
+		return ("Mininours> ");
 	name = getenv("USER");
-	temp = ft_strjoin("\033[32m", name);
-	name = ft_strjoin(temp, "\033[0m ");
-	free(temp);
-	temp = ft_strjoin("\033[33m", pwd);
-	free(pwd);
-	pwd = ft_strjoin(temp, "\033[0m ");
-	free(temp);
-	prompt = ft_strjoin(name, pwd);
-	temp = ft_strjoin(prompt, "\033[34mMininours>\033[0m ");
-	free(prompt);
-	free(pwd);
-	free(name);
-	if (!temp)
-		return ("\033[34mMininours>\033[0m ");
+	temp = ft_strjoin(name, " ");
+	temp = ft_strjoin(temp, pwd);
+	temp = ft_strjoin(temp, " Mininours > ");
 	return (temp);
 }
 
@@ -79,30 +67,31 @@ void	prompter(t_mnours *mnours, char **env)
 	{
 		if (mnours->line)
 			free(mnours->line);
-
 		prompt = init_prompt();
 		mnours->line = readline(prompt);
 		free(prompt);
-
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
 			mnours->exit = mnours->exit_status;
 			mnours->is_exit = 1;
-			break;
+			break ;
 		}
-
 		// Ne pas traiter les lignes vides
 		if (!mnours->line[0])
 		{
 			free(mnours->line);
 			mnours->line = NULL;
-			continue;
+			continue ;
 		}
-
 		add_history(mnours->line);
 		if (verif(mnours))
+		{
+			if (mnours->line != NULL)
+				free(mnours->line);
+			mnours->line = NULL;
 			continue ;
+		}
 		set_token(mnours);
 		execute(mnours, env);
 		// Ne libérer mnours->ex que si on ne sort pas du shell
@@ -144,7 +133,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	signals();
 	mininours = ft_calloc(sizeof(t_mnours), 1);
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/31 06:58:43 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/02 08:47:56 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,32 @@ int	check_quotes(int type, char *line)
 // > echo '$test'
 // > echo "'$test'"
 // > echo '"$test"'
+int	not_valide_char(char c)
+{
+	if (c == ';' || c == '&' || c == '(' || c == ')' || c == '\\' || c == '`'
+		|| c == '{' || c == '}' || c == '[' || c == ']')
+		return (1);
+	return (0);
+}
+
+int	check_chars(char *line)
+{
+	int	i;
+	int	in_quotes;
+
+	i = 0;
+	in_quotes = 0;
+	while (line[i])
+	{
+		if (line[i] == '"' || line[i] == '\'')
+			in_quotes = !in_quotes;
+		if (!in_quotes && not_valide_char(line[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	verif(t_mnours *mnours)
 {
 	int	i;
@@ -119,7 +145,13 @@ int	verif(t_mnours *mnours)
 	if (!mnours->line || !mnours->line[0])
 		return (1);
 	i = 0;
-	while (mnours->line[i] && (mnours->line[i] == ' ' || mnours->line[i] == '\t'))
+	if (check_chars(mnours->line) == 1)
+	{
+		perror("Syntax Error: invalid characters");
+		return (1);
+	}
+	while (mnours->line[i] && (mnours->line[i] == ' '
+			|| mnours->line[i] == '\t'))
 		i++;
 	if (!mnours->line[i])
 		return (1);

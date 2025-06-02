@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/02 09:03:52 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		exit(1);
 	if (pid == 0)
 	{
-		reset_signals_child();
 		if (c->fin != 0)
 			dup_close(c->fin, STDIN_FILENO);
 		if (c->fout != 1)
@@ -113,7 +112,6 @@ void	execute(t_mnours *d, char **env)
 
 	cmd = d->ex;
 
-	// Si on a des pipes, on traite comme avant
 	if (d->nb_pipe > 0)
 	{
 		ft_lstconvert(d, cmd);
@@ -140,7 +138,6 @@ void	execute(t_mnours *d, char **env)
 				pid_stock[i] = child_factory(d, cmd, env);
 			else
 				exec_build(d, cmd->lst);
-			// Fermer les descripteurs de pipe dans le processus parent
 			if (cmd->fout != 1)
 				close(cmd->fout);
 			if (cmd->fin != 0)
@@ -151,16 +148,13 @@ void	execute(t_mnours *d, char **env)
 		if (d->nb_pipe > 0 || d->ex->is_build == 0)
 		{
 			j = 0;
-			signals_ignore_temp();
 			while (i-- > 0)
 				waitpid(pid_stock[j++], NULL, 0);
-			signals_restore();
 			free(pid_stock);
 		}
 	}
 	else
 	{
-		// Pour les commandes séparées par ';' ou commandes simples
 		while (cmd)
 		{
 			ft_lstconvert(d, cmd);
@@ -169,9 +163,7 @@ void	execute(t_mnours *d, char **env)
 			if (cmd->is_build == 0)
 			{
 				pid_t pid = child_factory(d, cmd, env);
-				signals_ignore_temp();
 				waitpid(pid, NULL, 0);
-				signals_restore();
 			}
 			else
 				exec_build(d, cmd->lst);
@@ -179,50 +171,3 @@ void	execute(t_mnours *d, char **env)
 		}
 	}
 }
-
-/*
-int	main(int argc, char **argv, char **env)
-{
-	(void)argc;
-	(void)argv;
-	t_mnours	*d;
-	t_exec		*tmp;
-
-	d = malloc(sizeof(t_mnours) * 1);
-	if (!d)
-		return (0);
-	d->ex = ft_calloc(sizeof(t_exec), 1);
-	if (!(d->ex))
-		return (0);
-	d->ex->fin = open("main.c", O_RDONLY, 0644);
-	d->ex->args = ft_calloc(sizeof(t_args), 1);
-	if (!(d->ex->args))
-		return (0);
-	d->ex->args->tok = CMD;
-	d->ex->args->name = ft_calloc(sizeof(char *), 3);
-	d->ex->args->name[0] = ft_strdup("cat");
-	d->ex->args->name[1] = ft_strdup("-e");
-	d->ex->args->name[2] = NULL;
-	d->ex->next = ft_calloc(sizeof(t_exec), 1);
-	tmp = d->ex->next;
-	if (!(tmp))
-		return (0);
-	tmp->fin = open("redirection.c", O_RDONLY, 0644);
-	tmp->fout = open("Test", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	tmp->args = ft_calloc(sizeof(t_args), 1);
-	if (!(d->ex->args))
-		return (0);
-	tmp->args->tok = CMD;
-	d->nb_pipe = 2;
-	tmp->args->name = ft_calloc(sizeof(char *), 3);
-	tmp->args->name[0] = ft_strdup("cat");
-	tmp->args->name[1] = ft_strdup("-e");
-	tmp->args->name[2] = NULL;
-	execute(d, env);
-	free(tmp->args->name[2]);
-	free(tmp->args->name[1]);
-	free(tmp->args->name[0]);
-	free(tmp->args);
-	free(tmp);
-	free(d);
-}*/

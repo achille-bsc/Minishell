@@ -18,7 +18,6 @@ SRCS =	src/main.c src/set_env.c src/varenv.c \
 		src/built-in/echo.c src/built-in/env.c src/built-in/export.c \
 		src/built-in/unset.c src/built-in/exit.c src/built-in/cd.c \
 		src/utils/arrays.c \
-		src/signals/signals.c \
 		src/parsing/varenv/replacer.c \
 		src/built-in/pwd.c \
 

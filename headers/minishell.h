@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/01 07:20:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/02 08:38:39 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,7 @@ int		casemicolon(char *prompt, int i, t_lst **word);
 void	tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void	tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void	set_token(t_mnours *data);
-void	signals(void);
-void	signals2(void);
-void	reset_signals_child(void);
-void	signals_heredoc(void);
-void	signals_ignore_temp(void);
-void	signals_restore(void);
 void	clear_rl_line(void);
-
-extern volatile sig_atomic_t g_signal_pid;
 
 int		ft_cd(char **line, t_mnours *mnours);
 int		get_array_size(char **array);
