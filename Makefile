@@ -5,8 +5,6 @@ NAME = minishell
 LIBFT = libft
 LIBFTPRINTF = libft/ft_printf
 
-# TODO: Add this to the SRCS when files will be created
-# src/built-in/cd.c src/built-in/pwd.c
 SRCS =	src/main.c src/set_env.c src/varenv.c \
 		libUtils/lst.c \
 		src/utils/errors.c src/utils/freeall.c \
