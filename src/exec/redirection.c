@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/02 09:06:13 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/07 23:23:49 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,15 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 	clean_delimiter = get_clean_delimiter(n);
 	while (1)
 	{
+		signals(SIGNAL_HERE_DOC);
 		line = readline(prompt);
+		signals(SIGNAL_IGN);
+		if (line == NULL)
+		{
+			ft_dprintf(2, "minishell: warning: here-document "
+					"delimited by end-of-file (wanted `%s')\n", clean_delimiter);
+			break ;
+		}
 		if (ft_strncmp(line, clean_delimiter, ft_strlen(clean_delimiter)) == 0
 			&& ft_strlen(clean_delimiter) == ft_strlen(line))
 		{
@@ -89,9 +97,8 @@ void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
 		perror("fork");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		return ;
 	}
-	if (pid == 0)
+	else if (pid == 0)
 		heredoc2(n, pipefd, mnours);
 	else
 	{

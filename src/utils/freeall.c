@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/31 06:35:43 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/07 23:02:06 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,10 @@ void	free_mnours(t_mnours *data)
 	if (data->ex)
 		free_exec(data->ex);
 	free(data);
+}
+
+void	close_fds(int fd)
+{
+	while (fd < 1024)
+		close(fd++);
 }

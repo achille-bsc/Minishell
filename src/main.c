@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/02 09:11:16 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/07 23:21:55 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*init_prompt(void)
 	name = getenv("USER");
 	temp = ft_strjoin(name, " ");
 	temp = ft_strjoin(temp, pwd);
-	temp = ft_strjoin(temp, " Mininours > ");
+	temp = ft_strjoin(temp, " Mininours> ");
 	return (temp);
 }
 
@@ -65,10 +65,17 @@ void	prompter(t_mnours *mnours, char **env)
 
 	while (mnours->is_exit == 0)
 	{
+		signals(SIGNAL_EXECUTE);
 		if (mnours->line)
 			free(mnours->line);
 		prompt = init_prompt();
 		mnours->line = readline(prompt);
+		signals(SIGNAL_IGN);
+		if (g_signal == 130)
+		{
+			g_signal = 0;
+			mnours->exit_code = 130;
+		}
 		free(prompt);
 		if (!mnours->line)
 		{
@@ -77,7 +84,6 @@ void	prompter(t_mnours *mnours, char **env)
 			mnours->is_exit = 1;
 			break ;
 		}
-		// Ne pas traiter les lignes vides
 		if (!mnours->line[0])
 		{
 			free(mnours->line);
@@ -94,16 +100,16 @@ void	prompter(t_mnours *mnours, char **env)
 		}
 		set_token(mnours);
 		execute(mnours, env);
-		// Ne libérer mnours->ex que si on ne sort pas du shell
-		// Si is_exit == 1, free_mnours s'en chargera
 		if (mnours->is_exit == 0)
 		{
 			free_exec(mnours->ex);
-			mnours->ex = NULL; // Éviter le double free
+			mnours->ex = NULL;
 		}
+		g_signal = 0;
 	}
 	stop = mnours->exit;
 	free_mnours(mnours);
+	rl_clear_history();
 	exit(stop);
 }
 
@@ -125,12 +131,14 @@ void	init(t_mnours *mnours, char **env)
 	set_env(mnours, env);
 	mnours->exit = 0;
 	mnours->is_exit = 0;
+	g_signal = 0;
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_mnours	*mininours;
 
+	signals(SIGNAL_IGN);
 	(void)argc;
 	(void)argv;
 	mininours = ft_calloc(sizeof(t_mnours), 1);

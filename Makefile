@@ -20,6 +20,7 @@ SRCS =	src/main.c src/set_env.c src/varenv.c \
 		src/utils/arrays.c \
 		src/parsing/varenv/replacer.c \
 		src/built-in/pwd.c \
+		src/signals/signals.c
 
 OBJS = $(SRCS:.c=.o)
 

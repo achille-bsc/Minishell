@@ -15,7 +15,8 @@
 		"stdlib.h": "c",
 		"structures.h": "c",
 		"history.h": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"struct_rusage.h": "c"
 	},
 	"todo-tree.tree.showBadges": true,
 	"conventionalCommits.scopes": [

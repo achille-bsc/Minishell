@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/02 09:03:52 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/07 23:20:46 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ void	access_path(char **cmd, char **env)
 	{
 		if (access(cmd[0], X_OK) == 0)
 		{
+			signals(SIGNAL_DEFAULT);
 			if (execve(cmd[0], cmd, env) == -1)
 			{
+				signals(SIGNAL_IGN);
 				perror("execve failed\n");
 				exit(EXIT_FAILURE);
 			}
@@ -109,9 +111,10 @@ void	execute(t_mnours *d, char **env)
 	int		fd[2];
 	t_exec	*cmd;
 	pid_t	*pid_stock;
+	pid_t	pid;
+	int		exit_needs_values[2];
 
 	cmd = d->ex;
-
 	if (d->nb_pipe > 0)
 	{
 		ft_lstconvert(d, cmd);
@@ -149,7 +152,13 @@ void	execute(t_mnours *d, char **env)
 		{
 			j = 0;
 			while (i-- > 0)
-				waitpid(pid_stock[j++], NULL, 0);
+			{
+				exit_needs_values[0] = waitpid(pid_stock[j++],
+						&exit_needs_values[1], 0);
+				if (exit_needs_values[0] == g_signal
+					&& WIFEXITED(exit_needs_values[1]))
+					d->exit_code = WEXITSTATUS(exit_needs_values[1]);
+			}
 			free(pid_stock);
 		}
 	}
@@ -162,7 +171,7 @@ void	execute(t_mnours *d, char **env)
 			is_buildtin(cmd, cmd->lst[0]);
 			if (cmd->is_build == 0)
 			{
-				pid_t pid = child_factory(d, cmd, env);
+				pid = child_factory(d, cmd, env);
 				waitpid(pid, NULL, 0);
 			}
 			else
