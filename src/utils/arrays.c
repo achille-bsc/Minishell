@@ -1,20 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   arrays.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 20:14:11 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/02 08:49:34 by abosc            ###   ########.fr       */
+/*   Created: 2025/05/30 01:05:54 by abosc             #+#    #+#             */
+/*   Updated: 2025/05/30 02:33:54 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../headers/minishell.h"
 
-int	ft_tolower(int c)
+int	get_array_size(char **array)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c + 32);
-	return (c);
+	int	size;
+
+	size = 0;
+	if (!array)
+		return (0);
+	while (array[size])
+		size++;
+	return (size);
+}
+
+char	*ft_getenv(char *name, t_env *env)
+{
+	t_env	*cpy_env;
+
+	cpy_env = env;
+	while (cpy_env)
+	{
+		if (ft_strncmp(cpy_env->name, name, ft_strlen(name)) == 0)
+			return (cpy_env->value);
+		cpy_env = cpy_env->next;
+	}
+  return (NULL);
 }

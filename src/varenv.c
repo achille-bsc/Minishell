@@ -6,62 +6,153 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 00:39:23 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
 
-void	counter(char *tab, int tmp, int j, t_env *tmp_env)
+char	*get_var_value(char *var_name, t_env *env)
 {
-	while (tab[tmp] != ' ' || tab[tmp] || tab[tmp] != '\t')
-		tmp++;
-	while ((ft_strncmp(tab + j, tmp_env->name, tmp - j) != 0
-			&& (int)ft_strlen(tmp_env->name) - 1 == tmp - j) || tmp_env)
-		tmp_env = tmp_env->next;
+	t_env	*current;
+
+	if (!var_name || !env)
+		return (NULL);
+	current = env;
+	while (current)
+	{
+		if (ft_strncmp(current->name, var_name, ft_strlen(var_name)) == 0
+			&& ft_strlen(current->name) == ft_strlen(var_name))
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
 }
 
-char	*var_replace(char *tab, int j, t_env *env)
+char	*extract_var_name(char *str, int start, int *end)
 {
-	t_env	*tmp_env;
-	char	*line;
-	int		tmp;
-	int		i[2];
-	int		count;
+	int		i;
+	char	*var_name;
 
-	tmp = j;
-	tmp_env = env;
-	counter(tab, tmp, j, tmp_env);
-	if (!tmp_env)
-		return (free(tab), "");
-	line = ft_calloc((int)ft_strlen(tab) - (tmp - j - 1)
-			+ (int)ft_strlen(env->value), sizeof(char));
-	count = 0;
-	i[0] = 0;
-	i[1] = 0;
-	while (i[0] < (int)ft_strlen(tab) - (tmp - j - 1)
-		+ (int)ft_strlen(env->value))
+	i = start;
+	// Rechercher la fin du nom de variable (lettres, chiffres, underscore)
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+		i++;
+	*end = i;
+	if (i == start)
+		return (NULL);
+	var_name = ft_substr(str, start, i - start);
+	return (var_name);
+}
+
+char	*replace_variable(char *str, t_env *env)
+{
+	char	*result;
+	char	*var_name;
+	char	*var_value;
+	char	*before;
+	char	*after;
+	char	*temp_str;
+	int		i;
+	int		var_end;
+	int		found_var;
+
+	if (!str)
+		return (NULL);
+	if (!env)
+		return (ft_strdup(str));
+
+	temp_str = ft_strdup(str); // Travailler sur une copie
+	if (!temp_str)
+		return (NULL);
+
+	i = 0;
+	found_var = 0;
+	while (temp_str[i])
 	{
-		if (i[0] == j - 1)
-			while (env->value[count])
-				line[i[0]++] = env->value[count++];
-		line[i[0]++] = tab[i[1]++];
+		if (temp_str[i] == '$')
+		{
+			var_name = extract_var_name(temp_str, i + 1, &var_end);
+			if (var_name)
+			{
+				found_var = 1;
+				var_value = get_var_value(var_name, env);
+				before = ft_substr(temp_str, 0, i);
+				after = ft_strdup(temp_str + var_end);
+
+				// Vérifier que les allocations ont réussi
+				if (!before || !after)
+				{
+					if (before) free(before);
+					if (after) free(after);
+					free(var_name);
+					free(temp_str);
+					return (NULL);
+				}
+
+				if (var_value)
+				{
+					result = ft_calloc(ft_strlen(before) + ft_strlen(var_value) + ft_strlen(after) + 1, 1);
+					if (!result)
+					{
+						free(before);
+						free(after);
+						free(var_name);
+						free(temp_str);
+						return (NULL);
+					}
+					ft_strlcpy(result, before, ft_strlen(before) + 1);
+					ft_strlcat(result, var_value, ft_strlen(before) + ft_strlen(var_value) + 1);
+					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(var_value) + ft_strlen(after) + 1);
+				}
+				else
+				{
+					// Variable inexistante : remplacer par une chaîne vide
+					result = ft_calloc(ft_strlen(before) + ft_strlen(after) + 1, 1);
+					if (!result)
+					{
+						free(before);
+						free(after);
+						free(var_name);
+						free(temp_str);
+						return (NULL);
+					}
+					ft_strlcpy(result, before, ft_strlen(before) + 1);
+					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(after) + 1);
+				}
+
+				free(before);
+				free(after);
+				free(var_name);
+				free(temp_str);
+				return (replace_variable(result, env)); // Récursion pour autres variables
+			}
+		}
+		i++;
 	}
-	return (line);
+	// Aucune variable trouvée - retourner la copie
+	return (temp_str);
 }
 
 char	**var_search(char **tab, t_env *env)
 {
-	int	i;
-	int	j;
+	int		i;
+	char	*old_str;
+	char	*new_str;
 
+	if (!tab || !env)
+		return (tab);
 	i = 0;
 	while (tab[i])
 	{
-		j = 0;
-		while (tab[i][j])
-			if (tab[i][j++] == '$')
-				tab[i] = var_replace(tab[i], j, env);
+		old_str = tab[i];
+		new_str = replace_variable(tab[i], env);
+		if (new_str)
+		{
+			free(old_str);
+			tab[i] = new_str;
+		}
+		// Si replace_variable échoue, on garde l'ancienne chaîne
 		i++;
 	}
 	return (tab);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_execute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 00:32:54 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/02 09:04:47 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	is_buildtin(t_exec *exe, char *cmd)
 {
+	if (!cmd)
+		return (0);
 	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd)) && ft_strlen(cmd) == 4)
 		return (exe->is_build = 1, 1);
 	else if (!ft_strncmp(cmd, "cd", ft_strlen(cmd)) && ft_strlen(cmd) == 2)
@@ -48,8 +50,11 @@ void	exec_build(t_mnours *data, char **l)
 		ft_env(data->env);
 	else if (!ft_strncmp(l[0], "exit", ft_strlen(l[0])) && ft_strlen(l[0]) == 4)
 		ft_exit(data, l);
-//	else if (!ft_strncmp(l[0], "pwd", ft_strlen(l[0])) && ft_strlen(l[0]) == 3)
-//		ft_pwd (data, env);
+
+	else if (!ft_strncmp(l[0], "pwd", ft_strlen(l[0])) && ft_strlen(l[0]) == 3)
+		ft_pwd (data);
+	else if (!ft_strncmp(l[0], "cd", ft_strlen(l[0])) && ft_strlen(l[0]) == 2)
+		ft_cd(l, data);
 	if (data->nb_pipe > 0)
 	{
 		free_mnours(data);

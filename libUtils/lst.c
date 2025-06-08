@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 00:19:28 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,34 @@ void	free_lst(char **lst)
 	free(lst);
 }
 
+char	*remove_quotes(char *str, int quote_type)
+{
+	char	*result;
+	int		len;
+	int		i;
+	int		j;
+
+	if (!str || quote_type == NO_Q)
+		return (ft_strdup(str));
+	len = ft_strlen(str);
+	if (len < 2)
+		return (ft_strdup(str));
+	if ((quote_type == S_Q && str[0] == '\'' && str[len - 1] == '\'') ||
+		(quote_type == D_Q && str[0] == '\"' && str[len - 1] == '\"'))
+	{
+		result = malloc(sizeof(char) * (len - 1));
+		if (!result)
+			return (NULL);
+		i = 1;
+		j = 0;
+		while (i < len - 1)
+			result[j++] = str[i++];
+		result[j] = '\0';
+		return (result);
+	}
+	return (ft_strdup(str));
+}
+
 void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 {
 	while (dat_tmp)
@@ -59,7 +87,27 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 		while (tmp)
 		{
 			if (tmp->tok == CMD)
-				dat_tmp->lst[i++] = tmp->name;
+			{
+				// Appliquer l'expansion des variables d'environnement AVANT de supprimer les guillemets
+				// mais seulement si ce ne sont pas des guillemets simples
+				char *expanded_name;
+				if (tmp->quote != S_Q) // Pas d'expansion avec les guillemets simples
+				{
+					expanded_name = replace_variable(tmp->name, mini->env);
+					if (!expanded_name)
+						expanded_name = ft_strdup(tmp->name); // Fallback si échec
+				}
+				else
+				{
+					expanded_name = ft_strdup(tmp->name);
+				}
+
+				char *quoted_removed = remove_quotes(expanded_name, tmp->quote);
+				dat_tmp->lst[i++] = quoted_removed;
+
+				// Libérer la mémoire allouée
+				free(expanded_name);
+			}
 			tmp = tmp->next;
 		}
 		dat_tmp->lst[i] = NULL;

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 20:14:11 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/02 08:49:34 by abosc            ###   ########.fr       */
+/*   Created: 2025/05/31 07:59:33 by abosc             #+#    #+#             */
+/*   Updated: 2025/05/31 08:01:02 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../headers/minishell.h"
 
-int	ft_tolower(int c)
+int ft_pwd(t_mnours *mnours)
 {
-	if (c >= 'A' && c <= 'Z')
-		return (c + 32);
-	return (c);
+  if (!mnours->pwd)
+  {
+    ft_error("Error: Unable to get current working directory", mnours);
+    return (1);
+  }
+  ft_printf("%s\n", mnours->pwd);
+  return (0);
 }

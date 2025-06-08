@@ -3,40 +3,145 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 01:03:12 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/31 02:13:09 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	ft_echo(char **line)
+// void	ft_echo(char **line)
+// {
+// 	int	nl;
+// 	int	i;
+// 	int	j;
+// 	int	k;
+
+// 	nl = 0;
+// 	k = 1;
+// 	if (!line[1] || (line[1][0] == '-' && line[1][1] == 'n' && !line[1][2]))
+// 	{
+// 		ft_printf("\n");
+// 		return ;
+// 	}
+// 	while (!ft_strncmp(line[k], "-n", 2))
+// 	{
+// 		j = 1;
+// 		while (line[k][j] == 'n')
+// 			j++;
+// 		if (!line[k][j])
+// 			nl += 1;
+// 		k++;
+// 	}
+// 	i = 1 + nl;
+// 	while (line[i])
+// 	{
+// 		if (i > nl + 1)
+// 			ft_printf(" ");
+// 		ft_printf("%s", line[i++]);
+// 	}
+// 	if (nl == 0)
+// 		ft_printf("\n");
+// }
+
+int	skip_opt(char **line)
 {
-	int	nl;
 	int	i;
 	int	j;
-	int	k;
+	int	counter;
 
-	nl = 0;
-	k = 1;
-	while (!ft_strncmp(line[k], "-n", 2))
-	{
-		j = 1;
-		while (line[k][j] == 'n')
-			j++;
-		if (!line[k][j])
-			nl += 1;
-		k++;
-	}
-	i = 1 + nl;
+	i = 1;
+	j = 1;
+	counter = 0;
 	while (line[i])
 	{
-		if (i > nl + 1)
-			ft_printf(" ");
-		ft_printf("%s", line[i++]);
+		if (line[i][0] == '-')
+		{
+			while (line[i][j])
+			{
+				if (line[i][j] != 'n')
+					return (counter);
+				j++;
+			}
+		}
+		else
+			return (counter);
+		i++;
+		counter++;
 	}
-	if (nl == 0)
+	return (counter);
+}
+
+int	get_opt(char **line)
+{
+	int	i;
+
+	i = 1;
+	if (line[1][0] == '-')
+	{
+		while (line[1][i])
+		{
+			if (line[1][i] != 'n')
+				return (0);
+			i++;
+		}
+	}
+	else
+		return (0);
+	return (1);
+}
+
+int	is_only_opt(char **line)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	j = 1;
+	while (line[i])
+	{
+		if (line[i][0] == '-')
+		{
+			while (line[i][j])
+			{
+				if (line[i][j] != 'n')
+					return (0);
+				j++;
+			}
+		}
+		else
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	ft_echo(char **line)
+{
+	int	i;
+	int	skip_line;
+
+	i = 1;
+	skip_line = 1;
+	if (!line[1])
+	{
+		ft_printf("\n");
+		return ;
+	}
+	if (is_only_opt(line))
+		return ;
+	if (get_opt(line))
+		skip_line = 0;
+	i += skip_opt(line);
+	while (line[i])
+	{
+		ft_printf("%s", line[i]);
+		if (line[i + 1])
+			ft_printf(" ");
+		i++;
+	}
+	if (skip_line)
 		ft_printf("\n");
 }

@@ -17,25 +17,33 @@ t_env	*ft_unset2(t_env *env, char *line)
 	t_env	*init_env;
 	t_env	*tmp;
 
+	if (!env || !line)
+		return (env);
 	init_env = env;
+	// Vérifier si c'est le premier élément à supprimer
 	if (ft_strncmp(env->name, line, ft_strlen(line)) == 0
-		&& ft_strlen(env->name) - 1 == ft_strlen(line))
+		&& ft_strlen(env->name) == ft_strlen(line))
 	{
 		init_env = init_env->next;
+		free(env->name);
+		free(env->value);
 		free(env);
 		return (init_env);
 	}
-	while (env)
+	// Parcourir le reste de la liste
+	while (env->next)
 	{
-		tmp = env;
-		env = env->next;
-		if (ft_strncmp(env->name, line, ft_strlen(line)) == 0
-			&& ft_strlen(env->name) - 1 == ft_strlen(line))
+		if (ft_strncmp(env->next->name, line, ft_strlen(line)) == 0
+			&& ft_strlen(env->next->name) == ft_strlen(line))
 		{
-			tmp->next = env->next;
-			free(env);
+			tmp = env->next;
+			env->next = tmp->next;
+			free(tmp->name);
+			free(tmp->value);
+			free(tmp);
 			return (init_env);
 		}
+		env = env->next;
 	}
 	return (init_env);
 }
@@ -43,11 +51,16 @@ t_env	*ft_unset2(t_env *env, char *line)
 t_env	*ft_unset(t_env *env, char **line)
 {
 	int		i;
-	t_env	*first_env;
+	t_env	*current_env;
 
-	first_env = env;
+	if (!env || !line)
+		return (env);
+	current_env = env;
 	i = 1;
 	while (line[i])
-		first_env = ft_unset2(env, line[i++]);
-	return (first_env);
+	{
+		current_env = ft_unset2(current_env, line[i]);
+		i++;
+	}
+	return (current_env);
 }

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/27 01:19:56 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/05/30 00:14:28 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,20 @@ t_lst	*get_words(char *prompt)
 t_args	*and_tok(int en, t_args **token, t_lst *word, int nb_redir)
 {
 	t_args	*pre_tok;
+	int		len;
 
 	(*token)->tok = en;
 	word->content += nb_redir;
 	(*token)->name = ft_strdup(word->content);
-	if ((*token)->name[0] == '\'')
-		(*token)->quote = S_Q;
-	if ((*token)->name[0] == '\"')
-		(*token)->quote = D_Q;
+	(*token)->quote = NO_Q;
+	len = ft_strlen((*token)->name);
+	if (len >= 2)
+	{
+		if ((*token)->name[0] == '\'' && (*token)->name[len - 1] == '\'')
+			(*token)->quote = S_Q;
+		else if ((*token)->name[0] == '\"' && (*token)->name[len - 1] == '\"')
+			(*token)->quote = D_Q;
+	}
 	word->content -= nb_redir;
 	(*token)->next = ft_calloc(sizeof(t_args), 1);
 	pre_tok = (*token);
@@ -75,11 +81,12 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 {
 	t_args	*pre_token;
 	t_lst	*words[2];
-	t_exec	*init_exec;
+	// t_exec	*init_exec;
 
-	init_exec = exec;
+	// init_exec = exec;
 	words[1] = get_words(mnours->line);
 	words[0] = words[1];
+	// mnours->nb_pipe = 0;
 	while (words[1])
 	{
 		if (words[1]->content[0] == '<' || words[1]->content[0] == '>')
@@ -87,6 +94,15 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 		else if (words[1]->content[0] == '|')
 		{
 			tok_pipe(mnours, exec, pre_token);
+			exec = exec->next;
+			tokens = ft_calloc(sizeof(t_args), 1);
+			if (!tokens)
+				ft_error("Tokens alloc", mnours);
+			exec->args = tokens;
+		}
+		else if (words[1]->content[0] == ';')
+		{
+			tok_semicolon(mnours, exec, pre_token);
 			exec = exec->next;
 			tokens = ft_calloc(sizeof(t_args), 1);
 			if (!tokens)
