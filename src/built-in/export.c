@@ -57,9 +57,14 @@ void	ft_export2(t_env *env, char *line)
 	{
 		// Trouver la fin de la liste et ajouter
 		tmp = env;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_env;
+		if (!env)
+			env = new_env;
+		else
+		{
+			while (tmp->next)
+				tmp = tmp->next;
+			tmp->next = new_env;
+		}
 	}
 	free_array(split_result);
 }

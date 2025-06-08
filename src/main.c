@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/07 23:21:55 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/08 23:07:40 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,26 @@ void	write_args(t_exec *exec)
 	}
 }
 
-char	*init_prompt(void)
+char	*init_prompt(t_mnours *mnours)
 {
 	char	*name;
 	char	*pwd;
 	char	*temp;
+	char	*temp1;
 
 	pwd = ft_calloc(sizeof(char), 1024);
 	getcwd(pwd, 1024);
 	if (!pwd)
-		return ("Mininours> ");
-	name = getenv("USER");
+		return (ft_strdup("Mininours> "));
+	name = ft_getenv("USER", mnours->env);
+	if (name == NULL)
+		return (ft_strdup("Mininours> "));
 	temp = ft_strjoin(name, " ");
-	temp = ft_strjoin(temp, pwd);
-	temp = ft_strjoin(temp, " Mininours> ");
+	temp1 = ft_strjoin(temp, pwd);
+	free(temp);
+	temp = ft_strjoin(temp1, " Mininours> ");
+	free(temp1);
+	free(pwd);
 	return (temp);
 }
 
@@ -68,7 +74,7 @@ void	prompter(t_mnours *mnours, char **env)
 		signals(SIGNAL_EXECUTE);
 		if (mnours->line)
 			free(mnours->line);
-		prompt = init_prompt();
+		prompt = init_prompt(mnours);
 		mnours->line = readline(prompt);
 		signals(SIGNAL_IGN);
 		if (g_signal == 130)
@@ -76,7 +82,8 @@ void	prompter(t_mnours *mnours, char **env)
 			g_signal = 0;
 			mnours->exit_code = 130;
 		}
-		free(prompt);
+		if (prompt)
+			free(prompt);
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
