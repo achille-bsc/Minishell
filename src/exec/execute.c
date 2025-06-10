@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/08 22:52:45 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/10 21:35:00 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,31 @@ void	access_path(char **cmd, char **env)
 	}
 }
 
-char	*find_path(char *cmop, char **envp)
+char	*find_path(char *cmop, char **paths)
 {
 	int		i;
-	char	**paths;
 	char	*fpath;
 	char	*temp;
 
-	i = 0;
-	while (envp[i] && ft_strncmp("PATH=", envp[i], 5) != 0)
-		i++;
-	if (envp[i] == NULL)
-		return (NULL);
-	paths = ft_split(envp[i] + 5, ':');
+	// i = 0;
+	// while (envp[i] && ft_strncmp("PATH=", envp[i], 5) != 0)
+	// 	i++;
+	// if (envp[i] == NULL)
+		// return (NULL);
+	// paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i] != NULL)
 	{
 		temp = ft_strjoin(paths[i], "/");
 		fpath = ft_strjoin(temp, cmop);
 		free(temp);
+		ft_printf("|||||||||||||||||||%s\n", fpath);
 		if (access(fpath, X_OK) == 0)
-			return (free_array(paths), fpath);
+		{
+
+			free_array(paths);
+			return (fpath);
+		}
 		free(fpath);
 		i++;
 	}
@@ -63,15 +67,17 @@ char	*find_path(char *cmop, char **envp)
 void	exec_cmd(char **envp, char **cmop, t_mnours *mnours)
 {
 	char	*path;
-
+	ft_printf("%s\n", envp[0]);
 	path = find_path(cmop[0], envp);
+	ft_printf("4sd4f65s46f4sd65%s\n", path);
 	if (path == NULL)
 	{
 		perror("Impossible Path");
 		free_mnours(mnours);
 		exit(3);
 	}
-	execve(path, cmop, envp);
+	free_array(envp);
+	execve(path, cmop, convert_env(mnours));
 	perror("Invailible commande");
 	free(path);
 }
@@ -96,7 +102,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		if (c->is_build == 0)
 		{
 			access_path(c->lst, env);
-			exec_cmd(env, c->lst, data);
+			exec_cmd(ft_split(get_env(data, "PATH")->value, ':'), c->lst, data);
 		}
 		else
 			exec_build(data, c->lst);

@@ -1,0 +1,3 @@
+Execve PATH is not relative to the env PATH (Try unset PATH and ls)
+"echo Bonjour | cat" = malloc(): unaligned fastbin chunk detected 3
+Commande invalide: Dois faire un double exit ctrl+d pour quitter apres une commande

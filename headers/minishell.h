@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/09 00:45:29 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/10 21:45:34 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void		tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
 // void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
 // ----- Parsing | Utils -----
-int			set_squote(char c, int in_squote);
 int			handle_redir(char *prompt, int i, t_lst **word);
 void		check_args(t_exec *exec);
 int			complete(int i, char *prompt, t_lst **word, int *in_quote);
@@ -104,6 +103,7 @@ char		*ft_getenv(char *name, t_env *env);
 t_env		*get_env(t_mnours *mnours, char *var);
 char		*replacer(t_mnours *mnours, char *line);
 int			ft_pwd(t_mnours *mnours);
+void	convert_env(t_mnours *mnours);
 
 void		signals(int sig);
 
