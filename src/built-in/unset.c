@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:56:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/05/27 00:49:33 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/10 23:13:11 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_env	*ft_unset2(t_env *env, char *line)
 	return (init_env);
 }
 
-t_env	*ft_unset(t_env *env, char **line)
+t_env	*ft_unset(t_env *env, char **line, t_mnours *mnours)
 {
 	int		i;
 	t_env	*current_env;
@@ -62,5 +62,6 @@ t_env	*ft_unset(t_env *env, char **line)
 		current_env = ft_unset2(current_env, line[i]);
 		i++;
 	}
+	mnours->lst_env = convert_env(mnours);
 	return (current_env);
 }

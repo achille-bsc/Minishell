@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/10 21:35:00 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/10 23:42:26 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*find_path(char *cmop, char **paths)
 		temp = ft_strjoin(paths[i], "/");
 		fpath = ft_strjoin(temp, cmop);
 		free(temp);
-		ft_printf("|||||||||||||||||||%s\n", fpath);
 		if (access(fpath, X_OK) == 0)
 		{
 
@@ -67,17 +66,14 @@ char	*find_path(char *cmop, char **paths)
 void	exec_cmd(char **envp, char **cmop, t_mnours *mnours)
 {
 	char	*path;
-	ft_printf("%s\n", envp[0]);
 	path = find_path(cmop[0], envp);
-	ft_printf("4sd4f65s46f4sd65%s\n", path);
 	if (path == NULL)
 	{
 		perror("Impossible Path");
 		free_mnours(mnours);
 		exit(3);
 	}
-	free_array(envp);
-	execve(path, cmop, convert_env(mnours));
+	execve(path, cmop, mnours->lst_env);
 	perror("Invailible commande");
 	free(path);
 }

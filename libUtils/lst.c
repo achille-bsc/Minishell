@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/10 21:46:07 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/10 23:22:11 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,6 @@ int	ft_lstargssize(t_args *lst)
 		i++;
 	}
 	return (i);
-}
-
-void	free_lst(char **lst)
-{
-	int	i;
-
-	i = 0;
-	while (lst[i])
-		free(lst[i++]);
-	free(lst);
 }
 
 char	*remove_quotes(char *str, int quote_type)
@@ -143,23 +133,32 @@ int	ft_envsize(t_env *env)
 	}
 	return (i);
 }
-char	*convert_env(t_mnours *mnours)
-{
-	char **env_array;
-	char **temp;
-	t_env *env_lst;
-	int i;
 
+char	**convert_env(t_mnours *mnours)
+{
+	char **env_tab;
+	t_env *tmp;
+	int i;
+	int	j;
+	int k;
+
+	if(mnours->lst_env)
+		free_array(mnours->lst_env);
 	i = 0;
-	env_lst = mnours->env;
-	temp = ft_calloc(sizeof(char *), 2);
-	env_array = ft_calloc(sizeof(char *), ft_envsize(mnours->env) + 1);
-	while (env_lst)
+	tmp = mnours->env;
+	env_tab = ft_calloc(sizeof(char *), ft_envsize(mnours->env) + 1);
+	while (tmp)
 	{
-		temp[0] = ft_strjoin(env_lst->name, "=");
-		env_array[i] = ft_strjoin(temp[0], env_lst->value);
-		free_array(temp);
-		env_lst = env_lst->next;
+		env_tab[i] = ft_calloc(1, ft_strlen(tmp->name) + ft_strlen(tmp->value) + 2);
+		j = ft_strlcpy(env_tab[i], tmp->name, ft_strlen(tmp->name) + 1);
+		env_tab[i][j++] = '=';
+		k = 0;
+		while (tmp->value[k])
+			env_tab[i][j++] = tmp->value[k++];
+		env_tab[i][j] = '\0';
+		tmp = tmp->next;
 		i++;
 	}
+	env_tab[i] = NULL;
+	return (env_tab);
 }

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/10 21:45:34 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 00:09:13 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 extern int	g_signal;
 
 t_env		*ft_envnew(char *line);
-void		ft_env(t_env *env);
 
 // ---- Variables d'environnement ----
 char		**var_search(char **tab, t_env *env);
@@ -72,9 +71,9 @@ char		*get_clean_delimiter(t_args *delimiter);
 
 void		ft_exit(t_mnours *data, char **line);
 void		ft_echo(char **line);
-void		ft_env(t_env *env);
-void		ft_export(t_mnours *data,t_env *env, char **line);
-t_env		*ft_unset(t_env *env, char **line);
+void		ft_env(char **env);
+void		ft_export(t_mnours *data, t_env *env, char **line);
+t_env		*ft_unset(t_env *env, char **line, t_mnours *mnours);
 
 // -------- Tests | Print tokener --------
 void		write_args(t_exec *exec);
@@ -103,11 +102,13 @@ char		*ft_getenv(char *name, t_env *env);
 t_env		*get_env(t_mnours *mnours, char *var);
 char		*replacer(t_mnours *mnours, char *line);
 int			ft_pwd(t_mnours *mnours);
-void	convert_env(t_mnours *mnours);
+char		**convert_env(t_mnours *mnours);
+
+void		update_env(t_mnours *mnours, char *var_name, char *new_value);
 
 void		signals(int sig);
 
-void	close_fds(int fd);
+void		close_fds(int fd);
 // static int	g_signal = 0;
 
 #endif

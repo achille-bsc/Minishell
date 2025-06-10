@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/09 00:11:41 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/10 23:11:37 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	init(t_mnours *mnours, char **env)
 	if (!mnours->pwd)
 		ft_error("Error: Memory allocation error", mnours);
 	set_env(mnours, env);
+	mnours->lst_env = convert_env(mnours);
 	mnours->exit = 0;
 	mnours->is_exit = 0;
 	g_signal = 0;
