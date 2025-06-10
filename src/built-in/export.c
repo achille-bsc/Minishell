@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/04/22 18:26:15 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/09 00:43:01 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	ft_export2(t_env *env, char *line)
+void	ft_export2(t_mnours *data, t_env *env, char *line)
 {
 	t_env	*tmp;
 	t_env	*new_env;
@@ -26,7 +26,6 @@ void	ft_export2(t_env *env, char *line)
 		ft_printf("%s isn't a valid identifier\n", line);
 		return ;
 	}
-	
 	// Diviser la ligne en nom=valeur
 	split_result = ft_split(line, '=');
 	if (!split_result || !split_result[0])
@@ -35,7 +34,6 @@ void	ft_export2(t_env *env, char *line)
 			free_array(split_result);
 		return ;
 	}
-	
 	// Chercher si la variable existe déjà
 	while (tmp)
 	{
@@ -50,9 +48,10 @@ void	ft_export2(t_env *env, char *line)
 		}
 		tmp = tmp->next;
 	}
-	
 	// Si la variable n'existe pas, la créer et l'ajouter à la fin
 	new_env = ft_envnew(line);
+	if (!data->env)
+		data->env = new_env;
 	if (new_env)
 	{
 		// Trouver la fin de la liste et ajouter
@@ -69,7 +68,7 @@ void	ft_export2(t_env *env, char *line)
 	free_array(split_result);
 }
 
-void	ft_export(t_env *env, char **line)
+void	ft_export(t_mnours *data, t_env *env, char **line)
 {
 	int	i;
 
@@ -77,5 +76,5 @@ void	ft_export(t_env *env, char **line)
 	if (line[i] == NULL)
 		ft_env(env);
 	while (line[i])
-		ft_export2(env, line[i++]);
+		ft_export2(data, env, line[i++]);
 }

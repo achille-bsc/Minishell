@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/02 09:04:47 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/09 00:45:50 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exec_build(t_mnours *data, char **l)
 		//ft_cd();
 	else if (!ft_strncmp(l[0], "export", ft_strlen(l[0]))
 		&& ft_strlen(l[0]) == 6)
-		ft_export(data->env, l);
+		ft_export(data, data->env, l);
 	else if (!ft_strncmp(l[0], "unset", ft_strlen(l[0]))
 		&& ft_strlen(l[0]) == 5)
 		data->env = ft_unset(data->env, l);

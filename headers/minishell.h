@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/07 23:15:42 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/09 00:45:29 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char		*get_clean_delimiter(t_args *delimiter);
 void		ft_exit(t_mnours *data, char **line);
 void		ft_echo(char **line);
 void		ft_env(t_env *env);
-void		ft_export(t_env *env, char **line);
+void		ft_export(t_mnours *data,t_env *env, char **line);
 t_env		*ft_unset(t_env *env, char **line);
 
 // -------- Tests | Print tokener --------
