@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/11 04:14:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 22:13:54 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ void	execute(t_mnours *d, char **env)
 	{
 		ft_lstconvert(d, cmd);
 		redir(cmd, d);
-		ft_printf("pipe out %d\n", cmd->fout);
 		is_buildtin(cmd, cmd->lst[0]);
 		if (cmd->is_build == 0)
 		{
@@ -181,10 +180,7 @@ void	execute(t_mnours *d, char **env)
 			waitpid(pid, NULL, 0);
 		}
 		else
-		{
 			exec_build(d, cmd->lst, cmd);
-			ft_printf("magie\n");
-		}
 		if (cmd->fout != 1)
 				close(cmd->fout);
 		if (cmd->fin != 0)

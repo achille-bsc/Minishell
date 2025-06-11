@@ -6,11 +6,39 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/10 23:54:03 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 22:10:14 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+char	**join_split(char **split)
+{
+	char	*tmp;
+	char	**result;
+	int		i;
+
+	result = ft_calloc(sizeof(char *), 3);
+	if (!result)
+		exit(12);
+	result[0] = ft_strdup(split[0]);
+	result[1] = ft_strjoin(split[1], "=");
+	tmp = result[1];
+	result[1] = ft_strjoin(result[1], split[2]);
+	free(tmp);
+	i = 3;
+	while (split[i])
+	{
+		tmp = result[1];
+		result[1] = ft_strjoin(result[1], "=");
+		free(tmp);
+		tmp = result[1];
+		result[1] = ft_strjoin(result[1], split[i++]);
+		free(tmp);
+	}
+	free_array(split);
+	return (result);
+}
 
 void	ft_export2(t_mnours *data, t_env *env, char *line)
 {
@@ -28,12 +56,8 @@ void	ft_export2(t_mnours *data, t_env *env, char *line)
 	}
 	// Diviser la ligne en nom=valeur
 	split_result = ft_split(line, '=');
-	if (!split_result || !split_result[0])
-	{
-		if (split_result)
-			free_array(split_result);
-		return ;
-	}
+	if (split_result[2])
+		split_result = join_split(split_result);
 	// Chercher si la variable existe déjà
 	while (tmp)
 	{
@@ -42,9 +66,8 @@ void	ft_export2(t_mnours *data, t_env *env, char *line)
 		{
 			// Mettre à jour la valeur existante
 			free(tmp->value);
-			tmp->value = split_result[1] ? ft_strdup(split_result[1]) : ft_strdup("");
-			free_array(split_result);
-			return ;
+			tmp->value = ft_strdup(split_result[1]);
+			return (free_array(split_result));
 		}
 		tmp = tmp->next;
 	}
