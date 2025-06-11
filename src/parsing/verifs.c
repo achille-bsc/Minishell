@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 01:16:49 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,6 @@ int	check_quotes(int type, char *line)
 // > echo '$test'
 // > echo "'$test'"
 // > echo '"$test"'
-int	not_valide_char(char c)
-{
-	if (c == ';' || c == '&' || c == '(' || c == ')' || c == '\\' || c == '`'
-		|| c == '{' || c == '}' || c == '[' || c == ']')
-		return (1);
-	return (0);
-}
 
 int	check_chars(char *line)
 {
@@ -130,12 +123,15 @@ int	check_chars(char *line)
 	in_dquote = 0;
 	while (line[i])
 	{
+		if (line[i] == '|' && line[i + 1] && line[i + 1] == '|')
+		{
+			perror("Syntax Error: invalid pipe");
+			return (1);
+		}
 		if (line[i] == '\'' && !in_dquote)
 			in_squote = !in_squote;
 		else if (line[i] == '\"' && !in_squote)
 			in_dquote = !in_dquote;
-		if (!in_squote && !in_dquote && not_valide_char(line[i]))
-			return (1);
 		i++;
 	}
 	return (0);
@@ -150,10 +146,7 @@ int	verif(t_mnours *mnours)
 		return (1);
 	i = 0;
 	if (check_chars(mnours->line) == 1)
-	{
-		perror("Syntax Error: invalid characters");
 		return (1);
-	}
 	while (mnours->line[i] && (mnours->line[i] == ' '
 			|| mnours->line[i] == '\t'))
 		i++;

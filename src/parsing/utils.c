@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 01:40:47 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	complete(int i, char *line, t_lst **word, int *in_squote, int *in_dquote)
 		j++;
 		if (!tmp_in_squote && !tmp_in_dquote &&
 			(line[j] == '<' || line[j] == '>' || line[j] == ' ' ||
-			 line[j] == '\t' || line[j] == '|' || line[j] == ';'))
+			 line[j] == '\t' || line[j] == '|' /* || line[j] == ';' */))
 			break;
 	}
 

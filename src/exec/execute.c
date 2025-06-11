@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/11 22:13:54 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 01:07:07 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	exec_cmd(char **envp, char **cmop, t_mnours *mnours)
 	{
 		perror("Impossible Path");
 		free_mnours(mnours);
-		exit(3);
+		exit(127);
 	}
 	signals(SIGNAL_DEFAULT);
 	execve(path, cmop, mnours->lst_env);
@@ -161,11 +161,18 @@ void	execute(t_mnours *d, char **env)
 			j = 0;
 			while (i-- > 0)
 			{
+				signals_wait();
 				exit_needs_values[0] = waitpid(pid_stock[j++],
 						&exit_needs_values[1], 0);
+				signals(SIGNAL_IGN);
 				if (exit_needs_values[0] == g_signal
 					&& WIFEXITED(exit_needs_values[1]))
 					d->exit_code = WEXITSTATUS(exit_needs_values[1]);
+				if (g_signal == 130 || g_signal == 131)
+				{
+					d->exit_code = g_signal;
+					g_signal = 0;
+				}
 			}
 		}
 	}
@@ -177,7 +184,15 @@ void	execute(t_mnours *d, char **env)
 		if (cmd->is_build == 0)
 		{
 			pid = child_factory(d, cmd, env, pid_stock);
-			waitpid(pid, NULL, 0);
+			signals_wait();
+			waitpid(pid, &exit_needs_values[0], 0);
+			signals(SIGNAL_IGN);
+			d->exit_code = WEXITSTATUS(exit_needs_values[0]);
+			if (g_signal == 130 || g_signal == 131)
+			{
+				d->exit_code = g_signal;
+				g_signal = 0;
+			}
 		}
 		else
 			exec_build(d, cmd->lst, cmd);

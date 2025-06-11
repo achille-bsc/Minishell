@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 00:18:42 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,10 @@ char		**convert_env(t_mnours *mnours);
 void		update_env(t_mnours *mnours, char *var_name, char *new_value);
 
 void		signals(int sig);
+void	signals_wait(void);
 
 void		close_fds(int fd);
+
 // static int	g_signal = 0;
 
 #endif

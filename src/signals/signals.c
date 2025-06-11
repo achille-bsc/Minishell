@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 09:19:12 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/07 23:18:13 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 00:21:07 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,15 @@ void	signals(int sig)
 static void	int_handler_wait(int sig)
 {
 	if (sig == SIGQUIT)
+	{
 		ft_dprintf(2, "Quit (core dumped)");
+		g_signal = 131;
+	}
+	else if (sig == SIGINT)
+		g_signal = 130;
 	ft_dprintf(2, "\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	g_signal = 130;
 }
 
 void	signals_wait(void)

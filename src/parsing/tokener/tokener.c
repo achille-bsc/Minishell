@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 01:50:22 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_lst	*get_words(char *prompt)
 			i = handle_redir(prompt, i, &(words[1]));
 		else if (!in_squote && !in_dquote && prompt[i] == '|')
 			i = capipe(prompt, i, &(words[1]));
-		else if (!in_squote && !in_dquote && prompt[i] == ';')
-			i = casemicolon(prompt, i, &(words[1]));
+		// else if (!in_squote && !in_dquote && prompt[i] == ';')
+		// 	i = casemicolon(prompt, i, &(words[1]));
 		else if (!in_squote && !in_dquote && (prompt[i] == ' ' || prompt[i] == '\t'))
 		{
 			while (prompt[i] == ' ' || prompt[i] == '\t')
@@ -79,6 +79,30 @@ t_args	*maybe_redir(t_args **token, t_lst *words)
 		return (and_tok(TR, token, words, 1));
 }
 
+int verif_words(t_lst *words, t_mnours *mnours)
+{
+	t_lst	*tmp;
+
+	if (!words)
+		return (0);
+	tmp = words;
+	while(tmp)
+	{
+		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
+		{
+			ft_error("Syntax error: Double pipe '||' not allowed", mnours);
+			return (1);
+		}
+		if ((tmp->content[0] == '<' || tmp->content[0] == '>') && !tmp->next)
+		{
+			ft_error("Syntax error: Redirection without command", mnours);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 {
 	t_args	*pre_token;
@@ -87,6 +111,18 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 
 	// init_exec = exec;
 	words[1] = get_words(mnours->line);
+	if (verif_words(words[1], mnours))
+	{
+		ft_free_word(words[0]);
+		return ;
+	}
+	;
+	t_lst *tmp = words[1];
+	while(tmp)
+	{
+		ft_printf("Word: %s\n", tmp->content);
+		tmp = tmp->next;
+	}
 	words[0] = words[1];
 	// mnours->nb_pipe = 0;
 	while (words[1])
@@ -100,15 +136,8 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 			tokens = ft_calloc(sizeof(t_args), 1);
 			if (!tokens)
 				ft_error("Tokens alloc", mnours);
-			exec->args = tokens;
-		}
-		else if (words[1]->content[0] == ';')
-		{
-			tok_semicolon(mnours, exec, pre_token);
-			exec = exec->next;
-			tokens = ft_calloc(sizeof(t_args), 1);
-			if (!tokens)
-				ft_error("Tokens alloc", mnours);
+			tokens->name = NULL;
+			tokens->next = NULL;
 			exec->args = tokens;
 		}
 		else
