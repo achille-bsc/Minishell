@@ -1,3 +1,0 @@
-Base toi sur le contenu des fichier c1.txt et c2.txt pour reecrire tout le system de signal.
-Une variable globale est utilisee, je veux que tu l'utilise egalement (declare la et utilise la comme necessaire).
-Je veux pour cela que tu refasse toute la gestion de signaux de A a Z de tout le projet.
