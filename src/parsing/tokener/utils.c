@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:51:26 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/01 06:20:24 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 01:36:28 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,37 @@ void	tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok)
 	// Pour les points-virgules, on n'augmente pas nb_pipe car ce ne sont pas des pipes
 }
 
+void	expends_exit_status(t_mnours *mnours)
+{
+	t_args	*args;
+	t_exec	*exec;
+
+	exec = mnours->ex;
+	while (exec)
+	{
+		if (exec->args)
+		{
+			args = exec->args;
+			while (args)
+			{
+				if (ft_strncmp(args->name, "$?", 2) == 0
+					&& ft_strlen(args->name) == 2)
+				{
+					free(args->name);
+					args->name = ft_itoa(mnours->exit_code);
+					if (!args->name)
+					{
+						ft_error("Memory allocation error", mnours);
+						return ;
+					}
+				}
+				args = args->next;
+			}
+		}
+		exec = exec->next;
+	}
+}
+
 void	set_token(t_mnours *data)
 {
 	data->nb_pipe = 0;  // Réinitialiser le nombre de pipes
@@ -67,4 +98,5 @@ void	set_token(t_mnours *data)
 	if (!data->ex->args)
 		ft_error("Malloc error", data);
 	tokener(data, data->ex, data->ex->args);
+	expends_exit_status(data);
 }

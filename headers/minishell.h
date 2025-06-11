@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/11 00:09:13 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 04:14:27 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char		*remove_quotes(char *str, int quote_type);
 
 void		redir(t_exec *c, t_mnours *mnours);
 void		execute(t_mnours *d, char **env);
-void		exec_build(t_mnours *data, char **l);
+void	  exec_build(t_mnours *data, char **l, t_exec *c);
 int			should_expand_heredoc(t_args *delimiter);
 char		*get_clean_delimiter(t_args *delimiter);
 

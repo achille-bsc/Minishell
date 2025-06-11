@@ -10,13 +10,8 @@
 		"ph": "php",
 		"th": "html",
 		"cs": "css",
-		"minishell.h": "c",
-		"libft.h": "c",
-		"stdlib.h": "c",
-		"structures.h": "c",
-		"history.h": "c",
-		"type_traits": "c",
-		"struct_rusage.h": "c"
+		"*.h": "c",
+		"*.c": "c",
 	},
 	"todo-tree.tree.showBadges": true,
 	"conventionalCommits.scopes": [

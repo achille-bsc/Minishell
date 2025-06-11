@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/07 23:23:49 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 02:45:11 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 		free(line);
 	}
 	free(clean_delimiter);
+	free_mnours(mnours);
 	close(pipefd[1]);
 	exit(0);
 }

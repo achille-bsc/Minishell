@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/10 23:26:51 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 04:14:44 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,19 @@ int	is_buildtin(t_exec *exe, char *cmd)
 		return (0);
 }
 
-void	exec_build(t_mnours *data, char **l)
+void	exec_build(t_mnours *data, char **l, t_exec *c)
 {
+	int		fd[2];
+
+	fd[0] = dup(0);
+	fd[1] = dup(1);
+
+	if (c->fin != 0)
+		dup_close(c->fin, STDIN_FILENO);
+	if (c->fout != 1)
+		dup_close(c->fout, STDOUT_FILENO);
 	if (!ft_strncmp(l[0], "echo", ft_strlen(l[0])) && ft_strlen(l[0]) == 4)
 		ft_echo(l);
-//	else if (!ft_strncmp(l[0], "cd", ft_strlen(l[0])) && ft_strlen(l[0]) == 2)
-		//ft_cd();
 	else if (!ft_strncmp(l[0], "export", ft_strlen(l[0]))
 		&& ft_strlen(l[0]) == 6)
 		ft_export(data, data->env, l);
@@ -50,13 +57,18 @@ void	exec_build(t_mnours *data, char **l)
 		ft_env(data->lst_env);
 	else if (!ft_strncmp(l[0], "exit", ft_strlen(l[0])) && ft_strlen(l[0]) == 4)
 		ft_exit(data, l);
-
 	else if (!ft_strncmp(l[0], "pwd", ft_strlen(l[0])) && ft_strlen(l[0]) == 3)
 		ft_pwd (data);
 	else if (!ft_strncmp(l[0], "cd", ft_strlen(l[0])) && ft_strlen(l[0]) == 2)
 		ft_cd(l, data);
+	dup_close(fd[0], STDIN_FILENO);
+	dup_close(fd[1], STDOUT_FILENO);
 	if (data->nb_pipe > 0)
 	{
+		if (c->next && c->next->fout != 1)
+			close(c->next->fout);
+		if (c->next && c->next->fin != 0)
+			close(c->next->fin);
 		free_mnours(data);
 		exit(0);
 	}

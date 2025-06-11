@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/02 08:47:56 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 01:23:16 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,5 +167,6 @@ int	verif(t_mnours *mnours)
 	}
 	// mnours->line = replacer(mnours, mnours->line);
 	// ft_printf("%s", mnours->line);
+	// expends_exit_status(mnours);
 	return (0);
 }

@@ -1,3 +1,57 @@
-Execve PATH is not relative to the env PATH (Try unset PATH and ls)
-"echo Bonjour | cat" = malloc(): unaligned fastbin chunk detected 3
-Commande invalide: Dois faire un double exit ctrl+d pour quitter apres une commande
+// Execve PATH is not relative to the env PATH (Try unset PATH and ls)
+// "echo Bonjour | cat" = malloc(): unaligned fastbin chunk detected 3
+// Commande invalide: Dois faire un double exit ctrl+d pour quitter apres une commande
+// Probleme de gestion des signaux pendant l'execution des commandes
+
+ERREUR:
+echo "Bonjour" | cat
+
+
+
+
+
+void	ft_lstprintfd(t_list *lst, int fd)
+{
+	t_list	*tmp;
+	char	*s;
+	size_t	ret;
+
+	tmp = lst;
+	ret = ft_printfd(fd, "➲ Start\n⬇\n");
+	while (tmp != NULL)
+	{
+		s = tmp->content;
+		ret += ft_printfd(fd, "➲ %s\n⬇\n", s);
+		tmp = tmp->next;
+	}
+	ret += ft_printfd(fd, "➲ End\n");
+}
+
+void	ft_putlst_fd(t_list *lst, int fd)
+{
+	t_list	*tmp;
+	char	*s;
+
+	tmp = lst;
+	while (tmp != NULL)
+	{
+		s = tmp->content;
+		ft_putendl_fd(s, fd);
+		tmp = tmp->next;
+	}
+}
+
+void	ft_putlst_fd_prefix(t_list *lst, int fd, char *prefix)
+{
+	t_list	*tmp;
+	char	*s;
+
+	tmp = lst;
+	while (tmp != NULL)
+	{
+		s = tmp->content;
+		ft_putstr_fd(prefix, fd);
+		ft_putendl_fd(s, fd);
+		tmp = tmp->next;
+	}
+}

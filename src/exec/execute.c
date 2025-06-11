@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/10 23:42:26 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 04:14:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*find_path(char *cmop, char **paths)
 	// while (envp[i] && ft_strncmp("PATH=", envp[i], 5) != 0)
 	// 	i++;
 	// if (envp[i] == NULL)
-		// return (NULL);
+	// return (NULL);
 	// paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i] != NULL)
@@ -53,7 +53,6 @@ char	*find_path(char *cmop, char **paths)
 		free(temp);
 		if (access(fpath, X_OK) == 0)
 		{
-
 			free_array(paths);
 			return (fpath);
 		}
@@ -66,6 +65,7 @@ char	*find_path(char *cmop, char **paths)
 void	exec_cmd(char **envp, char **cmop, t_mnours *mnours)
 {
 	char	*path;
+
 	path = find_path(cmop[0], envp);
 	if (path == NULL)
 	{
@@ -73,12 +73,14 @@ void	exec_cmd(char **envp, char **cmop, t_mnours *mnours)
 		free_mnours(mnours);
 		exit(3);
 	}
+	signals(SIGNAL_DEFAULT);
 	execve(path, cmop, mnours->lst_env);
+	signals(SIGNAL_IGN);
 	perror("Invailible commande");
 	free(path);
 }
 
-pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
+pid_t	child_factory(t_mnours *data, t_exec *c, char **env, int *pid_stock)
 {
 	pid_t	pid;
 
@@ -87,21 +89,22 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		exit(1);
 	if (pid == 0)
 	{
-		if (c->fin != 0)
+		if (c->next && c->next->fout != 1)
+			close(c->next->fout);
+		if (c->next && c->next->fin != 0)
+			close(c->next->fin);
+		free(pid_stock);
+		if (c->fin != 0 && c->is_build == 0)
 			dup_close(c->fin, STDIN_FILENO);
-		if (c->fout != 1)
-		{
-			if (c->next->fin != 0)
-				close(c->next->fin);
+		if (c->fout != 1 && c->is_build == 0)
 			dup_close(c->fout, STDOUT_FILENO);
-		}
 		if (c->is_build == 0)
 		{
 			access_path(c->lst, env);
 			exec_cmd(ft_split(get_env(data, "PATH")->value, ':'), c->lst, data);
 		}
 		else
-			exec_build(data, c->lst);
+			exec_build(data, c->lst, c);
 	}
 	if (c->fin != 0)
 		close(c->fin);
@@ -121,14 +124,12 @@ void	execute(t_mnours *d, char **env)
 	int		exit_needs_values[2];
 
 	cmd = d->ex;
-	ft_printf("%s\n", cmd->args->name);
+	pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 	if (d->nb_pipe > 0)
 	{
 		ft_lstconvert(d, cmd);
 		redir(cmd, d);
 		i = 0;
-		if (d->nb_pipe > 0 || is_buildtin(cmd, cmd->lst[0]) == 0)
-			pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 		while (i <= d->nb_pipe)
 		{
 			if (cmd->fout == 1 && cmd->next)
@@ -145,9 +146,9 @@ void	execute(t_mnours *d, char **env)
 			}
 			is_buildtin(cmd, cmd->lst[0]);
 			if (d->nb_pipe > 0 || cmd->is_build == 0)
-				pid_stock[i] = child_factory(d, cmd, env);
+				pid_stock[i] = child_factory(d, cmd, env, pid_stock);
 			else
-				exec_build(d, cmd->lst);
+				exec_build(d, cmd->lst, cmd);
 			if (cmd->fout != 1)
 				close(cmd->fout);
 			if (cmd->fin != 0)
@@ -166,24 +167,28 @@ void	execute(t_mnours *d, char **env)
 					&& WIFEXITED(exit_needs_values[1]))
 					d->exit_code = WEXITSTATUS(exit_needs_values[1]);
 			}
-			free(pid_stock);
 		}
 	}
 	else
 	{
-		while (cmd)
+		ft_lstconvert(d, cmd);
+		redir(cmd, d);
+		ft_printf("pipe out %d\n", cmd->fout);
+		is_buildtin(cmd, cmd->lst[0]);
+		if (cmd->is_build == 0)
 		{
-			ft_lstconvert(d, cmd);
-			redir(cmd, d);
-			is_buildtin(cmd, cmd->lst[0]);
-			if (cmd->is_build == 0)
-			{
-				pid = child_factory(d, cmd, env);
-				waitpid(pid, NULL, 0);
-			}
-			else
-				exec_build(d, cmd->lst);
-			cmd = cmd->next;
+			pid = child_factory(d, cmd, env, pid_stock);
+			waitpid(pid, NULL, 0);
 		}
+		else
+		{
+			exec_build(d, cmd->lst, cmd);
+			ft_printf("magie\n");
+		}
+		if (cmd->fout != 1)
+				close(cmd->fout);
+		if (cmd->fin != 0)
+				close(cmd->fin);
 	}
+	free(pid_stock);
 }
