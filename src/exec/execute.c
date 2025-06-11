@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 01:07:07 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 01:57:08 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env, int *pid_stock)
 		exit(1);
 	if (pid == 0)
 	{
-		if (c->next && c->next->fout != 1)
+		if (c->next && c->next->fout > 2)
 			close(c->next->fout);
-		if (c->next && c->next->fin != 0)
+		if (c->next && c->next->fin > 2)
 			close(c->next->fin);
 		free(pid_stock);
 		if (c->fin != 0 && c->is_build == 0)
@@ -127,21 +127,25 @@ void	execute(t_mnours *d, char **env)
 	pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 	if (d->nb_pipe > 0)
 	{
-		ft_lstconvert(d, cmd);
-		redir(cmd, d);
 		i = 0;
 		while (i <= d->nb_pipe)
 		{
-			if (cmd->fout == 1 && cmd->next)
+			if (redir(cmd, d) == -1)
 			{
-				redir(cmd->next, d);
-				if (cmd->next->fin == 0)
+				if (cmd->fout != 1)
+					close(cmd->fout);
+				i++;
+				cmd = cmd->next;
+				continue ;
+			}
+			ft_lstconvert(d, cmd);
+			if (cmd->next)
+			{
+				if (cmd->fout == 1)
 				{
 					pipe(fd);
 					cmd->fout = fd[1];
-					cmd->pipe = OUT;
 					cmd->next->fin = fd[0];
-					cmd->next->pipe = IN;
 				}
 			}
 			is_buildtin(cmd, cmd->lst[0]);
@@ -179,27 +183,31 @@ void	execute(t_mnours *d, char **env)
 	else
 	{
 		ft_lstconvert(d, cmd);
-		redir(cmd, d);
-		is_buildtin(cmd, cmd->lst[0]);
-		if (cmd->is_build == 0)
+		if (redir(cmd, d) != -1)
 		{
-			pid = child_factory(d, cmd, env, pid_stock);
-			signals_wait();
-			waitpid(pid, &exit_needs_values[0], 0);
-			signals(SIGNAL_IGN);
-			d->exit_code = WEXITSTATUS(exit_needs_values[0]);
-			if (g_signal == 130 || g_signal == 131)
+			is_buildtin(cmd, cmd->lst[0]);
+			if (cmd->is_build == 0)
 			{
-				d->exit_code = g_signal;
-				g_signal = 0;
+				pid = child_factory(d, cmd, env, pid_stock);
+				signals_wait();
+				waitpid(pid, &exit_needs_values[0], 0);
+				signals(SIGNAL_IGN);
+				d->exit_code = WEXITSTATUS(exit_needs_values[0]);
+				if (g_signal == 130 || g_signal == 131)
+				{
+					d->exit_code = g_signal;
+					g_signal = 0;
+				}
 			}
-		}
-		else
-			exec_build(d, cmd->lst, cmd);
-		if (cmd->fout != 1)
+			else
+				exec_build(d, cmd->lst, cmd);
+			if (cmd->fout != 1)
 				close(cmd->fout);
-		if (cmd->fin != 0)
+			if (cmd->fin != 0)
 				close(cmd->fin);
+		}
+		else if (cmd->fout != 1)
+			close(cmd->fout);
 	}
 	free(pid_stock);
 }

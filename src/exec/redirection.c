@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/11 02:45:11 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 23:47:48 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int	open_file(t_exec *c, t_args *n)
 	return (1);
 }
 
-void	redir(t_exec *c, t_mnours *mnours)
+int	redir(t_exec *c, t_mnours *mnours)
 {
 	t_args	*n;
 
@@ -164,7 +164,7 @@ void	redir(t_exec *c, t_mnours *mnours)
 		{
 			here_doc(n, c, mnours);
 			if (c->l_hd == -1)
-				return ;
+				return (-1);
 		}
 		n = n->next;
 	}
@@ -174,17 +174,18 @@ void	redir(t_exec *c, t_mnours *mnours)
 		if (n->tok == OP || n->tok == AP || n->tok == TR)
 		{
 			if (open_file(c, n) == -1)
-				return ;
+				return (-1);
 		}
 		if (n->tok == HD && c->l_hd != -1)
 		{
-			if (c->fin != -1 && c->fin != 0)
+			if (c->fin != 0)
 				close(c->fin);
 			c->fin = c->l_hd;
 			c->l_hd = -1;
 		}
 		n = n->next;
 	}
+	return (1);
 }
 
 int	should_expand_heredoc(t_args *delimiter)
