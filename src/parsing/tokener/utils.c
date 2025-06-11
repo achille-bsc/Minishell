@@ -6,19 +6,23 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:51:26 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/11 21:20:01 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../headers/minishell.h"
 
-int	set_dquote(char prompt, int in_quote)
+void	set_quotes(char prompt, int *in_squote, int *in_dquote)
 {
-	if (prompt == '"')
-		in_quote = !in_quote;
-	return (in_quote);
+	if (prompt == '\'' && !(*in_dquote))
+	{
+		*in_squote = !(*in_squote);
+	}
+	else if (prompt == '\"' && !(*in_squote))
+	{
+		*in_dquote = !(*in_dquote);
+	}
 }
-
 int	capipe(char *prompt, int i, t_lst **word)
 {
 	(*word)->content = ft_calloc(sizeof(char), 2);

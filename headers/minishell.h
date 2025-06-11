@@ -6,7 +6,11 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/11 23:45:36 by alegrix          ###   ########.fr       */
+=======
+/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
+>>>>>>> 58a11ad7e67da4be85499706c96b6aafbd4b6467
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +45,14 @@ char		*get_var_value(char *var_name, t_env *env);
 void		parser(char *prompt, t_mnours *data);
 void		parsing(t_args *tokens);
 void		tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
+int			analyze_quote_type(char *str);
 // void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
 // ----- Parsing | Utils -----
 int			handle_redir(char *prompt, int i, t_lst **word);
 void		check_args(t_exec *exec);
-int			complete(int i, char *prompt, t_lst **word, int *in_quote);
+int			complete(int i, char *line, t_lst **word, int *in_squote,
+				int *in_dquote);
 t_lst		*create_word(void);
 int			verif(t_mnours *mnours);
 int			is_buildtin(t_exec *exe, char *cmd);
@@ -81,12 +87,13 @@ void		write_args(t_exec *exec);
 // -------- Executing | Utils ---------
 void		dup_close(int fd, int fileno);
 void		free_array(char **array);
+char		*process_complex_quotes(char *str);
 
 // -------- Executing | Utils ---------
 void		resetfd(int fd, int fout);
 
 // ------- Tokener | Utils ------
-int			set_dquote(char c, int in_dquote);
+void		set_quotes(char prompt, int *in_squote, int *in_dquote);
 int			capipe(char *prompt, int i, t_lst **word);
 int			casemicolon(char *prompt, int i, t_lst **word);
 void		tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);

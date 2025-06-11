@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/11 01:23:16 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,15 +122,19 @@ int	not_valide_char(char c)
 int	check_chars(char *line)
 {
 	int	i;
-	int	in_quotes;
+	int	in_squote;
+	int	in_dquote;
 
 	i = 0;
-	in_quotes = 0;
+	in_squote = 0;
+	in_dquote = 0;
 	while (line[i])
 	{
-		if (line[i] == '"' || line[i] == '\'')
-			in_quotes = !in_quotes;
-		if (!in_quotes && not_valide_char(line[i]))
+		if (line[i] == '\'' && !in_dquote)
+			in_squote = !in_squote;
+		else if (line[i] == '\"' && !in_squote)
+			in_dquote = !in_dquote;
+		if (!in_squote && !in_dquote && not_valide_char(line[i]))
 			return (1);
 		i++;
 	}
