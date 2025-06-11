@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/26 23:55:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 21:47:55 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_lst	*create_word(void)
 
 	word = ft_calloc(sizeof(t_lst), 1);
 	if (!word)
-		exit(1);
+		return (NULL);
 	return (word);
 }
 
@@ -74,12 +74,15 @@ int	complete(int i, char *line, t_lst **word, int *in_quote)
 	tmp_quote = *in_quote;
 	while ((tmp_quote || (line[j] != '<' && line[j] != '>' && line[j] != ' '
 				&& line[j] != '\t' && line[j] != '|')) && line[j])
-		tmp_quote = set_dquote(line[j++], tmp_quote);
+	{
+		tmp_quote = set_dquote(line[j], tmp_quote);
+		j++;
+	}
 	(*word)->content = ft_calloc(sizeof(char), j - i + 1);
 	if (!(*word)->content)
 		exit(1);
 	j = 0;
-	while ((*in_quote || (line[i] != '<' && line[i] != '>' && line[i] != ' '
+	while ((tmp_quote || (line[i] != '<' && line[i] != '>' && line[i] != ' '
 				&& line[i] != '\t' && line[i] != '|')) && line[i])
 		(*word)->content[j++] = line[i++];
 	(*word)->next = ft_calloc(sizeof(t_lst), 1);

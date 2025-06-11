@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/30 00:14:28 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 21:47:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ t_lst	*get_words(char *prompt)
 	words[0] = words[1];
 	while (prompt[i])
 	{
-		in_quote = set_dquote(prompt[i], in_quote);
+		// in_quote = set_dquote(prompt[i], in_quote);
+		// ft_printf("in_quote: %i\n", in_quote);
+		// ft_printf("prompt[%i]: %c\n", i, prompt[i]);
 		if (!in_quote && (prompt[i] == '<' || prompt[i] == '>'))
 			i = handle_redir(prompt, i, &(words[1]));
 		else if (!in_quote && prompt[i] == '|')
