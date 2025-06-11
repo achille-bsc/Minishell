@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/11 21:47:55 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,40 @@ void	check_args(t_exec *exec)
 	}
 }
 
-int	complete(int i, char *line, t_lst **word, int *in_quote)
+int	complete(int i, char *line, t_lst **word, int *in_squote, int *in_dquote)
 {
 	int	j;
-	int	tmp_quote;
+	int	tmp_in_squote;
+	int	tmp_in_dquote;
 
 	j = i;
-	tmp_quote = *in_quote;
-	while ((tmp_quote || (line[j] != '<' && line[j] != '>' && line[j] != ' '
-				&& line[j] != '\t' && line[j] != '|')) && line[j])
+	tmp_in_squote = *in_squote;
+	tmp_in_dquote = *in_dquote;
+
+	// Scanner d'abord pour trouver la fin du token
+	while (line[j])
 	{
-		tmp_quote = set_dquote(line[j], tmp_quote);
+		set_quotes(line[j], &tmp_in_squote, &tmp_in_dquote);
 		j++;
+		if (!tmp_in_squote && !tmp_in_dquote &&
+			(line[j] == '<' || line[j] == '>' || line[j] == ' ' ||
+			 line[j] == '\t' || line[j] == '|' || line[j] == ';'))
+			break;
 	}
+
 	(*word)->content = ft_calloc(sizeof(char), j - i + 1);
 	if (!(*word)->content)
 		exit(1);
-	j = 0;
-	while ((tmp_quote || (line[i] != '<' && line[i] != '>' && line[i] != ' '
-				&& line[i] != '\t' && line[i] != '|')) && line[i])
-		(*word)->content[j++] = line[i++];
+
+	// Copier le contenu
+	int k = 0;
+	while (i < j && line[i])
+	{
+		(*word)->content[k++] = line[i];
+		set_quotes(line[i], in_squote, in_dquote);
+		i++;
+	}
+
 	(*word)->next = ft_calloc(sizeof(t_lst), 1);
 	(*word) = (*word)->next;
 	return (i);

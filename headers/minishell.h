@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/11 21:35:53 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,14 @@ char		*get_var_value(char *var_name, t_env *env);
 void		parser(char *prompt, t_mnours *data);
 void		parsing(t_args *tokens);
 void		tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
+int			analyze_quote_type(char *str);
 // void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
 // ----- Parsing | Utils -----
 int			handle_redir(char *prompt, int i, t_lst **word);
 void		check_args(t_exec *exec);
-int			complete(int i, char *prompt, t_lst **word, int *in_quote);
+int			complete(int i, char *line, t_lst **word, int *in_squote,
+				int *in_dquote);
 t_lst		*create_word(void);
 int			verif(t_mnours *mnours);
 int			is_buildtin(t_exec *exe, char *cmd);
@@ -65,7 +67,7 @@ char		*remove_quotes(char *str, int quote_type);
 
 void		redir(t_exec *c, t_mnours *mnours);
 void		execute(t_mnours *d, char **env);
-void	  exec_build(t_mnours *data, char **l, t_exec *c);
+void		exec_build(t_mnours *data, char **l, t_exec *c);
 int			should_expand_heredoc(t_args *delimiter);
 char		*get_clean_delimiter(t_args *delimiter);
 
@@ -81,12 +83,13 @@ void		write_args(t_exec *exec);
 // -------- Executing | Utils ---------
 void		dup_close(int fd, int fileno);
 void		free_array(char **array);
+char		*process_complex_quotes(char *str);
 
 // -------- Executing | Utils ---------
 void		resetfd(int fd, int fout);
 
 // ------- Tokener | Utils ------
-int			set_dquote(char c, int in_dquote);
+void		set_quotes(char prompt, int *in_squote, int *in_dquote);
 int			capipe(char *prompt, int i, t_lst **word);
 int			casemicolon(char *prompt, int i, t_lst **word);
 void		tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);

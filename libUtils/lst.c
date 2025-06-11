@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/10 23:22:11 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ char	*remove_quotes(char *str, int quote_type)
 
 	if (!str || quote_type == NO_Q)
 		return (ft_strdup(str));
+
 	len = ft_strlen(str);
 	if (len < 2)
 		return (ft_strdup(str));
-	if ((quote_type == S_Q && str[0] == '\'' && str[len - 1] == '\'')
-		|| (quote_type == D_Q && str[0] == '\"' && str[len - 1] == '\"'))
+
+	// Pour les quotes simples complètes, enlever juste les quotes extérieures
+	if (quote_type == S_Q && str[0] == '\'' && str[len - 1] == '\'')
 	{
 		result = malloc(sizeof(char) * (len - 1));
 		if (!result)
@@ -54,7 +56,68 @@ char	*remove_quotes(char *str, int quote_type)
 		result[j] = '\0';
 		return (result);
 	}
-	return (ft_strdup(str));
+
+	// Pour les guillemets doubles simples, enlever juste les quotes extérieures
+	if (quote_type == D_Q && str[0] == '\"' && str[len - 1] == '\"')
+	{
+		result = malloc(sizeof(char) * (len - 1));
+		if (!result)
+			return (NULL);
+		i = 1;
+		j = 0;
+		while (i < len - 1)
+			result[j++] = str[i++];
+		result[j] = '\0';
+		return (result);
+	}
+
+	// Pour les cas complexes, utiliser le processeur de quotes complexes
+	return (process_complex_quotes(str));
+}
+
+char	*process_complex_quotes(char *str)
+{
+	char	*result;
+	int		i, j;
+	int		len;
+	int		in_dquote;
+	int		in_squote;
+
+	if (!str)
+		return (NULL);
+
+	len = ft_strlen(str);
+	result = malloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+
+	i = 0;
+	j = 0;
+	in_dquote = 0;
+	in_squote = 0;
+
+	while (i < len)
+	{
+		if (str[i] == '\"' && !in_squote)
+		{
+			in_dquote = !in_dquote;
+			// Ne pas copier les guillemets dans le résultat final
+		}
+		else if (str[i] == '\'' && !in_dquote)
+		{
+			in_squote = !in_squote;
+			// Ne pas copier les apostrophes dans le résultat final
+		}
+		else
+		{
+			// Copier le caractère
+			result[j++] = str[i];
+		}
+		i++;
+	}
+
+	result[j] = '\0';
+	return (result);
 }
 
 void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
@@ -84,20 +147,29 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 				// Appliquer l'expansion des variables d'environnement AVANT de supprimer les guillemets
 				// mais seulement si ce ne sont pas des guillemets simples
 				if (tmp->quote != S_Q)
-				// Pas d'expansion avec les guillemets simples
 				{
 					expanded_name = replace_variable(tmp->name, mini->env);
 					if (!expanded_name)
 						expanded_name = ft_strdup(tmp->name);
-					// Fallback si échec
 				}
 				else
 				{
 					expanded_name = ft_strdup(tmp->name);
 				}
-				quoted_removed = remove_quotes(expanded_name, tmp->quote);
+
+				// Pour les cas complexes, toujours traiter les quotes
+				if (tmp->quote == NO_Q && (ft_strchr(expanded_name, '\'') || ft_strchr(expanded_name, '\"')))
+				{
+					quoted_removed = process_complex_quotes(expanded_name);
+				}
+				else
+				{
+					quoted_removed = remove_quotes(expanded_name, tmp->quote);
+				}
+
+				if (!quoted_removed)
+					quoted_removed = ft_strdup(expanded_name);
 				dat_tmp->lst[i++] = quoted_removed;
-				// Libérer la mémoire allouée
 				free(expanded_name);
 			}
 			tmp = tmp->next;
