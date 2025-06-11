@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/11 21:35:53 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/11 23:45:36 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int			ft_args_lstsize(t_args *lst);
 void		ft_lstconvert(t_mnours *mini, t_exec *data);
 char		*remove_quotes(char *str, int quote_type);
 
-void		redir(t_exec *c, t_mnours *mnours);
+int			redir(t_exec *c, t_mnours *mnours);
 void		execute(t_mnours *d, char **env);
-void	  exec_build(t_mnours *data, char **l, t_exec *c);
+void		exec_build(t_mnours *data, char **l, t_exec *c);
 int			should_expand_heredoc(t_args *delimiter);
 char		*get_clean_delimiter(t_args *delimiter);
 
