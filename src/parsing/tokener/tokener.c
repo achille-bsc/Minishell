@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 22:29:22 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 22:59:43 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,11 @@ int verif_words(t_lst *words)
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
 		{
 			perror("Syntax error: Double pipe '| |' not allowed");
+			return (1);
+		}
+		if (tmp->content[0] == '|' && !tmp->next)
+		{
+			perror("Syntax error: Pipe '|' at the end of command not allowed");
 			return (1);
 		}
 		tmp = tmp->next;

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 22:28:41 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 23:01:59 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	handle_redir(char *lne, int i, t_lst **word)
 	tmp = j;
 	while (lne[j] && lne[j] != ' ' && lne[j] != '<' && lne[j] != '>' && lne[j] != '|')
 	{
-		ft_printf("lne[%d]: %c\n", j, lne[j]);
+		// ft_printf("lne[%d]: %c\n", j, lne[j]);
 		if (lne[j] == '\'' || lne[j] == '\"')
 		{
 			if (inquote[0] == 0 && lne[j] == '\'')
