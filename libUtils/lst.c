@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 00:00:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 23:39:01 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,27 @@ int	ft_lstargssize(t_args *lst)
 		i++;
 	}
 	return (i);
+}
+
+char    **ft_tabdup(char **tab)
+{
+    char    **res;
+    int        i;
+
+    i = 0;
+    if (!tab)
+        return (NULL);
+    while (tab[i])
+        i++;
+    res = malloc((i + 1) * sizeof(char *));
+    i = 0;
+    while (tab != NULL && tab[i] != NULL)
+    {
+        i[res] = ft_strdup(tab[i]);
+        i++;
+    }
+    res[i] = NULL;
+    return (res);
 }
 
 char	*remove_quotes(char *str, int quote_type)
@@ -125,58 +146,50 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 	char	*expanded_name;
 	char	*quoted_removed;
 
-	while (dat_tmp)
+	i = 0;
+	tmp = dat_tmp->args;
+	while (tmp)
 	{
-		i = 0;
-		tmp = dat_tmp->args;
-		while (tmp)
-		{
-			if (tmp->tok == CMD)
-				i++;
-			tmp = tmp->next;
-		}
-		dat_tmp->lst = malloc(sizeof(char *) * (i + 1));
-		if (!dat_tmp->lst)
-			ft_error("malloc error", mini);
-		i = 0;
-		tmp = dat_tmp->args;
-		while (tmp)
-		{
-			if (tmp->tok == CMD)
-			{
-				// Appliquer l'expansion des variables d'environnement AVANT de supprimer les guillemets
-				// mais seulement si ce ne sont pas des guillemets simples
-				if (tmp->quote != S_Q)
-				{
-					expanded_name = replace_variable(tmp->name, mini->env);
-					if (!expanded_name)
-						expanded_name = ft_strdup(tmp->name);
-				}
-				else
-				{
-					expanded_name = ft_strdup(tmp->name);
-				}
-
-				// Pour les cas complexes, toujours traiter les quotes
-				if (tmp->quote == NO_Q && (ft_strchr(expanded_name, '\'') || ft_strchr(expanded_name, '\"')))
-				{
-					quoted_removed = process_complex_quotes(expanded_name);
-				}
-				else
-				{
-					quoted_removed = remove_quotes(expanded_name, tmp->quote);
-				}
-
-				if (!quoted_removed)
-					quoted_removed = ft_strdup(expanded_name);
-				dat_tmp->lst[i++] = quoted_removed;
-				free(expanded_name);
-			}
-			tmp = tmp->next;
-		}
-		dat_tmp->lst[i] = NULL;
-		dat_tmp = dat_tmp->next;
+		if (tmp->tok == CMD)
+			i++;
+		tmp = tmp->next;
 	}
+	dat_tmp->lst = malloc(sizeof(char *) * (i + 1));
+	if (!dat_tmp->lst)
+		ft_error("malloc error", mini);
+	i = 0;
+	tmp = dat_tmp->args;
+	while (tmp)
+	{
+		if (tmp->tok == CMD)
+		{
+			if (tmp->quote != S_Q)
+			{
+				expanded_name = replace_variable(tmp->name, mini->env);
+				if (!expanded_name)
+					expanded_name = ft_strdup(tmp->name);
+			}
+			else
+			{
+				expanded_name = ft_strdup(tmp->name);
+			}
+			if (tmp->quote == NO_Q && (ft_strchr(expanded_name, '\'') || ft_strchr(expanded_name, '\"')))
+			{
+				quoted_removed = process_complex_quotes(expanded_name);
+			}
+			else
+			{
+				quoted_removed = remove_quotes(expanded_name, tmp->quote);
+			}
+			if (!quoted_removed)
+				quoted_removed = ft_strdup(expanded_name);
+			dat_tmp->lst[i++] = quoted_removed;
+			free(expanded_name);
+		}
+		tmp = tmp->next;
+	}
+	dat_tmp->lst[i] = NULL;
+	dat_tmp = dat_tmp->next;
 }
 
 void	ft_lstconvert(t_mnours *mini, t_exec *data)

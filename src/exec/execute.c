@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 22:06:36 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 22:38:03 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,22 @@ char	*find_path(char *cmop, char **paths)
 	return (free_array(paths), NULL);
 }
 
-void	exec_cmd(char **envp, char **cmop, t_mnours *mnours)
+void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 {
 	char	*path;
+	char	**tab;
 
-	path = find_path(cmop[0], envp);
+	tab = ft_tabdup(c->lst);
+	path = find_path(tab[0], envp);
 	if (path == NULL)
 	{
 		perror("Impossible Path");
 		free_mnours(mnours);
 		exit(127);
 	}
+	free_exec(c);
 	signals(SIGNAL_DEFAULT);
-	execve(path, cmop, mnours->lst_env);
+	execve(path, tab, mnours->lst_env);
 	signals(SIGNAL_IGN);
 	perror("Invailible commande");
 	free_mnours(mnours);
@@ -101,7 +104,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		if (c->is_build == 0)
 		{
 			access_path(c->lst, env);
-			exec_cmd(ft_split(get_env(data, "PATH")->value, ':'), c->lst, data);
+			exec_cmd(ft_split(get_env(data, "PATH")->value, ':'), c, data);
 		}
 		else
 			exec_build(data, c->lst, c);
@@ -142,9 +145,11 @@ void	execute(t_mnours *d, char **env)
 				continue ;
 			if (cmd->next)
 			{
-				ft_printf("test\n\n\n");
 				pipe(fd);
-				cmd->fout = fd[1];
+				if (cmd->fout == 1)
+					cmd->fout = fd[1];
+				else
+					close(fd[1]);
 				cmd->next->fin = fd[0];
 			}
 			is_buildtin(cmd, cmd->lst[0]);
