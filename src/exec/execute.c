@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 01:57:08 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 02:51:42 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	execute(t_mnours *d, char **env)
 				continue ;
 			}
 			ft_lstconvert(d, cmd);
+			if (!cmd->lst[0])
+				continue ;
 			if (cmd->next)
 			{
 				if (cmd->fout == 1)
@@ -182,29 +184,32 @@ void	execute(t_mnours *d, char **env)
 	}
 	else
 	{
-		ft_lstconvert(d, cmd);
 		if (redir(cmd, d) != -1)
 		{
-			is_buildtin(cmd, cmd->lst[0]);
-			if (cmd->is_build == 0)
+			ft_lstconvert(d, cmd);
+			if (cmd->lst[0])
 			{
-				pid = child_factory(d, cmd, env, pid_stock);
-				signals_wait();
-				waitpid(pid, &exit_needs_values[0], 0);
-				signals(SIGNAL_IGN);
-				d->exit_code = WEXITSTATUS(exit_needs_values[0]);
-				if (g_signal == 130 || g_signal == 131)
+				is_buildtin(cmd, cmd->lst[0]);
+				if (cmd->is_build == 0)
 				{
-					d->exit_code = g_signal;
-					g_signal = 0;
+					pid = child_factory(d, cmd, env, pid_stock);
+					signals_wait();
+					waitpid(pid, &exit_needs_values[0], 0);
+					signals(SIGNAL_IGN);
+					d->exit_code = WEXITSTATUS(exit_needs_values[0]);
+					if (g_signal == 130 || g_signal == 131)
+					{
+						d->exit_code = g_signal;
+						g_signal = 0;
+					}
 				}
+				else
+					exec_build(d, cmd->lst, cmd);
+				if (cmd->fout != 1)
+					close(cmd->fout);
+				if (cmd->fin != 0)
+					close(cmd->fin);
 			}
-			else
-				exec_build(d, cmd->lst, cmd);
-			if (cmd->fout != 1)
-				close(cmd->fout);
-			if (cmd->fin != 0)
-				close(cmd->fin);
 		}
 		else if (cmd->fout != 1)
 			close(cmd->fout);
