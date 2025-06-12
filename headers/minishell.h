@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 02:05:23 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 14:50:35 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int			should_expand_heredoc(t_args *delimiter);
 char		*get_clean_delimiter(t_args *delimiter);
 
 void		ft_exit(t_mnours *data, char **line);
-void		ft_echo(char **line);
+int			ft_echo(char **line);
 void		ft_env(char **env);
 void		ft_export(t_mnours *data, t_env *env, char **line);
 t_env		*ft_unset(t_env *env, char **line, t_mnours *mnours);

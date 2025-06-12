@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 03:36:55 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:02:40 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,9 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		else
 			exec_build(data, c->lst, c);
 	}
-	if (c->fin != 0)
+	if (c->fin > 2)
 		close(c->fin);
-	if (c->fout != 1)
+	if (c->fout > 2)
 		close(c->fout);
 	return (pid);
 }
@@ -207,9 +207,9 @@ void	execute(t_mnours *d, char **env)
 					exec_build(d, cmd->lst, cmd);
 			}
 		}
-		if (cmd->fout != 1)
+		if (cmd->fout > 2)
 			close(cmd->fout);
-		if (cmd->fin != 0)
+		if (cmd->fin > 2)
 			close(cmd->fin);
 	}
 }

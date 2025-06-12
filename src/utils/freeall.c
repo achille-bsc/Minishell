@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 03:18:55 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 14:59:18 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	free_exec(t_exec *exe)
 			free_args(exe->args);
 		if (exe->lst)
 			free_array(exe->lst);
-		if (exe->fin == 0)
+		if (exe->fin > 2)
 			close(exe->fin);
-		if (exe->fout == 1)
+		if (exe->fout > 2)
 			close(exe->fout);
 		free(exe);
 		exe = temp;

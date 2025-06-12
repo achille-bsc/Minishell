@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 03:40:14 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 15:00:15 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void	prompter(t_mnours *mnours, char **env)
 		}
 		execute(mnours, env);
 		free_exec(mnours->ex);
+		free(mnours->pid_stock);
+		mnours->pid_stock = NULL;
 		mnours->ex = NULL;
 		g_signal = 0;
 	}
@@ -159,6 +161,6 @@ int	main(int argc, char **argv, char **env)
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
 	init(mininours, env);
-	prompter(mininours, env);
+	prompter(mininours, env);	
 	return (0);
 }
