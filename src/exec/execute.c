@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 01:17:04 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/13 01:40:46 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*find_path(char *cmop, char **paths)
 	}
 	return (free_array(paths), NULL);
 }
-
+/*
  void    printtkt(void)
  {
      int    i;
@@ -74,7 +74,7 @@ char	*find_path(char *cmop, char **paths)
          }
      }
  }
-
+*/
 void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 {
 	char	*path;
@@ -206,8 +206,6 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (cmd->lst[0])
 			{
-				ft_printf("fd in %d\n", cmd->fin);
-				printtkt();
 				is_buildtin(cmd, cmd->lst[0]);
 				if (cmd->is_build == 0)
 				{

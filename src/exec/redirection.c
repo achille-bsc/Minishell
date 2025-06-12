@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 01:38:44 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/13 01:40:19 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,24 +188,15 @@ int	redir(t_exec *c)
 		if (n->tok == HD)
 		{
 			if (c->fin > 2 && c->fin != c->l_hd)
-			{
-				ft_printf("chelou\n\n");
 				close(c->fin);
-			}
 			c->fin = c->l_hd;
 		}
 		n = n->next;
 	}
 	if (c->l_hd == c->fin)
-	{
-		ft_printf("test l_hd\n\n");
 		c->l_hd = 0;
-	}
 	if (c->l_hd > 2)
-	{
-		ft_printf("bizarre\n\n");
 		close(c->l_hd);
-	}
 	return (1);
 }
 
