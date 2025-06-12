@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/10 23:43:11 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 03:18:55 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ void	free_exec(t_exec *exe)
 			free_args(exe->args);
 		if (exe->lst)
 			free_array(exe->lst);
+		if (exe->fin == 0)
+			close(exe->fin);
+		if (exe->fout == 1)
+			close(exe->fout);
 		free(exe);
 		exe = temp;
 	}
@@ -84,6 +88,8 @@ void	free_mnours(t_mnours *data)
 		free_exec(data->ex);
 	if (data->lst_env)
 		free_array(data->lst_env);
+	if (data->pid_stock)
+		free(data->pid_stock);
 	free(data);
 }
 

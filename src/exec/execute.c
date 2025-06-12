@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 02:51:42 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 03:36:55 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ void	exec_cmd(char **envp, char **cmop, t_mnours *mnours)
 	execve(path, cmop, mnours->lst_env);
 	signals(SIGNAL_IGN);
 	perror("Invailible commande");
+	free_mnours(mnours);
 	free(path);
 }
 
-pid_t	child_factory(t_mnours *data, t_exec *c, char **env, int *pid_stock)
+pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 {
 	pid_t	pid;
 
@@ -93,7 +94,6 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env, int *pid_stock)
 			close(c->next->fout);
 		if (c->next && c->next->fin > 2)
 			close(c->next->fin);
-		free(pid_stock);
 		if (c->fin != 0 && c->is_build == 0)
 			dup_close(c->fin, STDIN_FILENO);
 		if (c->fout != 1 && c->is_build == 0)
@@ -119,12 +119,11 @@ void	execute(t_mnours *d, char **env)
 	int		j;
 	int		fd[2];
 	t_exec	*cmd;
-	pid_t	*pid_stock;
 	pid_t	pid;
 	int		exit_needs_values[2];
 
 	cmd = d->ex;
-	pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
+	d->pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 	if (d->nb_pipe > 0)
 	{
 		i = 0;
@@ -152,7 +151,7 @@ void	execute(t_mnours *d, char **env)
 			}
 			is_buildtin(cmd, cmd->lst[0]);
 			if (d->nb_pipe > 0 || cmd->is_build == 0)
-				pid_stock[i] = child_factory(d, cmd, env, pid_stock);
+				d->pid_stock[i] = child_factory(d, cmd, env);
 			else
 				exec_build(d, cmd->lst, cmd);
 			if (cmd->fout != 1)
@@ -168,7 +167,7 @@ void	execute(t_mnours *d, char **env)
 			while (i-- > 0)
 			{
 				signals_wait();
-				exit_needs_values[0] = waitpid(pid_stock[j++],
+				exit_needs_values[0] = waitpid(d->pid_stock[j++],
 						&exit_needs_values[1], 0);
 				signals(SIGNAL_IGN);
 				if (exit_needs_values[0] == g_signal
@@ -189,10 +188,11 @@ void	execute(t_mnours *d, char **env)
 			ft_lstconvert(d, cmd);
 			if (cmd->lst[0])
 			{
+				ft_printf("test");
 				is_buildtin(cmd, cmd->lst[0]);
 				if (cmd->is_build == 0)
 				{
-					pid = child_factory(d, cmd, env, pid_stock);
+					pid = child_factory(d, cmd, env);
 					signals_wait();
 					waitpid(pid, &exit_needs_values[0], 0);
 					signals(SIGNAL_IGN);
@@ -205,14 +205,11 @@ void	execute(t_mnours *d, char **env)
 				}
 				else
 					exec_build(d, cmd->lst, cmd);
-				if (cmd->fout != 1)
-					close(cmd->fout);
-				if (cmd->fin != 0)
-					close(cmd->fin);
 			}
 		}
-		else if (cmd->fout != 1)
+		if (cmd->fout != 1)
 			close(cmd->fout);
+		if (cmd->fin != 0)
+			close(cmd->fin);
 	}
-	free(pid_stock);
 }
