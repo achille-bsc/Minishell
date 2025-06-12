@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 23:45:49 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 23:48:30 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,11 @@ int	analyze_quote_type(char *str)
 
 	if (!str || !*str)
 		return (NO_Q);
-
 	len = ft_strlen(str);
 	i = 0;
 	in_squote = 0;
 	in_dquote = 0;
 	has_quotes = 0;
-
 	// Analyser le string entier pour comprendre le contexte des quotes
 	while (i < len)
 	{
