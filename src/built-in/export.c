@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/11 22:15:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 02:55:51 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**join_split(char **split)
 
 	result = ft_calloc(sizeof(char *), 3);
 	if (!result)
-		exit(12);
+		return (NULL);
 	result[0] = ft_strdup(split[0]);
 	result[1] = ft_strjoin(split[1], "=");
 	tmp = result[1];
