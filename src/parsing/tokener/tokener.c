@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 21:58:08 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 22:29:22 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ t_lst	*get_words(char *prompt)
 			i = handle_redir(prompt, i, &(words[1]));
 		else if (!in_squote && !in_dquote && prompt[i] == '|')
 			i = capipe(prompt, i, &(words[1]));
-		// else if (!in_squote && !in_dquote && prompt[i] == ';')
-		// 	i = casemicolon(prompt, i, &(words[1]));
 		else if (!in_squote && !in_dquote && (prompt[i] == ' ' || prompt[i] == '\t'))
 		{
 			while (prompt[i] == ' ' || prompt[i] == '\t')
@@ -102,17 +100,11 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 {
 	t_args	*pre_token;
 	t_lst	*words[2];
-	// t_exec	*init_exec;
 
-	// init_exec = exec;
 	words[1] = get_words(mnours->line);
 	if (verif_words(words[1]))
-	{
-		// ft_free_word(words[0]);
 		return (1);
-	}
 	words[0] = words[1];
-	// mnours->nb_pipe = 0;
 	while (words[1])
 	{
 		if (words[1]->content[0] == '<' || words[1]->content[0] == '>')
