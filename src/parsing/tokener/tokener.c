@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 02:38:08 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 21:58:08 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,6 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 	{
 		// ft_free_word(words[0]);
 		return (1);
-	}
-	;
-	t_lst *tmp = words[1];
-	while(tmp)
-	{
-		ft_printf("Word: %s\n", tmp->content);
-		tmp = tmp->next;
 	}
 	words[0] = words[1];
 	// mnours->nb_pipe = 0;

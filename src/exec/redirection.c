@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 03:04:24 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 21:57:30 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ int	open_file(t_exec *c, t_args *n)
 {
 	if (n->tok == AP)
 	{
-		ft_printf("%s\n\n\n%d\n\n\n", n->name, n->tok);
 		resetfd(c->fout, 1);
 		c->fout = open(n->name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (c->fout == -1)

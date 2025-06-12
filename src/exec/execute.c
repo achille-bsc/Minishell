@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 15:02:40 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 21:57:10 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,6 @@ void	execute(t_mnours *d, char **env)
 			ft_lstconvert(d, cmd);
 			if (cmd->lst[0])
 			{
-				ft_printf("test");
 				is_buildtin(cmd, cmd->lst[0]);
 				if (cmd->is_build == 0)
 				{
