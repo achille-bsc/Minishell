@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 14:50:35 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 22:34:55 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void		free_mnours(t_mnours *data);
 int			ft_args_lstsize(t_args *lst);
 void		ft_lstconvert(t_mnours *mini, t_exec *data);
 char		*remove_quotes(char *str, int quote_type);
+char		**ft_tabdup(char **tab);
 
 int			redir(t_exec *c, t_mnours *mnours);
 void		execute(t_mnours *d, char **env);
