@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/10 23:11:37 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 02:07:40 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,16 @@ void	prompter(t_mnours *mnours, char **env)
 			mnours->line = NULL;
 			continue ;
 		}
-		set_token(mnours);
+		if (set_token(mnours))
+		{
+			if (mnours->line)
+				free(mnours->line);
+			mnours->line = NULL;
+			if (mnours->ex)
+				free_exec(mnours->ex);
+			mnours->ex = NULL;
+			continue ;
+		}
 		execute(mnours, env);
 		if (mnours->is_exit == 0)
 		{

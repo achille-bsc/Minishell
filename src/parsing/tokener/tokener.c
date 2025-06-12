@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 01:50:22 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 02:08:37 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_args	*maybe_redir(t_args **token, t_lst *words)
 		return (and_tok(TR, token, words, 1));
 }
 
-int verif_words(t_lst *words, t_mnours *mnours)
+int verif_words(t_lst *words)
 {
 	t_lst	*tmp;
 
@@ -90,12 +90,12 @@ int verif_words(t_lst *words, t_mnours *mnours)
 	{
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
 		{
-			ft_error("Syntax error: Double pipe '||' not allowed", mnours);
+			perror("Syntax error: Double pipe '| |' not allowed");
 			return (1);
 		}
 		if ((tmp->content[0] == '<' || tmp->content[0] == '>') && !tmp->next)
 		{
-			ft_error("Syntax error: Redirection without command", mnours);
+			perror("Syntax error: Redirection without command");
 			return (1);
 		}
 		tmp = tmp->next;
@@ -103,7 +103,7 @@ int verif_words(t_lst *words, t_mnours *mnours)
 	return (0);
 }
 
-void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
+int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 {
 	t_args	*pre_token;
 	t_lst	*words[2];
@@ -111,10 +111,10 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 
 	// init_exec = exec;
 	words[1] = get_words(mnours->line);
-	if (verif_words(words[1], mnours))
+	if (verif_words(words[1]))
 	{
-		ft_free_word(words[0]);
-		return ;
+		// ft_free_word(words[0]);
+		return (1);
 	}
 	;
 	t_lst *tmp = words[1];
@@ -144,7 +144,7 @@ void	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 			pre_token = and_tok(CMD, &tokens, words[1], 0);
 		words[1] = words[1]->next;
 	}
-	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens));
+	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens), 0);
 }
 
 int	analyze_quote_type(char *str)

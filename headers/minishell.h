@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 00:18:42 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/12 02:05:23 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char		*get_var_value(char *var_name, t_env *env);
 // ---- Parsing | Tokening ----
 void		parser(char *prompt, t_mnours *data);
 void		parsing(t_args *tokens);
-void		tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
+int		tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
 int			analyze_quote_type(char *str);
 // void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
@@ -94,7 +94,7 @@ int			capipe(char *prompt, int i, t_lst **word);
 int			casemicolon(char *prompt, int i, t_lst **word);
 void		tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void		tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok);
-void		set_token(t_mnours *data);
+int		set_token(t_mnours *data);
 // void	clear_rl_line(void);
 
 int			ft_cd(char **line, t_mnours *mnours);
