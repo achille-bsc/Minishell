@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 07:59:33 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 15:06:19 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 22:16:06 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	ft_pwd(t_mnours *mnours)
 		ft_error("Error: Unable to get current working directory", mnours);
 		return (1);
 	}
-	if (ft_printf("%s\n", mnours->pwd) != (int)ft_strlen(mnours->pwd))
+	if (write(1, mnours->pwd, (int)ft_strlen(mnours->pwd)) == -1)
 		ft_dprintf(2, "Outfile is full\n");
+	write(1, "\n", 1);
 	return (0);
 }

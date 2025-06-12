@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 14:51:14 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 22:13:19 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int	ft_echo(char **line)
 	i += skip_opt(line);
 	while (line[i])
 	{
-		if (ft_printf("%s", line[i]) != (int)ft_strlen(line[i]))
+		if ((int)write(1, line[i], (int)ft_strlen(line[i]) == -1))
 			return (ft_dprintf(2, "No space in the outfile\n"));
 		if (line[i + 1])
 			ft_printf(" ");

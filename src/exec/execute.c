@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 21:57:10 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/12 22:06:36 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,12 +142,10 @@ void	execute(t_mnours *d, char **env)
 				continue ;
 			if (cmd->next)
 			{
-				if (cmd->fout == 1)
-				{
-					pipe(fd);
-					cmd->fout = fd[1];
-					cmd->next->fin = fd[0];
-				}
+				ft_printf("test\n\n\n");
+				pipe(fd);
+				cmd->fout = fd[1];
+				cmd->next->fin = fd[0];
 			}
 			is_buildtin(cmd, cmd->lst[0]);
 			if (d->nb_pipe > 0 || cmd->is_build == 0)
