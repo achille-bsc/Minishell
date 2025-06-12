@@ -77,7 +77,7 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 	free(clean_delimiter);
 	free_mnours(mnours);
 	close(pipefd[1]);
-	exit(0);
+	exit(130);
 }
 
 void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
@@ -106,6 +106,12 @@ void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
 		close(pipefd[1]);
 		c->l_hd = pipefd[0];
 		waitpid(pid, &status, 0);
+		mnours->exit_code = WEXITSTATUS(status);
+		if (mnours->exit_code == 130)
+		{
+			close(c->l_hd);
+			c->l_hd = -1;
+		}
 	}
 }
 

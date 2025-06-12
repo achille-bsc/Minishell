@@ -21,7 +21,7 @@ SRCS =	src/main.c src/set_env.c src/varenv.c \
 
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME) clean
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT)
