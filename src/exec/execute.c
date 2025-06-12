@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 00:09:45 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/13 01:17:04 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,19 @@ char	*find_path(char *cmop, char **paths)
 	}
 	return (free_array(paths), NULL);
 }
+
+ void    printtkt(void)
+ {
+     int    i;
+
+     for (i = 0; i < getdtablesize(); i++)
+     {
+         if (fcntl(i, F_GETFD) != -1)
+         {
+             ft_dprintf(2, "Error: File descriptor %d is still open\n", i);
+         }
+     }
+ }
 
 void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 {
@@ -126,7 +139,7 @@ void	execute(t_mnours *d, char **env)
 	int		exit_needs_values[2];
 
 	cmd = d->ex;
-	if (set_heredoc(cmd, d) == -1)
+	if (set_heredoc(d->ex, d) == -1)
 		return ;
 	d->pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 	if (d->nb_pipe > 0)
@@ -159,9 +172,9 @@ void	execute(t_mnours *d, char **env)
 				d->pid_stock[i] = child_factory(d, cmd, env);
 			else
 				exec_build(d, cmd->lst, cmd);
-			if (cmd->fout != 1)
+			if (cmd->fout > 1)
 				close(cmd->fout);
-			if (cmd->fin != 0)
+			if (cmd->fin > 0)
 				close(cmd->fin);
 			cmd = cmd->next;
 			i++;
@@ -193,6 +206,8 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (cmd->lst[0])
 			{
+				ft_printf("fd in %d\n", cmd->fin);
+				printtkt();
 				is_buildtin(cmd, cmd->lst[0]);
 				if (cmd->is_build == 0)
 				{

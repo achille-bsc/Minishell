@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 00:01:09 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/13 01:38:44 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 {
 	char	*line;
 	char	*prompt;
-	char	*expanded_line;
 	char	*clean_delimiter;
 
 	close(pipefd[0]);
@@ -50,7 +49,10 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 		{
 			ft_dprintf(2, "minishell: warning: here-document "
 					"delimited by end-of-file (wanted `%s')\n", clean_delimiter);
-			break ;
+			free(clean_delimiter);
+			free_mnours(mnours);
+			close(pipefd[1]);
+			exit(13);
 		}
 		if (ft_strncmp(line, clean_delimiter, ft_strlen(clean_delimiter)) == 0
 			&& ft_strlen(clean_delimiter) == ft_strlen(line))
@@ -58,26 +60,14 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 			free(line);
 			break ;
 		}
-		if (should_expand_heredoc(n))
-		{
-			expanded_line = replace_variable(line, mnours->env);
-			if (expanded_line)
-			{
-				write(pipefd[1], expanded_line, ft_strlen(expanded_line));
-				free(expanded_line);
-			}
-			else
-				write(pipefd[1], line, ft_strlen(line));
-		}
-		else
-			write(pipefd[1], line, ft_strlen(line));
+		write(pipefd[1], line, ft_strlen(line));
 		write(pipefd[1], "\n", 1);
 		free(line);
 	}
 	free(clean_delimiter);
 	free_mnours(mnours);
 	close(pipefd[1]);
-	exit(130);
+	exit(0);
 }
 
 void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
@@ -176,6 +166,7 @@ int	set_heredoc(t_exec *c, t_mnours *data)
 			}
 			n = n->next;
 		}
+		tmp = tmp->next;
 	}
 	return (1);
 }
@@ -194,14 +185,26 @@ int	redir(t_exec *c)
 			if (open_file(c, n) == -1)
 				return (-1);
 		}
-		if (n->tok == HD && c->l_hd != -1)
+		if (n->tok == HD)
 		{
-			if (c->fin != 0)
+			if (c->fin > 2 && c->fin != c->l_hd)
+			{
+				ft_printf("chelou\n\n");
 				close(c->fin);
+			}
 			c->fin = c->l_hd;
-			c->l_hd = -1;
 		}
 		n = n->next;
+	}
+	if (c->l_hd == c->fin)
+	{
+		ft_printf("test l_hd\n\n");
+		c->l_hd = 0;
+	}
+	if (c->l_hd > 2)
+	{
+		ft_printf("bizarre\n\n");
+		close(c->l_hd);
 	}
 	return (1);
 }
