@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/13 00:01:24 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/13 02:33:10 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_env		*ft_envnew(char *line);
 
 // ---- Variables d'environnement ----
 char		**var_search(char **tab, t_env *env);
-char		*replace_variable(char *str, t_env *env);
+char		*replace_variable(char *str, t_env *env, int k);
 char		*get_var_value(char *var_name, t_env *env);
 
 // ---- Parsing | Tokening ----

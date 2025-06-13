@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 23:39:01 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/13 02:33:30 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 		{
 			if (tmp->quote != S_Q)
 			{
-				expanded_name = replace_variable(tmp->name, mini->env);
+				expanded_name = replace_variable(tmp->name, mini->env, 0);
 				if (!expanded_name)
 					expanded_name = ft_strdup(tmp->name);
 			}
@@ -189,7 +189,6 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 		tmp = tmp->next;
 	}
 	dat_tmp->lst[i] = NULL;
-	dat_tmp = dat_tmp->next;
 }
 
 void	ft_lstconvert(t_mnours *mini, t_exec *data)

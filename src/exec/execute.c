@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 01:40:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/13 01:45:16 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,12 +142,12 @@ void	execute(t_mnours *d, char **env)
 	if (set_heredoc(d->ex, d) == -1)
 		return ;
 	d->pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
+	ft_lstconvert(d, cmd);
 	if (d->nb_pipe > 0)
 	{
 		i = 0;
 		while (i <= d->nb_pipe)
 		{
-			ft_lstconvert(d, cmd);
 			if (redir(cmd) == -1)
 			{
 				if (cmd->fout > 2)
@@ -201,7 +201,6 @@ void	execute(t_mnours *d, char **env)
 	}
 	else
 	{
-		ft_lstconvert(d, cmd);
 		if (redir(cmd) != -1)
 		{
 			if (cmd->lst[0])

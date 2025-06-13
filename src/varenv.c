@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/01 07:30:34 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/13 02:57:46 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*extract_var_name(char *str, int start, int *end)
 	return (var_name);
 }
 
-char	*replace_variable(char *str, t_env *env)
+char	*replace_variable(char *str, t_env *env, int k)
 {
 	char	*result;
 	char	*var_name;
@@ -57,15 +57,16 @@ char	*replace_variable(char *str, t_env *env)
 	int		var_end;
 	int		found_var;
 
+	ft_printf("str : %s\n", str);
 	if (!str)
 		return (NULL);
 	if (!env)
 		return (ft_strdup(str));
-
-	temp_str = ft_strdup(str); // Travailler sur une copie
+	temp_str = ft_strdup(str);
+	if (k == 1)
+		free(str);
 	if (!temp_str)
 		return (NULL);
-
 	i = 0;
 	found_var = 0;
 	while (temp_str[i])
@@ -125,7 +126,7 @@ char	*replace_variable(char *str, t_env *env)
 				free(after);
 				free(var_name);
 				free(temp_str);
-				return (replace_variable(result, env)); // Récursion pour autres variables
+				return (replace_variable(result, env, 1)); // Récursion pour autres variables
 			}
 		}
 		i++;
@@ -146,7 +147,7 @@ char	**var_search(char **tab, t_env *env)
 	while (tab[i])
 	{
 		old_str = tab[i];
-		new_str = replace_variable(tab[i], env);
+		new_str = replace_variable(tab[i], env, 0);
 		if (new_str)
 		{
 			free(old_str);
