@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 03:11:11 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/14 05:18:31 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_mnours
 	int				exit_code;
 	int				is_exit;
 	int				*pid_stock;
+	char			*prompt;
 }					t_mnours;
 
 typedef struct s_lst

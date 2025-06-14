@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/12 14:59:18 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/14 05:19:23 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	free_mnours(t_mnours *data)
 		free_array(data->lst_env);
 	if (data->pid_stock)
 		free(data->pid_stock);
+	if (data->prompt)
+		free(data->prompt);
 	free(data);
 }
 

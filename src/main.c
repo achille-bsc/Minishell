@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 15:00:15 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/14 05:20:49 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,20 @@ char	*init_prompt(t_mnours *mnours)
 void	prompter(t_mnours *mnours, char **env)
 {
 	char	stop;
-	char	*prompt;
 
 	while (mnours->is_exit == 0)
 	{
 		signals(SIGNAL_EXECUTE);
 		if (mnours->line)
 			free(mnours->line);
-		prompt = init_prompt(mnours);
-		mnours->line = readline(prompt);
+		mnours->prompt = init_prompt(mnours);
+		mnours->line = readline(mnours->prompt);
 		signals(SIGNAL_IGN);
 		if (g_signal == 130)
 		{
 			g_signal = 0;
 			mnours->exit_code = 130;
 		}
-		if (prompt)
-			free(prompt);
 		if (!mnours->line)
 		{
 			ft_printf("exit\n");
@@ -121,6 +118,8 @@ void	prompter(t_mnours *mnours, char **env)
 		mnours->pid_stock = NULL;
 		mnours->ex = NULL;
 		g_signal = 0;
+		if (mnours->prompt)
+			free(mnours->prompt);
 	}
 	stop = mnours->exit;
 	free_mnours(mnours);
@@ -161,6 +160,6 @@ int	main(int argc, char **argv, char **env)
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
 	init(mininours, env);
-	prompter(mininours, env);	
+	prompter(mininours, env);
 	return (0);
 }
