@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 01:45:16 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/15 05:55:26 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,15 @@ char	*find_path(char *cmop, char **paths)
 /*
  void    printtkt(void)
  {
-     int    i;
+		int    i;
 
-     for (i = 0; i < getdtablesize(); i++)
-     {
-         if (fcntl(i, F_GETFD) != -1)
-         {
-             ft_dprintf(2, "Error: File descriptor %d is still open\n", i);
-         }
-     }
+		for (i = 0; i < getdtablesize(); i++)
+		{
+			if (fcntl(i, F_GETFD) != -1)
+			{
+				ft_dprintf(2, "Error: File descriptor %d is still open\n", i);
+			}
+		}
  }
 */
 void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
@@ -92,9 +92,10 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	signals(SIGNAL_DEFAULT);
 	execve(path, tab, mnours->lst_env);
 	signals(SIGNAL_IGN);
-	perror("Invailible commande");
+	perror("Invalid command");
 	free_mnours(mnours);
 	free(path);
+	free_array(tab);
 }
 
 pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
@@ -118,6 +119,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		{
 			access_path(c->lst, env);
 			exec_cmd(ft_split(get_env(data, "PATH")->value, ':'), c, data);
+			ft_dprintf(2, "test\n\n\n\n\n\n\n\n");
 		}
 		else
 			exec_build(data, c->lst, c);
@@ -146,7 +148,7 @@ void	execute(t_mnours *d, char **env)
 	if (d->nb_pipe > 0)
 	{
 		i = 0;
-		while (i <= d->nb_pipe)
+		while (i <= d->nb_pipe && cmd->lst)
 		{
 			if (redir(cmd) == -1)
 			{
@@ -156,6 +158,7 @@ void	execute(t_mnours *d, char **env)
 				cmd = cmd->next;
 				continue ;
 			}
+			// TODO:  handle case where cmd->lst is NULL
 			if (!cmd->lst[0])
 				continue ;
 			if (cmd->next)

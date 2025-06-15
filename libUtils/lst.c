@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/13 02:33:30 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/15 05:33:09 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,9 +198,13 @@ void	ft_lstconvert(t_mnours *mini, t_exec *data)
 	int		i;
 
 	dat_tmp = data;
-	i = 0;
-	tmp = dat_tmp->args;
-	converter(dat_tmp, tmp, mini, i);
+	while (dat_tmp)
+	{
+		i = 0;
+		tmp = dat_tmp->args;
+		converter(dat_tmp, tmp, mini, i);
+		dat_tmp = dat_tmp->next;
+	}
 }
 
 int	ft_envsize(t_env *env)

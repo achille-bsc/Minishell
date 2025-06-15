@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:57:57 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/11 00:29:59 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/15 05:48:21 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_cd(char **line, t_mnours *mnours)
 		}
 	}
 	else if (path[0] == '-' && !path[1])
-		path = mnours->oldpwd;
+		path = get_env(mnours, "OLDPWD")->value;
 	else if (!path || !*path)
 	{
 		path = ft_getenv("HOME", mnours->env);
@@ -53,6 +53,7 @@ int	ft_cd(char **line, t_mnours *mnours)
 	if (get_array_size(line) > 2)
 		return (ft_printf("minishell: too many arguments\n"), 1);
 	move_directory(path, mnours);
+	// free(path);
 	mnours->lst_env = convert_env(mnours);
 	return (0);
 }

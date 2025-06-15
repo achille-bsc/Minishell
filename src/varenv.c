@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 02:57:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/15 05:38:35 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	*replace_variable(char *str, t_env *env, int k)
 	int		var_end;
 	int		found_var;
 
-	ft_printf("str : %s\n", str);
 	if (!str)
 		return (NULL);
 	if (!env)

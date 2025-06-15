@@ -1,9 +1,11 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -o3
 NAME = minishell
 
 LIBFT = libft
 LIBFTPRINTF = libft/ft_printf
+
+OBJS_DIR = obj
 
 SRCS =	src/main.c src/set_env.c src/varenv.c \
 		libUtils/lst.c \
@@ -19,9 +21,13 @@ SRCS =	src/main.c src/set_env.c src/varenv.c \
 		src/built-in/pwd.c \
 		src/signals/signals.c
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 all: $(NAME)
+
+$(OBJS_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	$(MAKE) -C $(LIBFT)
@@ -29,7 +35,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT) -lreadline -lftprintf -lft -L $(LIBFTPRINTF) -o $(NAME)
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJS_DIR)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT) -s fclean
