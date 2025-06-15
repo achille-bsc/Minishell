@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 01:16:49 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/15 07:45:41 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,38 @@ int	check_quotes(int type, char *line)
 {
 	int		counter;
 	int		i;
-	char	c;
+	int		inquote;
+	char	c[2];
 
 	i = 0;
+	inquote = 0;
 	counter = 0;
 	if (type == 1)
-		c = '"';
+	{
+		c[0] = '\'';
+		c[1] = '\"';
+	}
+
 	if (type == 2)
-		c = '\'';
+	{
+		c[0] = '\"';
+		c[1] = '\'';
+	}
 	while (line[i])
 	{
-		if (line[i] == c)
+		if (line[i] == c[0] && !inquote)
 			counter++;
+		if (line[i] == c[1])
+			inquote = !inquote;
 		i++;
 	}
 	if (counter % 2 == 1)
-		return (1);
+	{
+		if (c[0] == '\"')
+			return (2);
+		else if (c[0] == '\'')
+			return (1);
+	}
 	return (0);
 }
 
@@ -152,12 +168,12 @@ int	verif(t_mnours *mnours)
 		i++;
 	if (!mnours->line[i])
 		return (1);
-	if (check_quotes(1, mnours->line) == 1)
+	if (check_quotes(1, mnours->line))
 	{
 		ft_error("Syntax Error: incorrect quotes (single)", mnours);
 		return (1);
 	}
-	if (check_quotes(2, mnours->line) == 1)
+	if (check_quotes(2, mnours->line))
 	{
 		ft_error("Syntax Error: incorrect quotes (double)", mnours);
 		return (1);
