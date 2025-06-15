@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/15 05:55:26 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/15 06:08:12 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	if (path == NULL)
 	{
 		perror("Impossible Path");
+		free_array(tab);
 		free_mnours(mnours);
 		exit(127);
 	}
@@ -101,6 +102,7 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 {
 	pid_t	pid;
+	char	*path;
 
 	pid = fork();
 	if (pid == -1)
@@ -118,7 +120,11 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		if (c->is_build == 0)
 		{
 			access_path(c->lst, env);
-			exec_cmd(ft_split(get_env(data, "PATH")->value, ':'), c, data);
+			if (get_env(data, "PATH"))
+				path = get_env(data, "PATH")->value;
+			else
+				path = ft_strdup("");
+			exec_cmd(ft_split(path, ':'), c, data);
 			ft_dprintf(2, "test\n\n\n\n\n\n\n\n");
 		}
 		else
@@ -158,7 +164,6 @@ void	execute(t_mnours *d, char **env)
 				cmd = cmd->next;
 				continue ;
 			}
-			// TODO:  handle case where cmd->lst is NULL
 			if (!cmd->lst[0])
 				continue ;
 			if (cmd->next)
