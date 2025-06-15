@@ -12,7 +12,8 @@
 		"cs": "css",
 		"*.h": "c",
 		"*.c": "c",
-		"random": "c"
+		"random": "c",
+		"system_error": "c"
 	},
 	"todo-tree.tree.showBadges": true,
 	"conventionalCommits.scopes": [

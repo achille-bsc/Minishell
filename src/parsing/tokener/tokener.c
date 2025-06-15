@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 23:48:30 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/15 06:17:08 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ int verif_words(t_lst *words)
 	if (!words)
 		return (0);
 	tmp = words;
+	if (tmp->content[0] == '|')
+	{
+		perror("Syntax error: Pipe '|' at the beginning of command not allowed");
+		return (1);
+	}
 	while(tmp)
 	{
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')

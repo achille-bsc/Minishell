@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/15 05:42:24 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/15 07:03:32 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,18 @@ char	*init_prompt(t_mnours *mnours)
 	char	*temp1;
 
 	pwd = ft_calloc(sizeof(char), 1024);
-	getcwd(pwd, 1024);
-	if (!pwd)
+	if (!pwd || !getcwd(pwd, 1024))
+	{
+		if (pwd)
+			free(pwd);
 		return (ft_strdup("Mininours> "));
+	}
 	name = ft_getenv("USER", mnours->env);
 	if (name == NULL)
+	{
+		free(pwd);
 		return (ft_strdup("Mininours> "));
+	}
 	temp = ft_strjoin(name, " ");
 	temp1 = ft_strjoin(temp, pwd);
 	free(temp);
@@ -86,20 +92,18 @@ void	prompter(t_mnours *mnours, char **env)
 			ft_printf("exit\n");
 			mnours->exit = mnours->exit_status;
 			mnours->is_exit = 1;
+			free_prompt(mnours);
 			break ;
 		}
 		if (!mnours->line[0])
 		{
-			free(mnours->line);
-			mnours->line = NULL;
+			free_prompt(mnours);
 			continue ;
 		}
 		add_history(mnours->line);
 		if (verif(mnours))
 		{
-			if (mnours->line != NULL)
-				free(mnours->line);
-			mnours->line = NULL;
+			free_prompt(mnours);
 			continue ;
 		}
 		if (set_token(mnours))
@@ -110,6 +114,7 @@ void	prompter(t_mnours *mnours, char **env)
 			if (mnours->ex)
 				free_exec(mnours->ex);
 			mnours->ex = NULL;
+			free_prompt(mnours);
 			continue ;
 		}
 		execute(mnours, env);
@@ -118,11 +123,7 @@ void	prompter(t_mnours *mnours, char **env)
 		mnours->pid_stock = NULL;
 		mnours->ex = NULL;
 		g_signal = 0;
-		if (mnours->prompt)
-		{
-			free(mnours->prompt);
-			mnours->prompt = NULL;
-		}
+		free_prompt(mnours);
 	}
 	stop = mnours->exit;
 	free_mnours(mnours);

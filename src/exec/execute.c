@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/15 06:08:12 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/15 06:31:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	free_mnours(mnours);
 	free(path);
 	free_array(tab);
+	exit(127);
 }
 
 pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
@@ -125,7 +126,6 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 			else
 				path = ft_strdup("");
 			exec_cmd(ft_split(path, ':'), c, data);
-			ft_dprintf(2, "test\n\n\n\n\n\n\n\n");
 		}
 		else
 			exec_build(data, c->lst, c);

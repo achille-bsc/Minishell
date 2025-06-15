@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/14 05:19:23 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/15 06:24:54 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ void	free_env(t_env *env)
 		free(env->value);
 		free(env);
 		env = temp;
+	}
+}
+
+void free_prompt(t_mnours *mnours)
+{
+	if (mnours->prompt)
+	{
+		free(mnours->prompt);
+		mnours->prompt = NULL;
 	}
 }
 

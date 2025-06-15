@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/13 02:33:10 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/15 06:25:26 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char		*get_var_value(char *var_name, t_env *env);
 // ---- Parsing | Tokening ----
 void		parser(char *prompt, t_mnours *data);
 void		parsing(t_args *tokens);
-int		tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
+int			tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
 int			analyze_quote_type(char *str);
 // void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
@@ -96,7 +96,7 @@ int			capipe(char *prompt, int i, t_lst **word);
 int			casemicolon(char *prompt, int i, t_lst **word);
 void		tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void		tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok);
-int		set_token(t_mnours *data);
+int			set_token(t_mnours *data);
 // void	clear_rl_line(void);
 
 int			ft_cd(char **line, t_mnours *mnours);
@@ -112,7 +112,8 @@ char		**convert_env(t_mnours *mnours);
 void		update_env(t_mnours *mnours, char *var_name, char *new_value);
 
 void		signals(int sig);
-void	signals_wait(void);
+void		signals_wait(void);
+void		free_prompt(t_mnours *mnours);
 
 void		close_fds(int fd);
 

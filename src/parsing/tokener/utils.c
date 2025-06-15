@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:51:26 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/12 22:16:33 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/15 06:14:03 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	expends_exit_status(t_mnours *mnours)
 
 int	set_token(t_mnours *data)
 {
-	data->nb_pipe = 0;  // Réinitialiser le nombre de pipes
+	data->nb_pipe = 0; // Réinitialiser le nombre de pipes
 	data->ex = ft_calloc(sizeof(t_exec), 1);
 	if (!data->ex)
 		ft_error("Malloc error", data);
