@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/15 06:24:54 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/16 16:20:14 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	free_env(t_env *env)
 	}
 }
 
-void free_prompt(t_mnours *mnours)
+void	free_prompt(t_mnours *mnours)
 {
 	if (mnours->prompt)
 	{
@@ -101,7 +101,8 @@ void	free_mnours(t_mnours *data)
 		free(data->pid_stock);
 	if (data->prompt)
 		free(data->prompt);
-	free(data);
+	if (data)
+		free(data);
 }
 
 void	close_fds(int fd)
