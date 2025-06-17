@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/18 01:03:20 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/18 00:33:45 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,15 +204,23 @@ void	execute(t_mnours *d, char **env)
 					signals_wait();
 					exit_needs_values[0] = waitpid(d->pid_stock[j - 1],
 							&exit_needs_values[1], 0);
-					signals(SIGNAL_IGN);
-					if (exit_needs_values[0] == g_signal
-						&& WIFEXITED(exit_needs_values[1]))
-						d->exit_code = WEXITSTATUS(exit_needs_values[1]);
-					if (g_signal == 130 || g_signal == 131)
+					if (WCOREDUMP(exit_needs_values[1])
+					&& WIFSIGNALED(exit_needs_values[1])
+					&& WTERMSIG(exit_needs_values[1]) == SIGQUIT)
 					{
-						d->exit_code = g_signal;
-						g_signal = 0;
+						ft_dprintf(2, "Quit (core dumped)\n");
+						d->exit_code = 131;
+						break ;
 					}
+					if (WIFSIGNALED(exit_needs_values[1])
+						&& WTERMSIG(exit_needs_values[1]) == SIGINT)
+					{
+						ft_dprintf(2, "\n");
+						d->exit_code = 130;
+						break ;
+					}
+					else
+						d->exit_code = WEXITSTATUS(exit_needs_values[1]);
 				}
 			}
 		}
@@ -227,15 +235,22 @@ void	execute(t_mnours *d, char **env)
 				if (cmd->is_build == 0)
 				{
 					pid = child_factory(d, cmd, env);
-					signals_wait();
 					waitpid(pid, &exit_needs_values[0], 0);
-					signals(SIGNAL_IGN);
-					d->exit_code = WEXITSTATUS(exit_needs_values[0]);
-					if (g_signal == 130 || g_signal == 131)
+					if (WCOREDUMP(exit_needs_values[0])
+						&& WIFSIGNALED(exit_needs_values[0])
+						&& WTERMSIG(exit_needs_values[0]) == SIGQUIT)
 					{
-						d->exit_code = g_signal;
-						g_signal = 0;
+						ft_dprintf(2, "Quit (core dumped)\n");
+						d->exit_code = 131;
 					}
+					else if (WIFSIGNALED(exit_needs_values[0])
+						&& WTERMSIG(exit_needs_values[0]) == SIGINT)
+					{
+						ft_dprintf(2, "\n");
+						d->exit_code = 130;
+					}
+					else 
+						d->exit_code = WEXITSTATUS(exit_needs_values[0]);
 				}
 				else
 					exec_build(d, cmd->lst, cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 01:40:19 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:40:13 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 		{
 			ft_dprintf(2, "minishell: warning: here-document "
 					"delimited by end-of-file (wanted `%s')\n", clean_delimiter);
-			free(clean_delimiter);
-			free_mnours(mnours);
-			close(pipefd[1]);
-			exit(13);
+			break;
 		}
 		if (ft_strncmp(line, clean_delimiter, ft_strlen(clean_delimiter)) == 0
 			&& ft_strlen(clean_delimiter) == ft_strlen(line))
@@ -67,7 +64,7 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 	free(clean_delimiter);
 	free_mnours(mnours);
 	close(pipefd[1]);
-	exit(0);
+	exit(g_signal);
 }
 
 void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
