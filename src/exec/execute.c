@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/15 06:31:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/18 00:33:45 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*find_path(char *cmop, char **paths)
 	}
 	return (free_array(paths), NULL);
 }
-/*
+
  void    printtkt(void)
  {
 		int    i;
@@ -74,7 +74,7 @@ char	*find_path(char *cmop, char **paths)
 			}
 		}
  }
-*/
+
 void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 {
 	char	*path;
@@ -91,6 +91,8 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	}
 	free_exec(c);
 	signals(SIGNAL_DEFAULT);
+	ft_printf("exec\n\n");
+	printtkt();
 	execve(path, tab, mnours->lst_env);
 	signals(SIGNAL_IGN);
 	perror("Invalid command");
@@ -137,11 +139,25 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 	return (pid);
 }
 
+void	piping(t_exec *cmd)
+{
+	int	fd[2];
+
+	if (cmd->next)
+	{
+		pipe(fd);
+		if (cmd->fout == 1)
+			cmd->fout = fd[1];
+		else
+			close(fd[1]);
+		cmd->next->fin = fd[0];
+	}
+}
+
 void	execute(t_mnours *d, char **env)
 {
 	int		i;
 	int		j;
-	int		fd[2];
 	t_exec	*cmd;
 	pid_t	pid;
 	int		exit_needs_values[2];
@@ -161,20 +177,13 @@ void	execute(t_mnours *d, char **env)
 				if (cmd->fout > 2)
 					close(cmd->fout);
 				i++;
+				piping(cmd);
 				cmd = cmd->next;
 				continue ;
 			}
 			if (!cmd->lst[0])
 				continue ;
-			if (cmd->next)
-			{
-				pipe(fd);
-				if (cmd->fout == 1)
-					cmd->fout = fd[1];
-				else
-					close(fd[1]);
-				cmd->next->fin = fd[0];
-			}
+			piping(cmd);
 			is_buildtin(cmd, cmd->lst[0]);
 			if (d->nb_pipe > 0 || cmd->is_build == 0)
 				d->pid_stock[i] = child_factory(d, cmd, env);
@@ -192,6 +201,7 @@ void	execute(t_mnours *d, char **env)
 			j = 0;
 			while (i-- > 0)
 			{
+				printtkt();
 				signals_wait();
 				exit_needs_values[0] = waitpid(d->pid_stock[j++],
 						&exit_needs_values[1], 0);
