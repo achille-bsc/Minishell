@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/18 00:33:45 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/18 01:03:20 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	access_path(char **cmd, char **env)
 {
 	if (cmd[0] == NULL)
 		exit(EXIT_FAILURE);
-	if (strchr(cmd[0], '/'))
+	if (ft_strchr(cmd[0], '/'))
 	{
 		if (access(cmd[0], X_OK) == 0)
 		{
@@ -91,8 +91,6 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	}
 	free_exec(c);
 	signals(SIGNAL_DEFAULT);
-	ft_printf("exec\n\n");
-	printtkt();
 	execve(path, tab, mnours->lst_env);
 	signals(SIGNAL_IGN);
 	perror("Invalid command");
@@ -174,10 +172,10 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (redir(cmd) == -1)
 			{
-				if (cmd->fout > 2)
-					close(cmd->fout);
 				i++;
 				piping(cmd);
+				if (cmd->fout > 2)
+					close(cmd->fout);
 				cmd = cmd->next;
 				continue ;
 			}
@@ -201,18 +199,20 @@ void	execute(t_mnours *d, char **env)
 			j = 0;
 			while (i-- > 0)
 			{
-				printtkt();
-				signals_wait();
-				exit_needs_values[0] = waitpid(d->pid_stock[j++],
-						&exit_needs_values[1], 0);
-				signals(SIGNAL_IGN);
-				if (exit_needs_values[0] == g_signal
-					&& WIFEXITED(exit_needs_values[1]))
-					d->exit_code = WEXITSTATUS(exit_needs_values[1]);
-				if (g_signal == 130 || g_signal == 131)
+				if (d->pid_stock[j++])
 				{
-					d->exit_code = g_signal;
-					g_signal = 0;
+					signals_wait();
+					exit_needs_values[0] = waitpid(d->pid_stock[j - 1],
+							&exit_needs_values[1], 0);
+					signals(SIGNAL_IGN);
+					if (exit_needs_values[0] == g_signal
+						&& WIFEXITED(exit_needs_values[1]))
+						d->exit_code = WEXITSTATUS(exit_needs_values[1]);
+					if (g_signal == 130 || g_signal == 131)
+					{
+						d->exit_code = g_signal;
+						g_signal = 0;
+					}
 				}
 			}
 		}
