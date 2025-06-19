@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:57:57 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/15 05:48:21 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 00:40:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ int	ft_cd(char **line, t_mnours *mnours)
 	path = line[1];
 	if (!path || path[0] == '~')
 	{
-		path = getenv("HOME");
+		path = ft_getenv("HOME", mnours->env);
 		if (path && path[0] == '~')
 		{
 			path++;
 			if (*path)
-				path = getenv("HOME");
+				path = ft_getenv("HOME", mnours->env);
 			else
-				path = ft_strjoin(getenv("HOME"), path);
+				path = ft_strjoin(ft_getenv("HOME", mnours->env), path);
 		}
 	}
 	else if (path[0] == '-' && !path[1])

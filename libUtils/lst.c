@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 22:41:14 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/15 05:33:09 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 00:17:14 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,12 @@ void	converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i)
 			if (tmp->quote != S_Q)
 			{
 				expanded_name = replace_variable(tmp->name, mini->env, 0);
-				if (!expanded_name)
+				if (!expanded_name || !ft_strncmp(expanded_name, "", ft_strlen(expanded_name)))
+				{
+					if (expanded_name)
+						free(expanded_name);
 					expanded_name = ft_strdup(tmp->name);
+				}
 			}
 			else
 			{

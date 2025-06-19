@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/13 02:00:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/19 00:28:07 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	skip_opt(char **line)
 	counter = 0;
 	while (line[i])
 	{
-		if (line[i][0] == '-')
+		if (line[i][0] == '-' && line[i][1] == 'n')
 		{
 			while (line[i][j])
 			{
@@ -79,7 +79,7 @@ int	get_opt(char **line)
 	int	i;
 
 	i = 1;
-	if (line[1][0] == '-')
+	if (line[1][0] == '-' && line[i][1] == 'n')
 	{
 		while (line[1][i])
 		{
@@ -102,7 +102,7 @@ int	is_only_opt(char **line)
 	j = 1;
 	while (line[i])
 	{
-		if (line[i][0] == '-')
+		if (line[i][0] == '-'  && line[i][1] == 'n')
 		{
 			while (line[i][j])
 			{
