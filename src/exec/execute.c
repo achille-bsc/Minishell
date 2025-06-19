@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 20:43:34 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 00:01:46 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-void	access_path(char **cmd, char **env)
+void	access_path(char **cmd, char **env, t_mnours *d)
 {
 	if (cmd[0] == NULL)
 		exit(EXIT_FAILURE);
-	ft_printf("cmd[0] : %s\nresult %s\n\n", cmd[0], ft_strchr(cmd[0], '/'));
 	if (ft_strchr(cmd[0], '/'))
 	{
-		ft_printf("tset\n");
-		if (access(cmd[0], X_OK) == 0)
+		signals(SIGNAL_DEFAULT);
+		if (execve(cmd[0], cmd, env) == -1)
 		{
-			signals(SIGNAL_DEFAULT);
-			ft_dprintf(2, "je suis un mega kiwi\n\n");
-			if (execve(cmd[0], cmd, env) == -1)
-			{
-				signals(SIGNAL_IGN);
-				perror("execve failed\n");
-				exit(EXIT_FAILURE);
-			}
+			signals(SIGNAL_IGN);
+			perror("execve failed\n");
+			free_mnours(d);
+			exit(EXIT_FAILURE);
 		}
-//		else
-//		{}
+	}
+	else if (cmd[0][0] == '.')
+	{
+		ft_dprintf(2, ". can't be alone\n");
+		free_mnours(d);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -125,7 +124,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 			dup_close(c->fout, STDOUT_FILENO);
 		if (c->is_build == 0)
 		{
-			access_path(c->lst, env);
+			access_path(c->lst, env, data);
 			if (get_env(data, "PATH"))
 				path = get_env(data, "PATH")->value;
 			else
@@ -177,6 +176,7 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (redir(cmd) == -1)
 			{
+				ft_printf("kiwi\n\n\n");
 				i++;
 				piping(cmd);
 				if (cmd->fout > 2)
@@ -184,21 +184,27 @@ void	execute(t_mnours *d, char **env)
 				cmd = cmd->next;
 				continue ;
 			}
-			if (cmd->lst[0] == NULL || cmd->lst[0][0] == '\0')
-				continue ;
 			piping(cmd);
+			if (cmd->lst[0] == NULL || cmd->lst[0][0] == '\0')
+			{
+				if (cmd->fout > 2)
+					close(cmd->fout);
+				if (cmd->fin > 2)
+					close(cmd->fin);
+				cmd = cmd->next;
+				i++;
+				continue ;
+			}
 			is_buildtin(cmd, cmd->lst[0]);
-			printtkt();
 			if (d->nb_pipe > 0 || cmd->is_build == 0)
-				d->pid_stock[i] = child_factory(d, cmd, env);
+				d->pid_stock[i++] = child_factory(d, cmd, env);
 			else
 				exec_build(d, cmd->lst, cmd);
-			if (cmd->fout > 1)
+			if (cmd->fout > 2)
 				close(cmd->fout);
-			if (cmd->fin > 0)
+			if (cmd->fin > 2)
 				close(cmd->fin);
 			cmd = cmd->next;
-			i++;
 		}
 		if (d->nb_pipe > 0 || d->ex->is_build == 0)
 		{
