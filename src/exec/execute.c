@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 15:01:29 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 20:43:34 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ void	access_path(char **cmd, char **env)
 {
 	if (cmd[0] == NULL)
 		exit(EXIT_FAILURE);
+	ft_printf("cmd[0] : %s\nresult %s\n\n", cmd[0], ft_strchr(cmd[0], '/'));
 	if (ft_strchr(cmd[0], '/'))
 	{
+		ft_printf("tset\n");
 		if (access(cmd[0], X_OK) == 0)
 		{
 			signals(SIGNAL_DEFAULT);
+			ft_dprintf(2, "je suis un mega kiwi\n\n");
 			if (execve(cmd[0], cmd, env) == -1)
 			{
 				signals(SIGNAL_IGN);
@@ -30,6 +33,8 @@ void	access_path(char **cmd, char **env)
 				exit(EXIT_FAILURE);
 			}
 		}
+//		else
+//		{}
 	}
 }
 
@@ -162,7 +167,7 @@ void	execute(t_mnours *d, char **env)
 
 	cmd = d->ex;
 	if (set_heredoc(d->ex, d) == -1)
-	return ;
+		return ;
 	d->pid_stock = ft_calloc(sizeof(int), d->nb_pipe + 1);
 	ft_lstconvert(d, cmd);
 	if (d->nb_pipe > 0)
@@ -175,7 +180,7 @@ void	execute(t_mnours *d, char **env)
 				i++;
 				piping(cmd);
 				if (cmd->fout > 2)
-				close(cmd->fout);
+					close(cmd->fout);
 				cmd = cmd->next;
 				continue ;
 			}
@@ -183,6 +188,7 @@ void	execute(t_mnours *d, char **env)
 				continue ;
 			piping(cmd);
 			is_buildtin(cmd, cmd->lst[0]);
+			printtkt();
 			if (d->nb_pipe > 0 || cmd->is_build == 0)
 				d->pid_stock[i] = child_factory(d, cmd, env);
 			else
