@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 14:48:33 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:03:33 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_array_size(char **array)
 	return (i);
 }
 
-void	ft_export2(t_mnours *data, t_env *env, char *line)
+int	ft_export2(t_mnours *data, t_env *env, char *line)
 {
 	t_env	*tmp;
 	t_env	*new_env;
@@ -62,7 +62,7 @@ void	ft_export2(t_mnours *data, t_env *env, char *line)
 	if (ft_isalpha(line[0]) == 0 && line[0] != '_')
 	{
 		ft_printf("%s isn't a valid identifier\n", line);
-		return ;
+		return (1);
 	}
 	// Diviser la ligne en nom=valeur
 	split_result = ft_split(line, '=');
@@ -72,9 +72,15 @@ void	ft_export2(t_mnours *data, t_env *env, char *line)
 	if (ft_getenv(split_result[0], data->env))
 	{
 		if (ft_array_size(split_result) == 2 && split_result[1])
+		{
 			update_env(data, split_result[0], split_result[1]);
+			return (0);
+		}
 		else
+		{
 			update_env(data, split_result[0], "");
+			return (0);
+		}
 	}
 	// while (tmp)
 	// {
@@ -109,7 +115,7 @@ void	ft_export2(t_mnours *data, t_env *env, char *line)
 	free_array(split_result);
 }
 
-void	ft_export(t_mnours *data, t_env *env, char **line)
+int	ft_export(t_mnours *data, t_env *env, char **line)
 {
 	int	i;
 
@@ -122,7 +128,8 @@ void	ft_export(t_mnours *data, t_env *env, char **line)
 			i++;
 		if (!line[i])
 			break ;
-		ft_export2(data, env, line[i++]);
+		return (ft_export2(data, env, line[i++]));
 	}
 	data->lst_env = convert_env(data);
+	return (0);
 }

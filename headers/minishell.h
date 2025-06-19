@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/15 06:25:26 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:07:28 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void		exec_build(t_mnours *data, char **l, t_exec *c);
 int			should_expand_heredoc(t_args *delimiter);
 char		*get_clean_delimiter(t_args *delimiter);
 
-void		ft_exit(t_mnours *data, char **line);
+int			ft_exit(t_mnours *data, char **line);
 int			ft_echo(char **line);
-void		ft_env(char **env);
-void		ft_export(t_mnours *data, t_env *env, char **line);
+int			ft_env(char **tab);
+int			ft_export(t_mnours *data, t_env *env, char **line);
 t_env		*ft_unset(t_env *env, char **line, t_mnours *mnours);
 
 // -------- Tests | Print tokener --------

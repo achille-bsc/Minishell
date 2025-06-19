@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:56:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/10 23:13:11 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:06:20 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,6 @@ t_env	*ft_unset(t_env *env, char **line, t_mnours *mnours)
 		i++;
 	}
 	mnours->lst_env = convert_env(mnours);
+	mnours->exit_code = 0;
 	return (current_env);
 }

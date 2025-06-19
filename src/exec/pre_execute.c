@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_execute.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/14 06:10:00 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:09:57 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,21 @@ void	exec_build(t_mnours *data, char **l, t_exec *c)
 	if (c->fout != 1)
 		dup_close(c->fout, STDOUT_FILENO);
 	if (!ft_strncmp(l[0], "echo", ft_strlen(l[0])) && ft_strlen(l[0]) == 4)
-		ft_echo(l);
+		data->exit_code = ft_echo(l);
 	else if (!ft_strncmp(l[0], "export", ft_strlen(l[0]))
 		&& ft_strlen(l[0]) == 6)
-		ft_export(data, data->env, l);
+		data->exit_code = ft_export(data, data->env, l);
 	else if (!ft_strncmp(l[0], "unset", ft_strlen(l[0]))
 		&& ft_strlen(l[0]) == 5)
 		data->env = ft_unset(data->env, l, data);
 	else if (!ft_strncmp(l[0], "env", ft_strlen(l[0])) && ft_strlen(l[0]) == 3)
-		ft_env(data->lst_env);
+		data->exit_code = ft_env(data->lst_env);
 	else if (!ft_strncmp(l[0], "exit", ft_strlen(l[0])) && ft_strlen(l[0]) == 4)
-		ft_exit(data, l);
+		data->exit_code = ft_exit(data, l);
 	else if (!ft_strncmp(l[0], "pwd", ft_strlen(l[0])) && ft_strlen(l[0]) == 3)
-		ft_pwd (data);
+		data->exit_code = ft_pwd (data);
 	else if (!ft_strncmp(l[0], "cd", ft_strlen(l[0])) && ft_strlen(l[0]) == 2)
-		ft_cd(l, data);
+		data->exit_code = ft_cd(l, data);
 	dup_close(fd[0], STDIN_FILENO);
 	dup_close(fd[1], STDOUT_FILENO);
 	if (data->nb_pipe > 0)

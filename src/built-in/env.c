@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:41:47 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/11 03:05:50 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:06:45 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	ft_env(char **tab)
+int	ft_env(char **tab)
 {
 	int i;
 
 	i = 0;
 	while (tab[i])
 		ft_printf("%s\n", tab[i++]);
+	return (1);
 }
