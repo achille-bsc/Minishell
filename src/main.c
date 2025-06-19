@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/19 21:45:49 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 00:47:33 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,10 @@ void	prompter(t_mnours *mnours, char **env)
 		g_signal = 0;
 		free_prompt(mnours);
 	}
-	stop = mnours->exit;
+	stop = mnours->exit_code;
 	free_mnours(mnours);
 	rl_clear_history();
-	exit(mnours->exit_code);
+	exit(stop);
 }
 
 void	init(t_mnours *mnours, char **env)
