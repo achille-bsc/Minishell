@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 21:48:51 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 01:06:37 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 	// }
 	// Si la variable n'existe pas, la créer et l'ajouter à la fin
 	new_env = ft_envnew(line);
+	ft_printf("new_env: %s\n", new_env->name);
 	if (!data->env)
 		data->env = new_env;
 	if (new_env)
@@ -101,6 +102,7 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 			while (tmp->next)
 				tmp = tmp->next;
 			tmp->next = new_env;
+			ft_printf("tmp->next: %s\n", tmp->next->name);
 		}
 	}
 	free_array(split_result);
@@ -120,7 +122,7 @@ int	ft_export(t_mnours *data, t_env *env, char **line)
 			i++;
 		if (!line[i])
 			break ;
-		return (ft_export2(data, env, line[i++]));
+		ft_export2(data, env, line[i++]);
 	}
 	data->lst_env = convert_env(data);
 	return (0);
