@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 15:34:47 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 21:48:51 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,6 @@ char	**join_split(char **split)
 	return (result);
 }
 
-int	ft_array_size(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
 
 int	ft_export2(t_mnours *data, t_env *env, char *line)
 {
@@ -66,12 +57,12 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 	}
 	// Diviser la ligne en nom=valeur
 	split_result = ft_split(line, '=');
-	if (ft_array_size(split_result) == 3 && split_result[2])
+	if (get_array_size(split_result) == 3 && split_result[2])
 		split_result = join_split(split_result);
 	// Chercher si la variable existe déjà
 	if (ft_getenv(split_result[0], data->env))
 	{
-		if (ft_array_size(split_result) == 2 && split_result[1])
+		if (get_array_size(split_result) == 2 && split_result[1])
 		{
 			update_env(data, split_result[0], split_result[1]);
 			return (0);
