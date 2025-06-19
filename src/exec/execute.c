@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 00:01:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 00:11:13 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 {
 	pid_t	pid;
 	char	*path;
+	char	**tmp;
 
 	pid = fork();
 	if (pid == -1)
@@ -129,7 +130,9 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 				path = get_env(data, "PATH")->value;
 			else
 				path = ft_strdup("");
-			exec_cmd(ft_split(path, ':'), c, data);
+			tmp = ft_split(path, ':');
+			free(path);
+			exec_cmd(tmp, c, data);
 		}
 		else
 			exec_build(data, c->lst, c);
