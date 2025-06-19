@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 20:43:34 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/19 22:09:45 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (redir(cmd) == -1)
 			{
+				ft_printf("kiwi\n\n\n");
 				i++;
 				piping(cmd);
 				if (cmd->fout > 2)
@@ -184,21 +185,27 @@ void	execute(t_mnours *d, char **env)
 				cmd = cmd->next;
 				continue ;
 			}
-			if (cmd->lst[0] == NULL || cmd->lst[0][0] == '\0')
-				continue ;
 			piping(cmd);
+			if (cmd->lst[0] == NULL || cmd->lst[0][0] == '\0')
+			{
+				if (cmd->fout > 2)
+					close(cmd->fout);
+				if (cmd->fin > 2)
+					close(cmd->fin);
+				cmd = cmd->next;
+				i++;
+				continue ;
+			}
 			is_buildtin(cmd, cmd->lst[0]);
-			printtkt();
 			if (d->nb_pipe > 0 || cmd->is_build == 0)
-				d->pid_stock[i] = child_factory(d, cmd, env);
+				d->pid_stock[i++] = child_factory(d, cmd, env);
 			else
 				exec_build(d, cmd->lst, cmd);
-			if (cmd->fout > 1)
+			if (cmd->fout > 2)
 				close(cmd->fout);
-			if (cmd->fin > 0)
+			if (cmd->fin > 2)
 				close(cmd->fin);
 			cmd = cmd->next;
-			i++;
 		}
 		if (d->nb_pipe > 0 || d->ex->is_build == 0)
 		{
