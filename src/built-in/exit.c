@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 21:09:24 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 15:09:09 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:35:07 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_exit(t_mnours *data, char **line)
 	if (!line[1])
 	{
 		data->exit = data->exit_status;
-		return ;
+		return (0);
 	}
 	i = 0;
 	while (line[1][i])

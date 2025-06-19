@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 15:03:33 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/19 15:34:47 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 		}
 	}
 	free_array(split_result);
+	return (0); 
 }
 
 int	ft_export(t_mnours *data, t_env *env, char **line)
