@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 23:56:09 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/21 01:27:44 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ int	ft_export(t_mnours *data, t_env *env, char **line)
 		while (line[i] && ft_strchr(line[i], '=') == NULL)
 		{
 			if (ft_isalpha(line[i][0]) == 0 && line[i][0] != '_')
+			{
 				ft_printf("%s isn't a valid identifier\n", line[i]);
+				return (1);
+			}
 			i++;
 		}
 		if (!line[i])
