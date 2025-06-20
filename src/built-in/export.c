@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:46:38 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 18:04:13 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,15 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 	i = 0;
 	tmp = env;
 	if (ft_isalpha(line[0]) == 0 && line[0] != '_')
-	{
-		ft_printf("%s isn't a valid identifier\n", line);
-		return (1);
-	}
+		return (ft_printf("%s isn't a valid identifier\n", line), 1);
 	name = find_name(line, &i);
 	value = find_value(line, &i);
 	if (ft_getenv(name, data->env))
 	{
 		if (value[0] != '\0')
-		{
-			update_env(data, name, value);
-			free(name);
-			free(value);
-			return (0);
-		}
+			return (update_env(data, name, value), free(name), free(value), 0);
 		else
-		{
-			update_env(data, name, "");
-			free(name);
-			return (0);
-		}
+			return (update_env(data, name, ""), free(name), 0);
 	}
 	new_env = ft_envnew(line);
 	if (!data->env)
@@ -92,9 +80,7 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 			tmp->next = new_env;
 		}
 	}
-	free(name);
-	free(value);
-	return (0); 
+	return (free(name), free(value), 0); 
 }
 
 int	ft_export(t_mnours *data, t_env *env, char **line)
@@ -107,7 +93,11 @@ int	ft_export(t_mnours *data, t_env *env, char **line)
 	while (line[i])
 	{
 		while (line[i] && ft_strchr(line[i], '=') == NULL)
+		{
+			if (ft_isalpha(line[i][0]) == 0 && line[i][0] != '_')
+				ft_printf("%s isn't a valid identifier\n", line[i]);
 			i++;
+		}
 		if (!line[i])
 			break ;
 		if (ft_export2(data, env, line[i++]))
