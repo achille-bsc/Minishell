@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 17:59:27 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 19:14:57 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,26 @@
 
 t_lst	*get_words(char *prompt)
 {
-	t_lst	*words[2];
-	int		i;
-	int		in_squote;
-	int		in_dquote;
+	t_lst		*words[2];
+	int			i;
+	t_quotes	q;
 
 	i = 0;
-	in_squote = 0;
-	in_dquote = 0;
+	q.sin = 0;
+	q.dou = 0;
 	words[1] = create_word();
 	words[0] = words[1];
-
 	while (prompt[i])
 	{
-		if (!in_squote && !in_dquote && (prompt[i] == '<' || prompt[i] == '>'))
+		if (!q.sin && !q.dou && (prompt[i] == '<' || prompt[i] == '>'))
 			i = handle_redir(prompt, i, &(words[1]));
-		else if (!in_squote && !in_dquote && prompt[i] == '|')
+		else if (!q.sin && !q.dou && prompt[i] == '|')
 			i = capipe(prompt, i, &(words[1]));
-		else if (!in_squote && !in_dquote && (prompt[i] == ' ' || prompt[i] == '\t'))
-		{
+		else if (!q.sin && !q.dou && (prompt[i] == ' ' || prompt[i] == '\t'))
 			while (prompt[i] == ' ' || prompt[i] == '\t')
 				i++;
-		}
 		else
-			i = complete(i, prompt, &(words[1]), &in_squote, &in_dquote);
+			i = complete(i, prompt, &(words[1]), &q);
 	}
 	words[1] = words[0];
 	while ((words[1])->next && (words[1])->next->content)
@@ -89,7 +85,7 @@ int verif_words(t_lst *words)
 		perror("Syntax error: Pipe '|' at the beginning of command not allowed");
 		return (1);
 	}
-	while(tmp)
+	while (tmp)
 	{
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
 		{

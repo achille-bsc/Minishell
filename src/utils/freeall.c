@@ -6,13 +6,11 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:57:28 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 18:25:22 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-
-
 
 void	free_prompt(t_mnours *mnours)
 {

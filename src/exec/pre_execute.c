@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:41:10 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 19:49:39 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	exec_build(t_mnours *data, char **l, t_exec *c)
 
 	fd[0] = dup(0);
 	fd[1] = dup(1);
-	if (c->fin != 0)
+	if (c->fin > 2)
 		dup_close(c->fin, STDIN_FILENO);
-	if (c->fout != 1)
+	if (c->fout > 2)
 		dup_close(c->fout, STDOUT_FILENO);
 	if (!ft_strncmp(l[0], "echo", ft_strlen(l[0])) && ft_strlen(l[0]) == 4)
 		data->exit_code = ft_echo(l);

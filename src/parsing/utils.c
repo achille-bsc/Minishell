@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 21:47:05 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/14 05:12:31 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 19:47:36 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,6 @@ t_lst	*create_word(void)
 	if (!word)
 		return (NULL);
 	return (word);
-}
-
-int	set_quote(char c, int in_quote)
-{
-	if (in_quote == 0 && c == '\'')
-		in_quote = 1;
-	else if (in_quote == 1 && c == '\'')
-		in_quote = 0;
-	if (in_quote == 0 && c == '\"')
-		in_quote = 2;
-	else if (in_quote == 2 && c == '\"')
-		in_quote = 0;
-	return (in_quote);
 }
 
 void	check_args(t_exec *exec)
@@ -65,40 +52,56 @@ void	check_args(t_exec *exec)
 	}
 }
 
-int	complete(int i, char *line, t_lst **word, int *in_squote, int *in_dquote)
+int	complete(int i, char *line, t_lst **word, t_quotes *q)
 {
-	int	j;
-	int	tmp_in_squote;
-	int	tmp_in_dquote;
-	int	k;
+	int			j;
+	t_quotes	tmp;
+	int			k;
 
 	j = i;
-	tmp_in_squote = *in_squote;
-	tmp_in_dquote = *in_dquote;
-	// Scanner d'abord pour trouver la fin du token
+	tmp.sin = (*q).sin;
+	tmp.dou = (*q).dou;
 	while (line[j])
 	{
-		set_quotes(line[j], &tmp_in_squote, &tmp_in_dquote);
-		j++;
-		if (!tmp_in_squote && !tmp_in_dquote && (line[j] == '<'
+		set_quotes(line[j++], &tmp);
+		if (!tmp.sin && !tmp.dou && (line[j] == '<'
 				|| line[j] == '>' || line[j] == ' ' || line[j] == '\t'
-				|| line[j] == '|' /* || line[j] == ';' */))
+				|| line[j] == '|'))
 			break ;
 	}
 	(*word)->content = ft_calloc(sizeof(char), j - i + 1);
-	if (!(*word)->content)
-		exit(1);
-	// Copier le contenu
 	k = 0;
 	while (i < j && line[i])
 	{
 		(*word)->content[k++] = line[i];
-		set_quotes(line[i], in_squote, in_dquote);
-		i++;
+		set_quotes(line[i++], q);
 	}
 	(*word)->next = ft_calloc(sizeof(t_lst), 1);
-	(*word) = (*word)->next;
-	return (i);
+	return ((*word) = (*word)->next, i);
+}
+
+void	check_quote_redir(int *j, char *lne)
+{
+	int	inquote[2];
+
+	inquote[0] = 0;
+	inquote[1] = 0;
+	while (lne[*j] && lne[*j] != ' ' && lne[*j] != '<' && lne[*j] != '>'
+		&& lne[*j] != '|')
+	{
+		if (lne[*j] == '\'' || lne[*j] == '\"')
+		{
+			if (inquote[0] && inquote[0] == 0 && lne[*j] == '\'')
+				inquote[0] = 1;
+			else if (inquote[0] == 1 && lne[*j] == '\'')
+				inquote[0] = 0;
+			else if (inquote[1] == 0 && lne[*j] == '\"')
+				inquote[1] = 1;
+			else if (inquote[1] == 1 && lne[*j] == '\"')
+				inquote[1] = 0;
+		}
+		(*j)++;
+	}
 }
 
 int	handle_redir(char *lne, int i, t_lst **word)
@@ -106,7 +109,6 @@ int	handle_redir(char *lne, int i, t_lst **word)
 	int	j;
 	int	tmp;
 	int	dbl;
-	int	inquote[2];
 
 	j = i + 1;
 	if (lne[j] == lne[j - 1])
@@ -115,28 +117,8 @@ int	handle_redir(char *lne, int i, t_lst **word)
 	while (lne[j] == ' ')
 		j++;
 	tmp = j;
-	inquote[0] = 0;
-	inquote[1] = 0;
-	while (lne[j] && lne[j] != ' ' && lne[j] != '<' && lne[j] != '>'
-		&& lne[j] != '|')
-	{
-		// ft_printf("lne[%d]: %c\n", j, lne[j]);
-		if (lne[j] == '\'' || lne[j] == '\"')
-		{
-			if (inquote[0] && inquote[0] == 0 && lne[j] == '\'')
-				inquote[0] = 1;
-			else if (inquote[0] == 1 && lne[j] == '\'')
-				inquote[0] = 0;
-			else if (inquote[1] == 0 && lne[j] == '\"')
-				inquote[1] = 1;
-			else if (inquote[1] == 1 && lne[j] == '\"')
-				inquote[1] = 0;
-		}
-		j++;
-	}
+	check_quote_redir(&j, lne);
 	(*word)->content = ft_calloc(sizeof(char), j - tmp + dbl + 1);
-	if (!(*word)->content)
-		exit(1);
 	j = 0;
 	if (lne[i] == lne[i + 1])
 		(*word)->content[j++] = lne[i++];

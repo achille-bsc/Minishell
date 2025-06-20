@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 18:22:59 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 19:23:26 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ int			analyze_quote_type(char *str);
 // ----- Parsing | Utils -----
 int			handle_redir(char *prompt, int i, t_lst **word);
 void		check_args(t_exec *exec);
-int			complete(int i, char *line, t_lst **word, int *in_squote,
-				int *in_dquote);
+int			complete(int i, char *line, t_lst **word, t_quotes *q);
 t_lst		*create_word(void);
 int			verif(t_mnours *mnours);
 int			is_buildtin(t_exec *exe, char *cmd);
@@ -97,7 +96,7 @@ char		*find_value(char *line, int *i);
 void		resetfd(int fd, int fout);
 
 // ------- Tokener | Utils ------
-void		set_quotes(char prompt, int *in_squote, int *in_dquote);
+void		set_quotes(char prompt, t_quotes *q);
 int			capipe(char *prompt, int i, t_lst **word);
 int			casemicolon(char *prompt, int i, t_lst **word);
 void		tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);

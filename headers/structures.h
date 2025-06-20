@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:20:29 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/14 05:18:31 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 19:09:33 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,11 @@ typedef struct s_lst
 	char			*content;
 	struct s_lst	*next;
 }					t_lst;
+
+typedef struct s_quotes
+{
+	int	sin;
+	int	dou;
+}		t_quotes;
 
 #endif

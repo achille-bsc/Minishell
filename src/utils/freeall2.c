@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:57:20 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 17:57:30 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 18:25:15 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_free_word(t_lst *word)
 
 void	free_env(t_env *env)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	while (env)
 	{
