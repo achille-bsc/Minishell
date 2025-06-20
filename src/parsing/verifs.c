@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 16:59:14 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 17:52:21 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,15 +139,9 @@ int	check_chars(char *line)
 	while (line[i])
 	{
 		if (line[i] == '|' && line[i + 1] && line[i + 1] == '|')
-		{
-			perror("Syntax Error: invalid pipe");
-			return (1);
-		}
+			return (perror("Syntax Error: invalid pipe"), 1);
 		if (line[i] == '>' && line[i + 1] && line[i + 1] == '|')
-		{
-			perror("Parse Error: unexpected token `|'");
-			return (1);
-		}
+			return (perror("Parse Error: unexpected token `|'"), 1);
 		if (line[i] == '<' && line[i + 1] && line[i + 1] == '<')
 		{
 			while(line[i] && (line[i] == '\t' || line[i] == ' ' || line[i] == '<'))
@@ -159,10 +153,6 @@ int	check_chars(char *line)
 			}
 			i--;
 		}
-		// {
-		// 	perror("Parse Error: unexpected token `|'");
-		// 	return (1);
-		// }
 		if (line[i] == '\'' && !in_dquote)
 			in_squote = !in_squote;
 		else if (line[i] == '\"' && !in_squote)
@@ -176,7 +166,6 @@ int	verif(t_mnours *mnours)
 {
 	int	i;
 
-	// Vérification des lignes vides ou contenant seulement des espaces
 	if (!mnours->line || !mnours->line[0])
 		return (1);
 	i = 0;
@@ -191,27 +180,12 @@ int	verif(t_mnours *mnours)
 	if (!mnours->line[i])
 		return (1);
 	if (check_quotes(1, mnours->line))
-	{
-		ft_error("Syntax Error: incorrect quotes (single)", mnours);
-		return (1);
-	}
+		return (ft_error("Syntax Error: incorrect quotes (single)", mnours), 1);
 	if (check_quotes(2, mnours->line))
-	{
-		ft_error("Syntax Error: incorrect quotes (double)", mnours);
-		return (1);
-	}
+		return (ft_error("Syntax Error: incorrect quotes (double)", mnours), 1);
 	if (mnours->line[0] == '"' && mnours->line[1] == '"')
-	{
-		ft_error("Syntax Error: empty double quotes", mnours);
-		return (1);
-	}
+		return (ft_error("Syntax Error: empty double quotes", mnours), 1);
 	if (mnours->line[0] == '\'' && mnours->line[1] == '\'')
-	{
-		ft_error("Syntax Error: empty single quotes", mnours);
-		return (1);
-	}
-	// mnours->line = replacer(mnours, mnours->line);
-	// ft_printf("%s", mnours->line);
-	// expends_exit_status(mnours);
+		return (ft_error("Syntax Error: empty single quotes", mnours), 1);
 	return (0);
 }

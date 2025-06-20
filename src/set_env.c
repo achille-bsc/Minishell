@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:14:03 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 05:25:18 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:44:37 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	update_env(t_mnours *mnours, char *var_name, char *new_value)
 		{
 			free(env->value);
 			env->value = ft_strdup(new_value);
-			return;
+			return ;
 		}
 		env = env->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 05:45:11 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:40:51 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,6 @@ char	*find_path(char *cmop, char **paths)
 	return (free_array(paths), NULL);
 }
 
- void    printtkt(void)
- {
-		int    i;
-
-		for (i = 0; i < getdtablesize(); i++)
-		{
-			if (fcntl(i, F_GETFD) != -1)
-			{
-				ft_dprintf(2, "Error: File descriptor %d is still open\n", i);
-			}
-		}
- }
-
 void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 {
 	char	*path;
@@ -96,7 +83,6 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	free_mnours(mnours);
 	free(path);
 	free_array(tab);
-	printtkt();
 	exit(127);
 }
 
@@ -215,8 +201,8 @@ void	execute(t_mnours *d, char **env)
 					exit_needs_values[0] = waitpid(d->pid_stock[j - 1],
 							&exit_needs_values[1], 0);
 					if (WCOREDUMP(exit_needs_values[1])
-					&& WIFSIGNALED(exit_needs_values[1])
-					&& WTERMSIG(exit_needs_values[1]) == SIGQUIT)
+						&& WIFSIGNALED(exit_needs_values[1])
+						&& WTERMSIG(exit_needs_values[1]) == SIGQUIT)
 					{
 						ft_dprintf(2, "Quit (core dumped)\n");
 						d->exit_code = 131;
