@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 21:09:24 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:05:22 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 17:21:59 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,14 @@ int	ft_exit(t_mnours *data, char **line)
 		if (check_nb(line[1]) == 0)
 		{
 			data->is_exit = 1;
-			ft_dprintf(2, "Mininours: exit: %s: numeric argument required\n",
-				line[1]);
+			ft_dprintf(2, "Mininours: exit: %s: num args required\n", line[1]);
 			data->exit = 2;
-			return (2);
+			return (data->exit = 2, 2);
 		}
 		i++;
 	}
 	if (get_array_size(line) > 2)
-	{
-		ft_dprintf(2, "Mininours: exit: too many arguments\n");
-		return (1);
-	}
+		return (ft_dprintf(2, "Mininours: exit: too many arguments\n"), 1);
 	data->is_exit = 1;
-	data->exit = ft_atoll(line[1]);
-	return (data->exit);
+	return (data->exit = ft_atoll(line[1]), data->exit);
 }

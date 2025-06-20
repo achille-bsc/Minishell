@@ -6,39 +6,11 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 05:26:13 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:16:05 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-
-char	**join_split(char **split)
-{
-	char	*tmp;
-	char	**result;
-	int		i;
-
-	result = ft_calloc(sizeof(char *), 3);
-	if (!result)
-		return (NULL);
-	result[0] = ft_strdup(split[0]);
-	result[1] = ft_strjoin(split[1], "=");
-	tmp = result[1];
-	result[1] = ft_strjoin(result[1], split[2]);
-	free(tmp);
-	i = 3;
-	while (split[i])
-	{
-		tmp = result[1];
-		result[1] = ft_strjoin(result[1], "=");
-		free(tmp);
-		tmp = result[1];
-		result[1] = ft_strjoin(result[1], split[i++]);
-		free(tmp);
-	}
-	free_array(split);
-	return (result);
-}
 
 char	*find_name(char *line, int *i)
 {
@@ -69,7 +41,6 @@ char	*find_value(char *line, int *i)
 	count = 0;
 	while (line[*i])
 		value[count++] = line[(*i)++];
-	value[count] = '\0';
 	return (value);
 }
 
