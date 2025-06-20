@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 22:05:16 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/16 16:20:14 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 03:48:49 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ void	free_env(t_env *env)
 	while (env)
 	{
 		temp = env->next;
-		free(env->name);
-		free(env->value);
+		if (env->name)
+			free(env->name);
+		if (env->value)
+			free(env->value);
 		free(env);
 		env = temp;
 	}

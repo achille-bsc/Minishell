@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/17 23:40:13 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 04:45:10 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int	redir(t_exec *c)
 			if (c->fin > 2 && c->fin != c->l_hd)
 				close(c->fin);
 			c->fin = c->l_hd;
+			ft_printf("c->fin2 : %d\n", c->fin);
 		}
 		n = n->next;
 	}

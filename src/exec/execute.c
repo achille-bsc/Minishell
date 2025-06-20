@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 00:11:13 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 04:45:27 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	access_path(char **cmd, char **env, t_mnours *d)
 		if (execve(cmd[0], cmd, env) == -1)
 		{
 			signals(SIGNAL_IGN);
-			perror("execve failed\n");
+			ft_dprintf(2, "%s: Can't open\n", cmd[0]);
 			free_mnours(d);
 			exit(EXIT_FAILURE);
 		}
@@ -94,6 +94,7 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 		exit(127);
 	}
 	free_exec(c);
+	mnours->ex = NULL;
 	signals(SIGNAL_DEFAULT);
 	execve(path, tab, mnours->lst_env);
 	signals(SIGNAL_IGN);
@@ -129,9 +130,8 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 			if (get_env(data, "PATH"))
 				path = get_env(data, "PATH")->value;
 			else
-				path = ft_strdup("");
+				path = "";
 			tmp = ft_split(path, ':');
-			free(path);
 			exec_cmd(tmp, c, data);
 		}
 		else
@@ -155,6 +155,9 @@ void	piping(t_exec *cmd)
 			cmd->fout = fd[1];
 		else
 			close(fd[1]);
+		ft_dprintf(2, "test %d\n%d\n", cmd->next->fin, cmd->next->l_hd);
+		if (cmd->next->fin > 2)
+			close(cmd->next->fin);
 		cmd->next->fin = fd[0];
 	}
 }
@@ -179,7 +182,6 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (redir(cmd) == -1)
 			{
-				ft_printf("kiwi\n\n\n");
 				i++;
 				piping(cmd);
 				if (cmd->fout > 2)
