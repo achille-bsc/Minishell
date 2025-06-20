@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 03:27:10 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 05:26:13 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char	*find_value(char *line, int *i)
 	char	*value;
 	int		count;
 
+	count = 0;
 	(*i)++;
 	count = ft_strlen(line) - *i;
 	value = ft_calloc(sizeof(char), count + 1);
@@ -71,7 +72,6 @@ char	*find_value(char *line, int *i)
 	value[count] = '\0';
 	return (value);
 }
-
 
 int	ft_export2(t_mnours *data, t_env *env, char *line)
 {
@@ -88,7 +88,6 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 		ft_printf("%s isn't a valid identifier\n", line);
 		return (1);
 	}
-	// Diviser la ligne en nom=valeur
 	name = find_name(line, &i);
 	value = find_value(line, &i);
 	if (ft_getenv(name, data->env))

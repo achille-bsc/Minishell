@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/19 15:07:28 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 05:12:50 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void		write_args(t_exec *exec);
 void		dup_close(int fd, int fileno);
 void		free_array(char **array);
 char		*process_complex_quotes(char *str);
+char		*find_name(char *line, int *i);
+char		*find_value(char *line, int *i);
 
 // -------- Executing | Utils ---------
 void		resetfd(int fd, int fout);

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:57:57 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 00:56:00 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 05:07:09 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	move_directory(char *path, t_mnours *mnours)
 {
 	if (chdir(path) == -1)
+	{
+		mnours->exit_code = 1;
 		ft_printf("cd %s: No such file or directory\n", path);
+	}
 	else
 	{
 		update_env(mnours, "OLDPWD", mnours->pwd);
@@ -56,7 +59,6 @@ int	ft_cd(char **line, t_mnours *mnours)
 	if (get_array_size(line) > 2)
 		return (ft_printf("minishell: too many arguments\n"), 1);
 	move_directory(ft_strdup(path), mnours);
-	// free(path);
 	mnours->lst_env = convert_env(mnours);
 	return (0);
 }
