@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:25:26 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 17:36:57 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	ft_echo(char **line)
 	while (line[i])
 	{
 		if ((int)write(1, line[i], (int)ft_strlen(line[i])) == -1)
-			return (ft_dprintf(2, "No space in the outfile\n"));
+			return (ft_dprintf(2, "Minishell: echo: write error: No space left on device\n"), 1);
 		if (line[i + 1])
 			ft_printf(" ");
 		i++;

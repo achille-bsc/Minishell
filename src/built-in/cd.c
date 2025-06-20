@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:57:57 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 05:07:09 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 17:33:12 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	move_directory(char *path, t_mnours *mnours)
 	{
 		update_env(mnours, "OLDPWD", mnours->pwd);
 		if (getcwd(mnours->pwd, 1024) == NULL)
+		{
+			mnours->exit_code = 1;
 			ft_printf("cd %s: No such file or directory\n", path);
+		}
 		update_env(mnours, "PWD", mnours->pwd);
 	}
 	free(path);
@@ -38,7 +41,10 @@ int	ft_cd(char **line, t_mnours *mnours)
 	{
 		path = ft_getenv("HOME", mnours->env);
 		if (!path)
+		{
+			mnours->exit_code = 1;
 			return (ft_printf("cd: HOME not set\n"), 1);
+		}
 		if (path && path[0] == '~')
 		{
 			path++;
@@ -54,11 +60,18 @@ int	ft_cd(char **line, t_mnours *mnours)
 	{
 		path = ft_getenv("HOME", mnours->env);
 		if (!path)
+		{
+			mnours->exit_code = 1;
 			return (ft_printf("cd: HOME not set\n"), 1);
+		}
 	}
 	if (get_array_size(line) > 2)
+	{
+		mnours->exit_code = 1;
 		return (ft_printf("minishell: too many arguments\n"), 1);
+	}
+	mnours->exit_code = 0;
 	move_directory(ft_strdup(path), mnours);
 	mnours->lst_env = convert_env(mnours);
-	return (0);
+	return (mnours->exit_code);
 }
