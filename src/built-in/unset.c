@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:56:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 15:06:20 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 17:49:32 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_env	*ft_unset2(t_env *env, char *line)
 	if (!env || !line)
 		return (env);
 	init_env = env;
-	// Vérifier si c'est le premier élément à supprimer
 	if (ft_strncmp(env->name, line, ft_strlen(line)) == 0
 		&& ft_strlen(env->name) == ft_strlen(line))
 	{
@@ -30,7 +29,6 @@ t_env	*ft_unset2(t_env *env, char *line)
 		free(env);
 		return (init_env);
 	}
-	// Parcourir le reste de la liste
 	while (env->next)
 	{
 		if (ft_strncmp(env->next->name, line, ft_strlen(line)) == 0
