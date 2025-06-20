@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/19 14:58:51 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 17:25:26 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ int	is_only_opt(char **line)
 	int	j;
 
 	i = 1;
-	j = 1;
 	while (line[i])
 	{
+		j = 1;
 		if (line[i][0] == '-'  && line[i][1] == 'n')
 		{
 			while (line[i][j])
