@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 01:06:37 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 05:26:13 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,60 +40,77 @@ char	**join_split(char **split)
 	return (result);
 }
 
+char	*find_name(char *line, int *i)
+{
+	char	*name;
+	int		j;
+
+	j = 0;
+	while (line[*i] != '=')
+		(*i)++;
+	name = ft_calloc(sizeof(char), *i + 1);
+	while (line[j] != '=')
+	{
+		name[j] = line[j];
+		j++;
+	}
+	return (name);
+}
+
+char	*find_value(char *line, int *i)
+{
+	char	*value;
+	int		count;
+
+	count = 0;
+	(*i)++;
+	count = ft_strlen(line) - *i;
+	value = ft_calloc(sizeof(char), count + 1);
+	count = 0;
+	while (line[*i])
+		value[count++] = line[(*i)++];
+	value[count] = '\0';
+	return (value);
+}
 
 int	ft_export2(t_mnours *data, t_env *env, char *line)
 {
 	t_env	*tmp;
 	t_env	*new_env;
-	char	**split_result;
+	char	*name;
+	char	*value;
 	int		i;
 
-	tmp = env;
 	i = 0;
+	tmp = env;
 	if (ft_isalpha(line[0]) == 0 && line[0] != '_')
 	{
 		ft_printf("%s isn't a valid identifier\n", line);
 		return (1);
 	}
-	// Diviser la ligne en nom=valeur
-	split_result = ft_split(line, '=');
-	if (get_array_size(split_result) == 3 && split_result[2])
-		split_result = join_split(split_result);
-	// Chercher si la variable existe déjà
-	if (ft_getenv(split_result[0], data->env))
+	name = find_name(line, &i);
+	value = find_value(line, &i);
+	if (ft_getenv(name, data->env))
 	{
-		if (get_array_size(split_result) == 2 && split_result[1])
+		if (value[0] != '\0')
 		{
-			update_env(data, split_result[0], split_result[1]);
+			update_env(data, name, value);
+			free(name);
+			free(value);
 			return (0);
 		}
 		else
 		{
-			update_env(data, split_result[0], "");
+			update_env(data, name, "");
+			free(name);
 			return (0);
 		}
 	}
-	// while (tmp)
-	// {
-	// 	if (ft_strncmp(split_result[0], tmp->name,
-	// ft_strlen(split_result[0])) == 0
-	// 		&& ft_strlen(tmp->name) == ft_strlen(split_result[0]))
-	// 	{
-	// 		// Mettre à jour la valeur existante
-	// 		free(tmp->value);
-	// 		tmp->value = ft_strdup(split_result[1]);
-	// 		return (free_array(split_result));
-	// 	}
-	// 	tmp = tmp->next;
-	// }
-	// Si la variable n'existe pas, la créer et l'ajouter à la fin
 	new_env = ft_envnew(line);
-	ft_printf("new_env: %s\n", new_env->name);
 	if (!data->env)
 		data->env = new_env;
 	if (new_env)
 	{
-		// Trouver la fin de la liste et ajouter
 		tmp = env;
 		if (!env)
 			env = new_env;
@@ -102,10 +119,10 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 			while (tmp->next)
 				tmp = tmp->next;
 			tmp->next = new_env;
-			ft_printf("tmp->next: %s\n", tmp->next->name);
 		}
 	}
-	free_array(split_result);
+	free(name);
+	free(value);
 	return (0); 
 }
 

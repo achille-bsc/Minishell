@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 00:11:13 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 05:45:11 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	access_path(char **cmd, char **env, t_mnours *d)
 		if (execve(cmd[0], cmd, env) == -1)
 		{
 			signals(SIGNAL_IGN);
-			perror("execve failed\n");
+			ft_dprintf(2, "%s: Can't open\n", cmd[0]);
 			free_mnours(d);
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (cmd[0][0] == '.')
+	else if (cmd[0][0] == '.' && !cmd[0][1])
 	{
 		ft_dprintf(2, ". can't be alone\n");
 		free_mnours(d);
@@ -43,12 +43,6 @@ char	*find_path(char *cmop, char **paths)
 	char	*fpath;
 	char	*temp;
 
-	// i = 0;
-	// while (envp[i] && ft_strncmp("PATH=", envp[i], 5) != 0)
-	// 	i++;
-	// if (envp[i] == NULL)
-	// return (NULL);
-	// paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	while (paths[i] != NULL)
 	{
@@ -94,6 +88,7 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 		exit(127);
 	}
 	free_exec(c);
+	mnours->ex = NULL;
 	signals(SIGNAL_DEFAULT);
 	execve(path, tab, mnours->lst_env);
 	signals(SIGNAL_IGN);
@@ -101,6 +96,7 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	free_mnours(mnours);
 	free(path);
 	free_array(tab);
+	printtkt();
 	exit(127);
 }
 
@@ -115,10 +111,8 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 		exit(1);
 	if (pid == 0)
 	{
-		if (c->next && c->next->fout > 2)
-			close(c->next->fout);
-		if (c->next && c->next->fin > 2)
-			close(c->next->fin);
+		if (c->next && c->next->l_hd > 2)
+			close(c->next->l_hd);
 		if (c->fin != 0 && c->is_build == 0)
 			dup_close(c->fin, STDIN_FILENO);
 		if (c->fout != 1 && c->is_build == 0)
@@ -129,9 +123,8 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 			if (get_env(data, "PATH"))
 				path = get_env(data, "PATH")->value;
 			else
-				path = ft_strdup("");
+				path = "";
 			tmp = ft_split(path, ':');
-			free(path);
 			exec_cmd(tmp, c, data);
 		}
 		else
@@ -155,7 +148,10 @@ void	piping(t_exec *cmd)
 			cmd->fout = fd[1];
 		else
 			close(fd[1]);
-		cmd->next->fin = fd[0];
+		if (cmd->next->fin > 2)
+			close(fd[0]);
+		else
+			cmd->next->fin = fd[0];
 	}
 }
 
@@ -179,7 +175,6 @@ void	execute(t_mnours *d, char **env)
 		{
 			if (redir(cmd) == -1)
 			{
-				ft_printf("kiwi\n\n\n");
 				i++;
 				piping(cmd);
 				if (cmd->fout > 2)

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:05:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/05/30 02:33:54 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 02:47:56 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ char	*ft_getenv(char *name, t_env *env)
 	cpy_env = env;
 	while (cpy_env)
 	{
-		if (ft_strncmp(cpy_env->name, name, ft_strlen(name)) == 0)
+		if (ft_strncmp(cpy_env->name, name, ft_strlen(name)) == 0
+			&& ft_strlen(cpy_env->name) == ft_strlen(name))
 			return (cpy_env->value);
 		cpy_env = cpy_env->next;
 	}

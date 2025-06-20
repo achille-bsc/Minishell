@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:14:03 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/11 00:07:49 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 05:25:18 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,34 @@
 t_env	*ft_envnew(char *line)
 {
 	t_env	*new;
-	char	**split_result;
+	char	*name;
+	char	*value;
+	int		i;
 
+	i = 0;
 	new = ft_calloc(sizeof(t_env), 1);
 	if (!new)
 		return (NULL);
-	split_result = ft_split(line, '=');
-	if (!split_result)
-	{
-		free(new);
-		return (NULL);
-	}
-	if (split_result[0])
-		new->name = ft_strdup(split_result[0]);
+	name = find_name(line, &i);
+	value = find_value(line, &i);
+	if (name)
+		new->name = ft_strdup(name);
 	else
 		new->name = ft_strdup("\0");
-	if (split_result[1])
-		new->value = ft_strdup(split_result[1]);
+	if (value)
+		new->value = ft_strdup(value);
 	else
 		new->value = ft_strdup("\0");
-	free_array(split_result);
+	free(name);
+	free(value);
 	new->next = NULL;
 	return (new);
 }
 
-void update_env(t_mnours *mnours, char *var_name, char *new_value)
+void	update_env(t_mnours *mnours, char *var_name, char *new_value)
 {
 	t_env	*env;
+
 	env = mnours->env;
 	while (env)
 	{
@@ -64,7 +65,7 @@ void	set_env(t_mnours *g, char **env)
 	t_env	*new_env;
 
 	if (!env || !env[0])
-		return;
+		return ;
 	g->env = ft_envnew(env[0]);
 	current = g->env;
 	i = 1;
@@ -80,23 +81,6 @@ void	set_env(t_mnours *g, char **env)
 	}
 }
 
-
-// void	set_env(t_mnours *g, char **env)
-// {
-// 	int i;
-// 	t_env *own_env;
-// 	t_env *env_head;
-
-// 	own_env = ft_envnew(env[0]);
-// 	i = 1;
-// 	while(env[i])
-// 	{
-// 		own_env->next = ft_calloc(sizeof(t_env), 1);
-// 		own_env = own_env->next;
-// 		own_env = ft_envnew(env[i]);
-// 	}
-// }
-
 t_env	*get_env(t_mnours *mnours, char *var)
 {
 	t_env	*env;
@@ -104,7 +88,8 @@ t_env	*get_env(t_mnours *mnours, char *var)
 	env = mnours->env;
 	while (env)
 	{
-		if (!ft_strncmp(env->name, var, ft_strlen(var)))
+		if (!ft_strncmp(env->name, var, ft_strlen(var))
+			&& ft_strlen(env->name) == ft_strlen(var))
 			return (env);
 		env = env->next;
 	}
