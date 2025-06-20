@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:36:57 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/21 00:17:03 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	is_only_opt(char **line)
 	while (line[i])
 	{
 		j = 1;
-		if (line[i][0] == '-'  && line[i][1] == 'n')
+		if (line[i][0] == '-' && line[i][1] == 'n')
 		{
 			while (line[i][j])
 			{
@@ -101,7 +101,8 @@ int	ft_echo(char **line)
 	while (line[i])
 	{
 		if ((int)write(1, line[i], (int)ft_strlen(line[i])) == -1)
-			return (ft_dprintf(2, "Minishell: echo: write error: No space left on device\n"), 1);
+			return (ft_dprintf(2, "Minishell: echo: write error:"
+					"No space left on device\n"), 1);
 		if (line[i + 1])
 			ft_printf(" ");
 		i++;

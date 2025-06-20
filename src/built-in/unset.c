@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:56:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:49:32 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/21 00:19:33 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ t_env	*ft_unset2(t_env *env, char *line)
 		&& ft_strlen(env->name) == ft_strlen(line))
 	{
 		init_env = init_env->next;
-		free(env->name);
-		free(env->value);
-		free(env);
-		return (init_env);
+		return (free(env->name), free(env->value), free(env), init_env);
 	}
 	while (env->next)
 	{
@@ -36,10 +33,7 @@ t_env	*ft_unset2(t_env *env, char *line)
 		{
 			tmp = env->next;
 			env->next = tmp->next;
-			free(tmp->name);
-			free(tmp->value);
-			free(tmp);
-			return (init_env);
+			return (free(tmp->name), free(tmp->value), free(tmp), init_env);
 		}
 		env = env->next;
 	}

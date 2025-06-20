@@ -6,11 +6,25 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 17:58:27 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/21 00:39:12 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+void	check_quotes2(char *c, char *c2, int type)
+{
+	if (type == 1)
+	{
+		*c = '\'';
+		*c2 = '\"';
+	}
+	if (type == 2)
+	{
+		*c = '\"';
+		*c2 = '\'';
+	}
+}
 
 int	check_quotes(int type, char *line)
 {
@@ -22,16 +36,7 @@ int	check_quotes(int type, char *line)
 	i = 0;
 	inquote = 0;
 	counter = 0;
-	if (type == 1)
-	{
-		c[0] = '\'';
-		c[1] = '\"';
-	}
-	if (type == 2)
-	{
-		c[0] = '\"';
-		c[1] = '\'';
-	}
+	check_quotes2(&(c[0]), &(c[1]), type);
 	while (line[i])
 	{
 		if (line[i] == c[0] && !inquote)
@@ -50,38 +55,38 @@ int	check_quotes(int type, char *line)
 	return (0);
 }
 
-int	check_chars(char *line)
+void	check_chars2(char *l, int *i, int *s_quote, int *d_quote)
 {
-	int	i;
-	int	in_squote;
-	int	in_dquote;
+	if (l[(*i)++] == '\'' && !*d_quote)
+		*s_quote = !*s_quote;
+	else if (l[*i - 1] == '\"' && !*s_quote)
+		*d_quote = !*d_quote;
+}
 
-	i = 0;
-	in_squote = 0;
-	in_dquote = 0;
-	while (line[i])
+int	check_chars(char *li)
+{
+	int	i[3];
+
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
+	while (li[i[0]])
 	{
-		if (line[i] == '|' && line[i + 1] && line[i + 1] == '|')
+		if (li[i[0]] == '|' && li[i[0] + 1] && li[i[0] + 1] == '|')
 			return (perror("Syntax Error: invalid pipe"), 1);
-		if (line[i] == '>' && line[i + 1] && line[i + 1] == '|')
+		if (li[i[0]] == '>' && li[i[0] + 1] && li[i[0] + 1] == '|')
 			return (perror("Parse Error: unexpected token `|'"), 1);
-		if (line[i] == '<' && line[i + 1] && line[i + 1] == '<')
+		if (li[i[0]] == '<' && li[i[0] + 1] && li[i[0] + 1] == '<')
 		{
-			while (line[i] && (line[i] == '\t' || line[i] == ' '
-					|| line[i] == '<'))
-				i++;
-			if (!line[i] || line[i] == '\n')
-			{
-				perror("Parse Error: syntax error near unexpected token `newline'");
-				return (1);
-			}
-			i--;
+			while (li[i[0]] && (li[i[0]] == '\t' || li[i[0]] == ' '
+					|| li[i[0]] == '<'))
+				i[0]++;
+			if (!li[i[0]] || li[i[0]] == '\n')
+				return (perror("Parse Error: syntax error near"
+						"unexpected token `newline'"), 1);
+			i[0]--;
 		}
-		if (line[i] == '\'' && !in_dquote)
-			in_squote = !in_squote;
-		else if (line[i] == '\"' && !in_squote)
-			in_dquote = !in_dquote;
-		i++;
+		check_chars2(li, &(i[0]), &(i[1]), &(i[2]));
 	}
 	return (0);
 }

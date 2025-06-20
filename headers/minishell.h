@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 19:23:26 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/21 01:18:35 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 extern int	g_signal;
 
+void		prompter(t_mnours *mnours, char **env);
 void		free_env(t_env *env);
 void		here_doc(t_args *n, t_exec *c, t_mnours *mnours);
 void		converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i);
@@ -38,7 +39,7 @@ int			open_file(t_exec *c, t_args *n);
 
 // ---- Variables d'environnement ----
 char		**var_search(char **tab, t_env *env);
-char		*replace_variable(char *str, t_env *env, int k);
+char		*replace_var(char *str, t_env *env, int k);
 char		*get_var_value(char *var_name, t_env *env);
 
 // ---- Parsing | Tokening ----
@@ -86,42 +87,43 @@ t_env		*ft_unset(t_env *env, char **line, t_mnours *mnours);
 void		write_args(t_exec *exec);
 
 // -------- Executing | Utils ---------
+void		close_next_hd(t_exec *c);
+void		exec_close_fd(t_exec *cmd);
 void		dup_close(int fd, int fileno);
 void		free_array(char **array);
 char		*process_complex_quotes(char *str);
 char		*find_name(char *line, int *i);
 char		*find_value(char *line, int *i);
+void		access_path(char **cmd, char **env, t_mnours *d);
+char		*find_path(char *cmop, char **paths);
+void		exec_cmd(char **envp, t_exec *c, t_mnours *mnours);
+pid_t		child_factory(t_mnours *data, t_exec *c, char **env);
+void		piping(t_exec *cmd);
 
 // -------- Executing | Utils ---------
 void		resetfd(int fd, int fout);
 
 // ------- Tokener | Utils ------
+t_lst		*get_words(char *prompt);
 void		set_quotes(char prompt, t_quotes *q);
 int			capipe(char *prompt, int i, t_lst **word);
 int			casemicolon(char *prompt, int i, t_lst **word);
 void		tok_pipe(t_mnours *data, t_exec *exec, t_args *pre_tok);
 void		tok_semicolon(t_mnours *data, t_exec *exec, t_args *pre_tok);
 int			set_token(t_mnours *data);
-// void	clear_rl_line(void);
 
 int			ft_cd(char **line, t_mnours *mnours);
 int			get_array_size(char **array);
-
 void		set_env(t_mnours *g, char **env);
 char		*ft_getenv(char *name, t_env *env);
 t_env		*get_env(t_mnours *mnours, char *var);
 char		*replacer(t_mnours *mnours, char *line);
 int			ft_pwd(t_mnours *mnours);
 char		**convert_env(t_mnours *mnours);
-
 void		update_env(t_mnours *mnours, char *var_name, char *new_value);
-
 void		signals(int sig);
 void		signals_wait(void);
 void		free_prompt(t_mnours *mnours);
-
 void		close_fds(int fd);
-
-// static int	g_signal = 0;
 
 #endif

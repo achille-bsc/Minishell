@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 18:04:13 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 23:56:09 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,26 @@ char	*find_value(char *line, int *i)
 	return (value);
 }
 
+void	ft_export3(t_mnours *data, t_env *new_env, t_env *env)
+{
+	t_env	*tmp;
+
+	if (!data->env)
+		data->env = new_env;
+	if (new_env)
+	{
+		tmp = env;
+		if (!env)
+			env = new_env;
+		else
+		{
+			while (tmp->next)
+				tmp = tmp->next;
+			tmp->next = new_env;
+		}
+	}
+}
+
 int	ft_export2(t_mnours *data, t_env *env, char *line)
 {
 	t_env	*tmp;
@@ -66,21 +86,8 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 			return (update_env(data, name, ""), free(name), 0);
 	}
 	new_env = ft_envnew(line);
-	if (!data->env)
-		data->env = new_env;
-	if (new_env)
-	{
-		tmp = env;
-		if (!env)
-			env = new_env;
-		else
-		{
-			while (tmp->next)
-				tmp = tmp->next;
-			tmp->next = new_env;
-		}
-	}
-	return (free(name), free(value), 0); 
+	ft_export3(data, new_env, env);
+	return (free(name), free(value), 0);
 }
 
 int	ft_export(t_mnours *data, t_env *env, char **line)

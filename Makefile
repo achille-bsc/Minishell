@@ -12,13 +12,12 @@ SRCS =	src/main.c src/set_env.c src/varenv.c \
 		src/utils/errors.c src/utils/freeall.c src/utils/freeall2.c \
 		src/parsing/parsing.c src/parsing/utils.c src/parsing/verifs.c \
 		src/parsing/tokener/tokener.c src/parsing/tokener/utils.c \
-		src/parsing/tokener/tokener2.c \
+		src/parsing/tokener/tokener2.c src/exec/execute2.c \
 		src/exec/execute.c src/exec/pre_execute.c src/exec/here_doc.c \
 		src/exec/redirection.c src/exec/utils.c \
 		src/built-in/echo.c src/built-in/env.c src/built-in/export.c \
 		src/built-in/unset.c src/built-in/exit.c src/built-in/cd.c \
-		src/utils/arrays.c \
-		src/parsing/varenv/replacer.c \
+		src/utils/arrays.c src/prompter.c \
 		src/built-in/pwd.c \
 		src/signals/signals.c
 

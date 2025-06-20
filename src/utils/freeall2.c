@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:57:20 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 18:25:15 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 23:34:12 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,19 @@ void	ft_free_word(t_lst *word)
 		free(tmp->content);
 		free(tmp);
 	}
+}
+
+void	free_array(char **array)
+{
+	int	index;
+
+	if (!array)
+		return ;
+	index = 0;
+	while (array[index])
+		free(array[index++]);
+	free(array);
+	return ;
 }
 
 void	free_env(t_env *env)

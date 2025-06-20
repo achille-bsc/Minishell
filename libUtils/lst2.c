@@ -6,11 +6,32 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:06:55 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 18:07:09 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 20:12:09 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+
+char	**ft_tabdup(char **tab)
+{
+	char	**res;
+	int		i;
+
+	i = 0;
+	if (!tab)
+		return (NULL);
+	while (tab[i])
+		i++;
+	res = malloc((i + 1) * sizeof(char *));
+	i = 0;
+	while (tab != NULL && tab[i] != NULL)
+	{
+		i[res] = ft_strdup(tab[i]);
+		i++;
+	}
+	res[i] = NULL;
+	return (res);
+}
 
 void	ft_lstconvert(t_mnours *mini, t_exec *data)
 {
@@ -69,6 +90,5 @@ char	**convert_env(t_mnours *mnours)
 		tmp = tmp->next;
 		i++;
 	}
-	env_tab[i] = NULL;
-	return (env_tab);
+	return (env_tab[i] = NULL, env_tab);
 }

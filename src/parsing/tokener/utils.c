@@ -6,23 +6,11 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:51:26 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 19:22:11 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/21 01:22:20 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../headers/minishell.h"
-
-void	set_quotes(char prompt, t_quotes *q)
-{
-	if (prompt == '\'' && !((*q).dou))
-	{
-		(*q).sin = !((*q).sin);
-	}
-	else if (prompt == '\"' && !((*q).sin))
-	{
-		(*q).dou = !((*q).dou);
-	}
-}
 
 int	capipe(char *prompt, int i, t_lst **word)
 {

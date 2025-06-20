@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:48:08 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 22:30:01 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,61 +44,58 @@ char	*extract_var_name(char *str, int start, int *end)
 	return (var_name);
 }
 
-char	*replace_variable(char *str, t_env *env, int k)
+char	*rep2(char *var_val, int var_end, char *temp_str, int i)
 {
 	char	*result;
-	char	*var_name;
-	char	*var_value;
-	char	*before;
-	char	*after;
-	char	*temp_str;
-	int		i;
-	int		var_end;
-	int		found_var;
+	char	*tmp[2];
+
+	tmp[0] = ft_substr(temp_str, 0, i);
+	tmp[1] = ft_strdup(temp_str + var_end);
+	if (var_val)
+	{
+		result = ft_calloc(ft_strlen(tmp[0]) + ft_strlen(var_val)
+				+ ft_strlen(tmp[1]) + 1, 1);
+		ft_strlcpy(result, tmp[0], ft_strlen(tmp[0]) + 1);
+		ft_strlcat(result, var_val, ft_strlen(tmp[0]) + ft_strlen(var_val) + 1);
+		ft_strlcat(result, tmp[1], ft_strlen(tmp[0]) + ft_strlen(var_val)
+			+ ft_strlen(tmp[1]) + 1);
+	}
+	else
+	{
+		result = ft_calloc(ft_strlen(tmp[0]) + ft_strlen(tmp[1]) + 1, 1);
+		ft_strlcpy(result, tmp[0], ft_strlen(tmp[0]) + 1);
+		ft_strlcat(result, tmp[1], ft_strlen(tmp[0]) + ft_strlen(tmp[1]) + 1);
+	}
+	return (free(tmp[0]), free(tmp[1]), free(temp_str), result);
+}
+
+char	*replace_var(char *str, t_env *env, int k)
+{
+	char	*var[3];
+	int		nb[2];
 
 	if (!str)
 		return (NULL);
 	if (!env)
 		return (ft_strdup(str));
-	temp_str = ft_strdup(str);
+	var[2] = ft_strdup(str);
 	if (k == 1)
 		free(str);
-	i = 0;
-	found_var = 0;
-	while (temp_str[i])
+	nb[0] = 0;
+	while (var[2][nb[0]])
 	{
-		if (temp_str[i] == '$')
+		if (var[2][nb[0]++] == '$')
 		{
-			var_name = extract_var_name(temp_str, i + 1, &var_end);
-			if (var_name)
+			var[0] = extract_var_name(var[2], nb[0], &nb[1]);
+			if (var[0])
 			{
-				found_var = 1;
-				var_value = get_var_value(var_name, env);
-				before = ft_substr(temp_str, 0, i);
-				after = ft_strdup(temp_str + var_end);
-				if (var_value)
-				{
-					result = ft_calloc(ft_strlen(before) + ft_strlen(var_value) + ft_strlen(after) + 1, 1);
-					ft_strlcpy(result, before, ft_strlen(before) + 1);
-					ft_strlcat(result, var_value, ft_strlen(before) + ft_strlen(var_value) + 1);
-					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(var_value) + ft_strlen(after) + 1);
-				}
-				else
-				{
-					result = ft_calloc(ft_strlen(before) + ft_strlen(after) + 1, 1);
-					ft_strlcpy(result, before, ft_strlen(before) + 1);
-					ft_strlcat(result, after, ft_strlen(before) + ft_strlen(after) + 1);
-				}
-				free(before);
-				free(after);
-				free(var_name);
-				free(temp_str);
-				return (replace_variable(result, env, 1));
+				var[1] = get_var_value(var[0], env);
+				return (free(var[0]), replace_var(rep2(var[1], nb[1], var[2],
+							nb[0] - 1), env, 1));
 			}
 		}
-		i++;
 	}
-	return (temp_str);
+	return (var[2]);
 }
 
 char	**var_search(char **tab, t_env *env)
@@ -113,7 +110,7 @@ char	**var_search(char **tab, t_env *env)
 	while (tab[i])
 	{
 		old_str = tab[i];
-		new_str = replace_variable(tab[i], env, 0);
+		new_str = replace_var(tab[i], env, 0);
 		if (new_str)
 		{
 			free(old_str);

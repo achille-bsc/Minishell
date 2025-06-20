@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 00:47:33 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/21 01:17:55 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,96 +39,6 @@ void	write_args(t_exec *exec)
 			return ;
 		arg = ex->args;
 	}
-}
-
-char	*init_prompt(t_mnours *mnours)
-{
-	char	*name;
-	char	*pwd;
-	char	*temp;
-	char	*temp1;
-
-	pwd = ft_calloc(sizeof(char), 1024);
-	if (!pwd || !getcwd(pwd, 1024))
-	{
-		if (pwd)
-			free(pwd);
-		return (ft_strdup("Mininours> "));
-	}
-	name = ft_getenv("USER", mnours->env);
-	if (name == NULL)
-	{
-		free(pwd);
-		return (ft_strdup("Mininours> "));
-	}
-	temp = ft_strjoin(name, " ");
-	temp1 = ft_strjoin(temp, pwd);
-	free(temp);
-	temp = ft_strjoin(temp1, " Mininours> ");
-	free(temp1);
-	free(pwd);
-	return (temp);
-}
-
-void	prompter(t_mnours *mnours, char **env)
-{
-	char	stop;
-
-	while (mnours->is_exit == 0)
-	{
-		signals(SIGNAL_EXECUTE);
-		if (mnours->line)
-			free(mnours->line);
-		mnours->prompt = init_prompt(mnours);
-		mnours->line = readline(mnours->prompt);
-		signals(SIGNAL_IGN);
-		if (g_signal == 130)
-		{
-			g_signal = 0;
-			mnours->exit_code = 130;
-		}
-		if (!mnours->line)
-		{
-			ft_printf("exit\n");
-			mnours->exit = mnours->exit_status;
-			mnours->is_exit = 1;
-			free_prompt(mnours);
-			break ;
-		}
-		if (!mnours->line[0])
-		{
-			free_prompt(mnours);
-			continue ;
-		}
-		add_history(mnours->line);
-		if (verif(mnours))
-		{
-			free_prompt(mnours);
-			continue ;
-		}
-		if (set_token(mnours))
-		{
-			if (mnours->line)
-				free(mnours->line);
-			mnours->line = NULL;
-			if (mnours->ex)
-				free_exec(mnours->ex);
-			mnours->ex = NULL;
-			free_prompt(mnours);
-			continue ;
-		}
-		execute(mnours, env);
-		free_exec(mnours->ex);
-		free(mnours->pid_stock);
-		mnours->pid_stock = NULL;
-		mnours->ex = NULL;
-		g_signal = 0;
-		free_prompt(mnours);
-	}
-	stop = mnours->exit_code;
-	free_mnours(mnours);
-	rl_clear_history();
-	exit(stop);
 }
 
 void	init(t_mnours *mnours, char **env)
@@ -164,6 +74,6 @@ int	main(int argc, char **argv, char **env)
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
 	init(mininours, env);
-	prompter(mininours, env);
+	prompter(mininours, mininours->lst_env);
 	return (0);
 }

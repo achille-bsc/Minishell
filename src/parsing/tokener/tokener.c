@@ -6,45 +6,11 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 19:14:57 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/20 21:13:08 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../headers/minishell.h"
-
-t_lst	*get_words(char *prompt)
-{
-	t_lst		*words[2];
-	int			i;
-	t_quotes	q;
-
-	i = 0;
-	q.sin = 0;
-	q.dou = 0;
-	words[1] = create_word();
-	words[0] = words[1];
-	while (prompt[i])
-	{
-		if (!q.sin && !q.dou && (prompt[i] == '<' || prompt[i] == '>'))
-			i = handle_redir(prompt, i, &(words[1]));
-		else if (!q.sin && !q.dou && prompt[i] == '|')
-			i = capipe(prompt, i, &(words[1]));
-		else if (!q.sin && !q.dou && (prompt[i] == ' ' || prompt[i] == '\t'))
-			while (prompt[i] == ' ' || prompt[i] == '\t')
-				i++;
-		else
-			i = complete(i, prompt, &(words[1]), &q);
-	}
-	words[1] = words[0];
-	while ((words[1])->next && (words[1])->next->content)
-		(words[1]) = words[1]->next;
-	if ((words[1])->next)
-	{
-		free((words[1])->next);
-		words[1]->next = NULL;
-	}
-	return (words[0]);
-}
 
 t_args	*and_tok(int en, t_args **token, t_lst *word, int nb_redir)
 {
@@ -73,7 +39,7 @@ t_args	*maybe_redir(t_args **token, t_lst *words)
 		return (and_tok(TR, token, words, 1));
 }
 
-int verif_words(t_lst *words)
+int	verif_words(t_lst *words)
 {
 	t_lst	*tmp;
 
@@ -82,16 +48,14 @@ int verif_words(t_lst *words)
 	tmp = words;
 	if (tmp->content[0] == '|')
 	{
-		perror("Syntax error: Pipe '|' at the beginning of command not allowed");
+		perror("Syntax error: Pipe '|' at the beginning"
+			"of command not allowed");
 		return (1);
 	}
 	while (tmp)
 	{
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
-		{
-			perror("Syntax error: Double pipe '| |' not allowed");
-			return (1);
-		}
+			return (perror("Syntax error: Double pipe '| |' not allowed"), 1);
 		if (tmp->content[0] == '|' && !tmp->next)
 		{
 			perror("Syntax error: Pipe '|' at the end of command not allowed");
@@ -122,8 +86,6 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 			tokens = ft_calloc(sizeof(t_args), 1);
 			if (!tokens)
 				ft_error("Tokens alloc", mnours);
-			tokens->name = NULL;
-			tokens->next = NULL;
 			exec->args = tokens;
 		}
 		else
@@ -132,4 +94,3 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 	}
 	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens), 0);
 }
-

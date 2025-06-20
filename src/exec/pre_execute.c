@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 19:49:39 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/21 00:42:24 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,8 @@ int	is_buildtin(t_exec *exe, char *cmd)
 		return (0);
 }
 
-void	exec_build(t_mnours *data, char **l, t_exec *c)
+void	exec_build2(t_mnours *data, char **l)
 {
-	int		fd[2];
-
-	fd[0] = dup(0);
-	fd[1] = dup(1);
-	if (c->fin > 2)
-		dup_close(c->fin, STDIN_FILENO);
-	if (c->fout > 2)
-		dup_close(c->fout, STDOUT_FILENO);
 	if (!ft_strncmp(l[0], "echo", ft_strlen(l[0])) && ft_strlen(l[0]) == 4)
 		data->exit_code = ft_echo(l);
 	else if (!ft_strncmp(l[0], "export", ft_strlen(l[0]))
@@ -60,6 +52,19 @@ void	exec_build(t_mnours *data, char **l, t_exec *c)
 		data->exit_code = ft_pwd (data);
 	else if (!ft_strncmp(l[0], "cd", ft_strlen(l[0])) && ft_strlen(l[0]) == 2)
 		data->exit_code = ft_cd(l, data);
+}
+
+void	exec_build(t_mnours *data, char **l, t_exec *c)
+{
+	int		fd[2];
+
+	fd[0] = dup(0);
+	fd[1] = dup(1);
+	if (c->fin > 2)
+		dup_close(c->fin, STDIN_FILENO);
+	if (c->fout > 2)
+		dup_close(c->fout, STDOUT_FILENO);
+	exec_build2(data, l);
 	dup_close(fd[0], STDIN_FILENO);
 	dup_close(fd[1], STDOUT_FILENO);
 	if (data->nb_pipe > 0)
