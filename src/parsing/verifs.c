@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verifs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/16 16:18:47 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/20 16:59:14 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,26 @@ int	check_chars(char *line)
 			perror("Syntax Error: invalid pipe");
 			return (1);
 		}
+		if (line[i] == '>' && line[i + 1] && line[i + 1] == '|')
+		{
+			perror("Parse Error: unexpected token `|'");
+			return (1);
+		}
+		if (line[i] == '<' && line[i + 1] && line[i + 1] == '<')
+		{
+			while(line[i] && (line[i] == '\t' || line[i] == ' ' || line[i] == '<'))
+				i++;
+			if (!line[i] || line[i] == '\n')
+			{
+				perror("Parse Error: syntax error near unexpected token `newline'");
+				return (1);
+			}
+			i--;
+		}
+		// {
+		// 	perror("Parse Error: unexpected token `|'");
+		// 	return (1);
+		// }
 		if (line[i] == '\'' && !in_dquote)
 			in_squote = !in_squote;
 		else if (line[i] == '\"' && !in_squote)
@@ -161,7 +181,10 @@ int	verif(t_mnours *mnours)
 		return (1);
 	i = 0;
 	if (check_chars(mnours->line) == 1)
+	{
+		mnours->exit_code = 2;
 		return (1);
+	}
 	while (mnours->line[i] && (mnours->line[i] == ' '
 			|| mnours->line[i] == '\t'))
 		i++;
