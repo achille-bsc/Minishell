@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/21 00:42:24 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 22:50:17 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_build2(t_mnours *data, char **l)
 		data->exit_code = ft_echo(l);
 	else if (!ft_strncmp(l[0], "export", ft_strlen(l[0]))
 		&& ft_strlen(l[0]) == 6)
-		data->exit_code = ft_export(data, data->env, l);
+		ft_export(data, data->env, l);
 	else if (!ft_strncmp(l[0], "unset", ft_strlen(l[0]))
 		&& ft_strlen(l[0]) == 5)
 		data->env = ft_unset(data->env, l, data);
