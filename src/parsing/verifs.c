@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/21 00:39:12 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 19:39:13 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ int	check_chars(char *li)
 	{
 		if (li[i[0]] == '|' && li[i[0] + 1] && li[i[0] + 1] == '|')
 			return (perror("Syntax Error: invalid pipe"), 1);
-		if (li[i[0]] == '>' && li[i[0] + 1] && li[i[0] + 1] == '|')
-			return (perror("Parse Error: unexpected token `|'"), 1);
 		if (li[i[0]] == '<' && li[i[0] + 1] && li[i[0] + 1] == '<')
 		{
 			while (li[i[0]] && (li[i[0]] == '\t' || li[i[0]] == ' '
