@@ -58,7 +58,7 @@ int	verif_words(t_lst *words)
 			return (perror("Syntax error: Pipe '|' "
 					"at the end of command not allowed"), 1);
 		if (tmp->content[0] == '>' && !tmp->content[1]
-			&& tmp->next->content[0] == '|')
+			&& tmp->next && tmp->next->content[0] == '|')
 			return (perror("Syntax error:  near unexpected token `|'"), 1);
 		if (tmp->content[0] == '>' && !tmp->content[1])
 			return (perror("Syntax error: near unexpected token `newline'"), 1);
