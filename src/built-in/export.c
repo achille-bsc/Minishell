@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/22 22:52:22 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 22:55:17 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 			return (update_env(data, name, ""), free(name), 0);
 	}
 	new_env = ft_envnew(line);
-	ft_export3(data, new_env, env);
-	return (free(name), free(value), 0);
+	return (ft_export3(data, new_env, env), free(name), free(value), 0);
 }
 
 int	ft_export(t_mnours *data, t_env *env, char **line)
