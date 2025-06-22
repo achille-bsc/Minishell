@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/21 00:17:03 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 21:14:52 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	skip_opt(char **line)
 	int	counter;
 
 	i = 1;
-	j = 1;
 	counter = 0;
 	while (line[i])
 	{
+		j = 1;
 		if (line[i][0] == '-' && line[i][1] == 'n')
 		{
 			while (line[i][j])
@@ -45,7 +45,7 @@ int	get_opt(char **line)
 	int	i;
 
 	i = 1;
-	if (line[1][0] == '-' && line[i][1] == 'n')
+	if (line[1][0] == '-' && line[1][1] == 'n')
 	{
 		while (line[1][i])
 		{
@@ -101,8 +101,10 @@ int	ft_echo(char **line)
 	while (line[i])
 	{
 		if ((int)write(1, line[i], (int)ft_strlen(line[i])) == -1)
-			return (ft_dprintf(2, "Minishell: echo: write error:"
-					"No space left on device\n"), 1);
+			return (ft_dprintf(2,
+								"Minishell: echo: write error:"
+								"No space left on device\n"),
+					1);
 		if (line[i + 1])
 			ft_printf(" ");
 		i++;
