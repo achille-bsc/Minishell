@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 23:46:53 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/21 01:27:44 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 22:52:22 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,14 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 	char	*value;
 	int		i;
 
-	i = 0;
+	i = 1;
 	tmp = env;
-	if (ft_isalpha(line[0]) == 0 && line[0] != '_')
-		return (ft_printf("%s isn't a valid identifier\n", line), 1);
+	while (line[i++])
+		if ((!ft_isalpha(line[0]) && line[0] != '_')
+			|| (!ft_isalnum(line[i - 1]) && line[i - 1] != '_'))
+			return (ft_printf("%s isn't a valid identifier\n", line),
+				data->exit_code = 1, 1);
+	i = 0;
 	name = find_name(line, &i);
 	value = find_value(line, &i);
 	if (ft_getenv(name, data->env))
@@ -92,27 +96,28 @@ int	ft_export2(t_mnours *data, t_env *env, char *line)
 
 int	ft_export(t_mnours *data, t_env *env, char **line)
 {
-	int	i;
+	int	i[2];
 
-	i = 1;
-	if (line[i] == NULL)
+	i[0] = 1;
+	if (line[i[0]] == NULL)
 		ft_env(data->lst_env);
-	while (line[i])
+	while (line[i[0]])
 	{
-		while (line[i] && ft_strchr(line[i], '=') == NULL)
+		while (line[i[0]] && ft_strchr(line[i[0]], '=') == NULL)
 		{
-			if (ft_isalpha(line[i][0]) == 0 && line[i][0] != '_')
+			i[1] = 1;
+			while (line[i[0]][i[1]++])
 			{
-				ft_printf("%s isn't a valid identifier\n", line[i]);
-				return (1);
+				if ((!ft_isalpha(line[i[0]][0]) && line[i[0]][0] != '_') || (!ft_isalnum(line[i[0]][i[1] - 1]) && line[i[0]][i[1] - 1] != '_'))
+				{
+					ft_dprintf(2, "%s isn't a valid identifier\n", line[i[0]]);
+					data->exit_code = 1;
+				}
 			}
-			i++;
+			i[0]++;
 		}
-		if (!line[i])
-			break ;
-		if (ft_export2(data, env, line[i++]))
-			return (1);
+		if (line[i[0]])
+			ft_export2(data, env, line[i[0]++]);
 	}
-	data->lst_env = convert_env(data);
-	return (0);
+	return (data->lst_env = convert_env(data), 0);
 }
