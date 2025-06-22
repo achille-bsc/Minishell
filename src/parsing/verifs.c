@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/22 19:39:13 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/22 22:09:23 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ int	verif(t_mnours *mnours)
 		return (ft_error("Syntax Error: incorrect quotes (single)", mnours), 1);
 	if (check_quotes(2, mnours->line))
 		return (ft_error("Syntax Error: incorrect quotes (double)", mnours), 1);
-	if (mnours->line[0] == '"' && mnours->line[1] == '"')
-		return (ft_error("Syntax Error: empty double quotes", mnours), 1);
-	if (mnours->line[0] == '\'' && mnours->line[1] == '\'')
-		return (ft_error("Syntax Error: empty single quotes", mnours), 1);
+	// if (mnours->line[0] == '"' && mnours->line[1] == '"')
+	// 	return (ft_error("Syntax Error: empty double quotes", mnours), 1);
+	// if (mnours->line[0] == '\'' && mnours->line[1] == '\'')
+	// 	return (ft_error("Syntax Error: empty single quotes", mnours), 1);
 	return (0);
 }
