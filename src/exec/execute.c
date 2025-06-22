@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 23:39:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 00:10:14 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	execute2(t_mnours *d, t_exec *cmd, char **env)
 	i = 0;
 	while (i <= d->nb_pipe && cmd->lst)
 	{
-		if (redir(cmd) == -1)
+		if (redir(cmd, d) == -1)
 		{
 			i += execute3(&cmd, 0);
 			continue ;
@@ -125,7 +125,7 @@ void	execute(t_mnours *d, char **env)
 	}
 	else
 	{
-		if (redir(cmd) != -1)
+		if (redir(cmd, d) != -1)
 			if (cmd->lst[0])
 				execute5(d, cmd, env);
 		exec_close_fd(cmd);

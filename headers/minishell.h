@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/21 01:18:35 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 23:45:14 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void		free_env(t_env *env);
 void		here_doc(t_args *n, t_exec *c, t_mnours *mnours);
 void		converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i);
 t_env		*ft_envnew(char *line);
-int			open_file(t_exec *c, t_args *n);
 
 // ---- Variables d'environnement ----
 char		**var_search(char **tab, t_env *env);
@@ -47,7 +46,6 @@ void		parser(char *prompt, t_mnours *data);
 void		parsing(t_args *tokens);
 int			tokener(t_mnours *mnours, t_exec *exec, t_args *tokens);
 int			analyze_quote_type(char *str);
-// void	set_tok_in_mnours(t_args *tokens, t_mnours *mnours);
 
 // ----- Parsing | Utils -----
 int			handle_redir(char *prompt, int i, t_lst **word);
@@ -71,7 +69,7 @@ char		*remove_quotes(char *str, int quote_type);
 char		**ft_tabdup(char **tab);
 
 int			set_heredoc(t_exec *c, t_mnours *data);
-int			redir(t_exec *c);
+int			redir(t_exec *c, t_mnours *data);
 void		execute(t_mnours *d, char **env);
 void		exec_build(t_mnours *data, char **l, t_exec *c);
 int			should_expand_heredoc(t_args *delimiter);

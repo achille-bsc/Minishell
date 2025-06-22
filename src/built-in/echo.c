@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:39:14 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/22 22:18:26 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/22 23:33:58 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	ft_echo(char **line)
 	i = 1;
 	skip_line = 1;
 	if (!line[1])
-		return (ft_printf("\n"));
+		return (ft_printf("\n"), 0);
 	if (is_only_opt(line))
 		return (0);
 	if (get_opt(line))
