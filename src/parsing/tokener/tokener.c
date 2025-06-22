@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/22 19:49:57 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/22 22:21:39 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	verif_words(t_lst *words)
 	tmp = words;
 	if (tmp->content[0] == '|')
 	{
-		perror("Syntax error: Pipe '|' at the beginning"
-				"of command not allowed");
+		perror("Syntax error: Pipe '|' at the "
+			"beginning of command not allowed");
 		return (1);
 	}
 	while (tmp)
@@ -72,7 +72,7 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 
 	words[1] = get_words(mnours->line);
 	if (verif_words(words[1]))
-		return (ft_free_word(words[1]), mnours->exit_code = 2,  1);
+		return (ft_free_word(words[1]), mnours->exit_code = 2, 1);
 	words[0] = words[1];
 	while (words[1])
 	{
