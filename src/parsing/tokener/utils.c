@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:51:26 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 00:35:46 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 00:41:38 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	expends_exit_status(t_mnours *mnours)
 {
 	t_args	*args;
 	t_exec	*exec;
-	char	*temp[2];
 
 	exec = mnours->ex;
 	while (exec)
