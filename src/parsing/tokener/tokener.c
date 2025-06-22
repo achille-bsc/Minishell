@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/22 22:21:39 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 00:05:23 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,20 @@ int	verif_words(t_lst *words)
 	}
 	while (tmp)
 	{
+		ft_printf("Content: %s\n", tmp->content);
+		tmp = tmp->next;
+	}
+	tmp = words;
+	while (tmp)
+	{
+		ft_printf("Content: %s\n", tmp->content);
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
 			return (perror("Syntax error: Double pipe '| |' not allowed"), 1);
-		if (tmp->content[0] == '>' && tmp->next && tmp->next->content[0] == '|')
+		if (tmp->content[0] == '|' && !tmp->next)
+			return (perror("Syntax error: Pipe '|' at the end of command not allowed"), 1);
+		if (tmp->content[0] == '>' && !tmp->content[1] && tmp->next->content[0] == '|')
 			return (perror("Syntax error:  near unexpected token `|'"), 1);
-		if (tmp->content[0] == '>' && !tmp->next)
+		if (tmp->content[0] == '>' && !tmp->content[1])
 			return (perror("Syntax error: near unexpected token `newline'"), 1);
 		tmp = tmp->next;
 	}

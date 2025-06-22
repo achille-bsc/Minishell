@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:51:26 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/21 01:22:20 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 23:44:19 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ void	expends_exit_status(t_mnours *mnours)
 {
 	t_args	*args;
 	t_exec	*exec;
+	int		i;
+	char	*new_str;
+	char	*exit_code_str;
+	char	*before;
+	char	*after;
+	char	*temp;
 
 	exec = mnours->ex;
 	while (exec)
@@ -53,11 +59,29 @@ void	expends_exit_status(t_mnours *mnours)
 			args = exec->args;
 			while (args)
 			{
-				if (ft_strncmp(args->name, "$?", 2) == 0
-					&& ft_strlen(args->name) == 2)
+				if (args->name)
 				{
-					free(args->name);
-					args->name = ft_itoa(mnours->exit_code);
+					i = 0;
+					while (args->name[i])
+					{
+						if (args->name[i] == '$' && args->name[i + 1] == '?')
+						{
+							exit_code_str = ft_itoa(mnours->exit_code);
+							before = ft_substr(args->name, 0, i);
+							after = ft_strdup(args->name + i + 2);
+							temp = ft_strjoin(before, exit_code_str);
+							new_str = ft_strjoin(temp, after);
+							free(args->name);
+							free(before);
+							free(after);
+							free(temp);
+							args->name = new_str;
+							i += ft_strlen(exit_code_str);
+							free(exit_code_str);
+						}
+						else
+							i++;
+					}
 				}
 				args = args->next;
 			}
