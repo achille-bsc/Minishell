@@ -6,11 +6,28 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 22:14:03 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 17:44:37 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/22 22:56:47 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/minishell.h"
+
+char	*find_name(char *line, int *i)
+{
+	char	*name;
+	int		j;
+
+	j = 0;
+	while (line[*i] != '=')
+		(*i)++;
+	name = ft_calloc(sizeof(char), *i + 1);
+	while (line[j] != '=')
+	{
+		name[j] = line[j];
+		j++;
+	}
+	return (name);
+}
 
 t_env	*ft_envnew(char *line)
 {
