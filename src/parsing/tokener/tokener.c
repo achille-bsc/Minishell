@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 00:15:04 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 00:35:08 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,19 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 		words[1] = words[1]->next;
 	}
 	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens), 0);
+}
+
+int	set_token(t_mnours *data)
+{
+	data->nb_pipe = 0;
+	data->ex = ft_calloc(sizeof(t_exec), 1);
+	if (!data->ex)
+		ft_error("Malloc error", data);
+	data->ex->args = ft_calloc(sizeof(t_args), 1);
+	if (!data->ex->args)
+		ft_error("Malloc error", data);
+	if (tokener(data, data->ex, data->ex->args) == 1)
+		return (1);
+	expends_exit_status(data);
+	return (0);
 }
