@@ -19,7 +19,8 @@ SRCS =	src/main.c src/set_env.c src/varenv.c \
 		src/built-in/unset.c src/built-in/exit.c src/built-in/cd.c \
 		src/utils/arrays.c src/prompter.c \
 		src/built-in/pwd.c \
-		src/signals/signals.c
+		src/signals/signals.c \
+		src/parsing/utils2.c
 
 OBJS = $(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 

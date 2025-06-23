@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:43:02 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 19:44:12 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 21:17:52 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	got_ended(char *line, int i, char c)
 	return (0);
 }
 
-int	check_quotes2(int c[2], int counter)
+int	check_quotes_2(char c[2], int counter)
 {
 	if (counter % 2 == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 19:43:55 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 21:16:40 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	check_quotes(int type, char *line)
 			counter++;
 		i++;
 	}
+	return (check_quotes_2(c, counter));
 }
 
 void	check_chars2(char *l, int *i, int *s_quote, int *d_quote)
