@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 00:46:10 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 00:51:47 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,15 @@ int	verif_words(t_lst *words)
 		return (0);
 	tmp = words;
 	if (tmp->content[0] == '|')
-		return (perror("Syntax error: Pipe '|' at the "
-				"beginning of command not allowed"),
-			1);
+		return (perror("Syntax error:  near unexpected token `|'"), 1);
 	while (tmp)
 	{
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
 			return (perror("Syntax error: Double pipe '| |' not allowed"), 1);
 		if (tmp->content[0] == '|' && !tmp->next)
 			return (perror("Syntax error: Pipe '|' "
-					"at the end of command not allowed"),
-				1);
+							"at the end of command not allowed"),
+					1);
 		if (tmp->content[0] == '>' && !tmp->content[1] && tmp->next
 			&& tmp->next->content[0] == '|')
 			return (perror("Syntax error:  near unexpected token `|'"), 1);

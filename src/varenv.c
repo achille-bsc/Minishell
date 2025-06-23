@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varenv.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
+/*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 22:30:01 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 03:19:55 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ char	*replace_var(char *str, t_env *env, int k)
 {
 	char	*var[3];
 	int		nb[2];
+	int		in_squote;
+	int		in_dquote;
 
 	if (!str)
 		return (NULL);
@@ -82,9 +84,15 @@ char	*replace_var(char *str, t_env *env, int k)
 	if (k == 1)
 		free(str);
 	nb[0] = 0;
+	in_squote = 0;
+	in_dquote = 0;
 	while (var[2][nb[0]])
 	{
-		if (var[2][nb[0]++] == '$')
+		if (var[2][nb[0]] == '\'' && !in_dquote)
+			in_squote = !in_squote;
+		else if (var[2][nb[0]] == '\"' && !in_squote)
+			in_dquote = !in_dquote;
+		if (var[2][nb[0]++] == '$' && !in_squote)
 		{
 			var[0] = extract_var_name(var[2], nb[0], &nb[1]);
 			if (var[0])
