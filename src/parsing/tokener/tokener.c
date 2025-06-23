@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 01:04:04 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/24 01:06:55 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,12 @@ int	checker(t_exec *exec)
 		if (args->tok == HD && args->next && args->next
 			&& args->next->tok == PIP)
 			return (perror("Syntax error: here-document before pipe"), 1);
-		if (args->tok == HD && args->next && args->next
-			&& args->next->tok == HD)
-			return (perror("Syntax error: here-document after here-document"), 1);
+		if (args->tok == HD && args->next && args->next->tok == HD)
+			return (perror("Syntax error: near unexpected token '<"),
+				1);
+		if (args->tok == HD && args->next && args->next->tok == HD)
+			return (perror("Syntax error: near unexpected token `<'"),
+				1);
 		exec = exec->next;
 	}
 	return (0);
