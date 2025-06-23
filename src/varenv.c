@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 22:12:27 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/23 03:19:55 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 22:00:35 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,39 +71,31 @@ char	*rep2(char *var_val, int var_end, char *temp_str, int i)
 
 char	*replace_var(char *str, t_env *env, int k)
 {
-	char	*var[3];
-	int		nb[2];
-	int		in_squote;
-	int		in_dquote;
+	char		*v[3];
+	int			nb[2];
+	t_quotes	q;
 
 	if (!str)
 		return (NULL);
 	if (!env)
 		return (ft_strdup(str));
-	var[2] = ft_strdup(str);
-	if (k == 1)
-		free(str);
+	v[2] = ft_strdup(str);
+	iffree(str, &k);
 	nb[0] = 0;
-	in_squote = 0;
-	in_dquote = 0;
-	while (var[2][nb[0]])
+	q.sin = 0;
+	q.dou = 0;
+	while (v[2][nb[0]])
 	{
-		if (var[2][nb[0]] == '\'' && !in_dquote)
-			in_squote = !in_squote;
-		else if (var[2][nb[0]] == '\"' && !in_squote)
-			in_dquote = !in_dquote;
-		if (var[2][nb[0]++] == '$' && !in_squote)
+		replace_mid(&q, v[2], nb[0]);
+		if (v[2][nb[0]++] == '$' && !q.sin)
 		{
-			var[0] = extract_var_name(var[2], nb[0], &nb[1]);
-			if (var[0])
-			{
-				var[1] = get_var_value(var[0], env);
-				return (free(var[0]), replace_var(rep2(var[1], nb[1], var[2],
-							nb[0] - 1), env, 1));
-			}
+			v[0] = extract_var_name(v[2], nb[0], &nb[1]);
+			if (v[0])
+				return (v[1] = get_var_value(v[0], env), free(v[0]),
+					replace_var(rep2(v[1], nb[1], v[2], nb[0] - 1), env, 1));
 		}
 	}
-	return (var[2]);
+	return (v[2]);
 }
 
 char	**var_search(char **tab, t_env *env)

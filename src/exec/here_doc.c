@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/23 19:29:25 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 23:48:38 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	here_doc(t_args *n, t_exec *c, t_mnours *mnours)
 	pid_t	pid;
 	int		status;
 
-	resetfd(c->l_hd, 0);
+	if (c->l_hd > 2)
+		close(c->l_hd);
 	if (pipe(pipefd) == -1)
 		return (perror("pipe"));
 	pid = fork();
