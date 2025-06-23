@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 03:00:27 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 18:49:12 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,21 @@ int	check_quotes(int type, char *line)
 {
 	int		counter;
 	int		i;
-	int		inquote;
+	int		in_other_quote;
 	char	c[2];
 
 	i = 0;
-	inquote = 0;
+	in_other_quote = 0;
 	counter = 0;
 	check_quotes2(&(c[0]), &(c[1]), type);
 	while (line[i])
 	{
-		if (line[i] == c[0] && !inquote)
+		if (line[i] == c[1] && !in_other_quote && got_ended(line, i, c[1]))
+			in_other_quote = 1;
+		else if (line[i] == c[1] && in_other_quote)
+			in_other_quote = 0;
+		else if (line[i] == c[0] && !in_other_quote)
 			counter++;
-		if (line[i] == c[1] && got_ended(line, i, c[1]))
-			inquote = !inquote;
 		i++;
 	}
 	if (counter % 2 == 1)
