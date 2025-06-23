@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 00:31:40 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/24 00:38:22 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ int	check_chars(char *li)
 	i[2] = 0;
 	while (li[i[0]])
 	{
-		if (li[i[0]] == '<' && li[i[0]] == '<' && li[i[0]] == '|')
-			return (perror("Syntax Error: near unexpected token `|'"), 1);
-		if (li[i[0]] == '<' && li[i[0]] == '<' && li[i[0]] == '<')
+		if (li[i[0]] == '<' && li[i[0] + 1] == '<' && li[i[0] + 2] == '<')
 			return (perror("Syntax Error: near unexpected token `<<<'"), 1);
 		if (li[i[0]] == '|' && li[i[0] + 1] && li[i[0] + 1] == '|')
 			return (perror("Syntax Error: invalid pipe"), 1);

@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 19:38:55 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/24 00:41:15 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	verif_words(t_lst *words)
 			return (perror("Syntax error: Double pipe '| |' not allowed"), 1);
 		if (tmp->content[0] == '|' && !tmp->next)
 			return (perror("Syntax error: Pipe '|' "
-					"at the end of command not allowed"),
-				1);
+							"at the end of command not allowed"),
+					1);
 		if (tmp->content[0] == '>' && !tmp->content[1] && tmp->next
 			&& tmp->next->content[0] == '|')
 			return (perror("Syntax error:  near unexpected token `|'"), 1);
@@ -96,6 +96,32 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens), 0);
 }
 
+int	checker(t_exec *exec)
+{
+	t_args	*args;
+
+	while (exec)
+	{
+		args = exec->args;
+		if (!args || !args->name)
+			return (perror("Syntax error: empty command"), 1);
+		if (args->tok == HD && !args->next)
+			return (perror("Syntax error: here-document without command"), 1);
+		if (args->tok == OP && (!args->next || args->next->tok != CMD))
+			return (perror("Syntax error: redirection without command"), 1);
+		if (args->tok == AP && (!args->next || args->next->tok != CMD))
+			return (perror("Syntax error: append without command"), 1);
+		if (args->tok == TR && (!args->next || args->next->tok != CMD))
+			return (perror("Syntax error: truncate without command"), 1);
+		if (args->tok == HD && args->next->tok == PIP)
+			return (perror("Syntax error: here-document before pipe"), 1);
+		if (args->tok == HD && args->next->tok == HD)
+			return (perror("Syntax error: here-document after here-document"), 1);
+		exec = exec->next;
+	}
+	return (0);
+}
+
 int	set_token(t_mnours *data)
 {
 	data->nb_pipe = 0;
@@ -106,6 +132,8 @@ int	set_token(t_mnours *data)
 	if (!data->ex->args)
 		ft_error("Malloc error", data);
 	if (tokener(data, data->ex, data->ex->args) == 1)
+		return (1);
+	if (checker(data->ex) == 1)
 		return (1);
 	expends_exit_status(data);
 	return (0);
