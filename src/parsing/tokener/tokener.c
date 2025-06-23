@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 00:41:15 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/24 00:43:35 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ int	checker(t_exec *exec)
 		args = exec->args;
 		if (!args || !args->name)
 			return (perror("Syntax error: empty command"), 1);
-		if (args->tok == HD && !args->next)
-			return (perror("Syntax error: here-document without command"), 1);
 		if (args->tok == OP && (!args->next || args->next->tok != CMD))
 			return (perror("Syntax error: redirection without command"), 1);
 		if (args->tok == AP && (!args->next || args->next->tok != CMD))
