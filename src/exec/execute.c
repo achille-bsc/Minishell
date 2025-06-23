@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 18:33:10 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/23 02:05:08 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 23:49:12 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	execute5(t_mnours *d, t_exec *cmd)
 	}
 	else
 		exec_build(d, cmd->lst, cmd);
+	close_next_hd(d->ex);
 }
 
 int	execute4(t_mnours *d, int i)
@@ -68,6 +69,7 @@ int	execute3(t_exec **cmd, int bool)
 {
 	if (bool == 0)
 		piping(*cmd);
+	close_next_hd(*cmd);
 	if ((*cmd)->fout > 2)
 		close((*cmd)->fout);
 	if ((*cmd)->fin > 2 && bool == 0)
@@ -97,8 +99,6 @@ int	execute2(t_mnours *d, t_exec *cmd)
 		is_buildtin(cmd, cmd->lst[0]);
 		if (d->nb_pipe > 0 || cmd->is_build == 0)
 			d->pid_stock[i++] = child_factory(d, cmd);
-		else
-			exec_build(d, cmd->lst, cmd);
 		exec_close_fd(cmd);
 		cmd = cmd->next;
 	}
@@ -128,4 +128,5 @@ void	execute(t_mnours *d)
 				execute5(d, cmd);
 		exec_close_fd(cmd);
 	}
+	close_next_hd(d->ex);
 }

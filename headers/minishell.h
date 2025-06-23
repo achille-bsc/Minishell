@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 21:18:03 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 22:13:04 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int			complete(int i, char *line, t_lst **word, t_quotes *q);
 t_lst		*create_word(void);
 int			verif(t_mnours *mnours);
 int			is_buildtin(t_exec *exe, char *cmd);
+void		iffree(char *str, int *k);
+void		replace_mid(t_quotes *q, char *v, int i);
 
 // ------- Free | Error -------
 void		ft_error(char *msg, t_mnours *data);
@@ -74,7 +76,6 @@ int			set_heredoc(t_exec *c, t_mnours *data);
 int			redir(t_exec *c, t_mnours *data);
 void		execute(t_mnours *d);
 void		exec_build(t_mnours *data, char **l, t_exec *c);
-int			should_expand_heredoc(t_args *delimiter);
 char		*get_clean_delimiter(t_args *delimiter);
 
 int			ft_exit(t_mnours *data, char **line);
@@ -82,9 +83,6 @@ int			ft_echo(char **line);
 int			ft_env(char **tab);
 int			ft_export(t_mnours *data, t_env *env, char **line);
 t_env		*ft_unset(t_env *env, char **line, t_mnours *mnours);
-
-// -------- Tests | Print tokener --------
-void		write_args(t_exec *exec);
 
 // -------- Executing | Utils ---------
 void		close_next_hd(t_exec *c);

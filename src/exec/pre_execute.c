@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 00:55:55 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/23 01:56:28 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 23:48:19 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	exec_build(t_mnours *data, char **l, t_exec *c)
 	dup_close(fd[1], STDOUT_FILENO);
 	if (data->nb_pipe > 0)
 	{
-		if (c->next && c->next->fout != 1)
-			close(c->next->fout);
-		if (c->next && c->next->fin != 0)
-			close(c->next->fin);
+		close_next_hd(data->ex);
 		free_mnours(data);
 		exit(0);
 	}

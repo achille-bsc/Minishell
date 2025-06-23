@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42lehavre.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 23:32:34 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/20 23:36:43 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 23:44:51 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	close_next_hd(t_exec *c)
 	while (tmp)
 	{
 		if (tmp->l_hd > 2)
-			close(c->l_hd);
+			close(tmp->l_hd);
 		tmp = tmp->next;
 	}
 }
