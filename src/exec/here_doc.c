@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/20 19:39:18 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 19:29:25 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,19 @@ void	heredoc3(char *delimiter, int fd)
 int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 {
 	char	*clean_delimiter;
+	t_exec	*tmp;
 
+	tmp = mnours->ex;
 	close(pipefd[0]);
 	clean_delimiter = get_clean_delimiter(n);
 	heredoc3(clean_delimiter, pipefd[1]);
 	free(clean_delimiter);
+	while (tmp)
+	{
+		if (tmp->l_hd > 2)
+			close(tmp->l_hd);
+		tmp = tmp->next;
+	}
 	free_mnours(mnours);
 	close(pipefd[1]);
 	exit(g_signal);
