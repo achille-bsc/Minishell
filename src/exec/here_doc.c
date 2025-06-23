@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/23 23:48:38 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 00:53:27 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ char	*get_clean_delimiter(t_args *delimiter)
 	{
 		clean_delimiter = ft_substr(delimiter->name, 1, len - 2);
 		return (clean_delimiter);
+	}
+	if (ft_strncmp(delimiter->name, "|", 1))
+	{
+		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
+			delimiter->name);
+		return (NULL);
 	}
 	return (ft_strdup(delimiter->name));
 }
@@ -66,6 +72,12 @@ int	heredoc2(t_args *n, int pipefd[2], t_mnours *mnours)
 	tmp = mnours->ex;
 	close(pipefd[0]);
 	clean_delimiter = get_clean_delimiter(n);
+	if (!clean_delimiter)
+	{
+		close(pipefd[1]);
+		free_mnours(mnours);
+		exit(2);
+	}
 	heredoc3(clean_delimiter, pipefd[1]);
 	free(clean_delimiter);
 	while (tmp)
