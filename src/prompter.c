@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 01:16:52 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/21 01:17:44 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 18:34:08 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	prompter3(t_mnours *mnours)
 	free_prompt(mnours);
 }
 
-void	prompter2(t_mnours *mnours, char **env)
+void	prompter2(t_mnours *mnours)
 {
 	if (!mnours->line[0])
 		return (free_prompt(mnours));
@@ -66,7 +66,7 @@ void	prompter2(t_mnours *mnours, char **env)
 		mnours->ex = NULL;
 		return (free_prompt(mnours));
 	}
-	execute(mnours, env);
+	execute(mnours);
 	free_exec(mnours->ex);
 	free(mnours->pid_stock);
 	mnours->pid_stock = NULL;
@@ -75,7 +75,7 @@ void	prompter2(t_mnours *mnours, char **env)
 	free_prompt(mnours);
 }
 
-void	prompter(t_mnours *mnours, char **env)
+void	prompter(t_mnours *mnours)
 {
 	char	stop;
 
@@ -97,7 +97,7 @@ void	prompter(t_mnours *mnours, char **env)
 			prompter3(mnours);
 			break ;
 		}
-		prompter2(mnours, env);
+		prompter2(mnours);
 	}
 	stop = mnours->exit_code;
 	return (free_mnours(mnours), rl_clear_history(), exit(stop));

@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 23:38:35 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/23 00:43:49 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 02:03:21 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	exec_cmd(char **envp, t_exec *c, t_mnours *mnours)
 	exit(127);
 }
 
-pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
+pid_t	child_factory(t_mnours *data, t_exec *c)
 {
 	pid_t	pid;
 	char	*path;
@@ -101,7 +101,7 @@ pid_t	child_factory(t_mnours *data, t_exec *c, char **env)
 			dup_close(c->fout, STDOUT_FILENO);
 		if (c->is_build == 0)
 		{
-			access_path(c->lst, env, data);
+			access_path(c->lst, data->lst_env, data);
 			path = "";
 			if (get_env(data, "PATH"))
 				path = get_env(data, "PATH")->value;
