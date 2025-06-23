@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 18:49:12 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/23 19:43:55 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,6 @@ void	check_quotes2(char *c, char *c2, int type)
 		*c = '\"';
 		*c2 = '\'';
 	}
-}
-
-int	got_ended(char *line, int i, char c)
-{
-	i += 1;
-	while (line[i])
-	{
-		if (line[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	check_quotes(int type, char *line)
@@ -59,14 +47,6 @@ int	check_quotes(int type, char *line)
 			counter++;
 		i++;
 	}
-	if (counter % 2 == 1)
-	{
-		if (c[0] == '\"')
-			return (2);
-		else if (c[0] == '\'')
-			return (1);
-	}
-	return (0);
 }
 
 void	check_chars2(char *l, int *i, int *s_quote, int *d_quote)
@@ -95,8 +75,8 @@ int	check_chars(char *li)
 				i[0]++;
 			if (!li[i[0]] || li[i[0]] == '\n')
 				return (perror("Parse Error: syntax error near"
-								"unexpected token `newline'"),
-						1);
+						"unexpected token `newline'"),
+					1);
 			i[0]--;
 		}
 		check_chars2(li, &(i[0]), &(i[1]), &(i[2]));

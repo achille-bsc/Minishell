@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 18:34:57 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 19:43:30 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 
 extern int	g_signal;
 
+int			got_ended(char *line, int i, char c);
+int			check_quotes2(int c[2], int counter);
 void		prompter(t_mnours *mnours);
 void		free_env(t_env *env);
 void		here_doc(t_args *n, t_exec *c, t_mnours *mnours);
