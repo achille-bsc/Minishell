@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 00:35:43 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 18:34:57 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 extern int	g_signal;
 
-void		prompter(t_mnours *mnours, char **env);
+void		prompter(t_mnours *mnours);
 void		free_env(t_env *env);
 void		here_doc(t_args *n, t_exec *c, t_mnours *mnours);
 void		converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i);
@@ -70,7 +70,7 @@ char		**ft_tabdup(char **tab);
 
 int			set_heredoc(t_exec *c, t_mnours *data);
 int			redir(t_exec *c, t_mnours *data);
-void		execute(t_mnours *d, char **env);
+void		execute(t_mnours *d);
 void		exec_build(t_mnours *data, char **l, t_exec *c);
 int			should_expand_heredoc(t_args *delimiter);
 char		*get_clean_delimiter(t_args *delimiter);
@@ -95,7 +95,7 @@ char		*find_value(char *line, int *i);
 void		access_path(char **cmd, char **env, t_mnours *d);
 char		*find_path(char *cmop, char **paths);
 void		exec_cmd(char **envp, t_exec *c, t_mnours *mnours);
-pid_t		child_factory(t_mnours *data, t_exec *c, char **env);
+pid_t		child_factory(t_mnours *data, t_exec *c);
 void		piping(t_exec *cmd);
 
 // -------- Executing | Utils ---------

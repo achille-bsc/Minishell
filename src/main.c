@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:07:30 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/21 01:17:55 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/23 18:35:26 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int	main(int argc, char **argv, char **env)
 	if (!mininours)
 		return (ft_error("Error: Memory allocation error", NULL), 1);
 	init(mininours, env);
-	prompter(mininours, mininours->lst_env);
+	prompter(mininours);
 	return (0);
 }
