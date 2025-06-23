@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 19:25:09 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/24 00:54:55 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/24 01:19:58 by abosc            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ char	*get_clean_delimiter(t_args *delimiter)
 	{
 		clean_delimiter = ft_substr(delimiter->name, 1, len - 2);
 		return (clean_delimiter);
-	}
-	if (ft_strncmp(delimiter->name, "|", 1) == 0)
-	{
-		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
-			delimiter->name);
-		return (NULL);
 	}
 	return (ft_strdup(delimiter->name));
 }
