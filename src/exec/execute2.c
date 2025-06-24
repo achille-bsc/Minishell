@@ -6,7 +6,7 @@
 /*   By: alegrix <alegrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 23:38:35 by alegrix           #+#    #+#             */
-/*   Updated: 2025/06/23 23:51:48 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:28:02 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void	access_path(char **cmd, char **env, t_mnours *d)
 			signals(SIGNAL_IGN);
 			ft_dprintf(2, "%s: Can't open\n", cmd[0]);
 			free_mnours(d);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 	}
 	else if (cmd[0][0] == '.' && !cmd[0][1])
 	{
 		ft_dprintf(2, ". can't be alone\n");
 		free_mnours(d);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
 
