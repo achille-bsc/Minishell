@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 03:57:14 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:41:54 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void		free_env(t_env *env);
 void		here_doc(t_args *n, t_exec *c, t_mnours *mnours);
 void		converter(t_exec *dat_tmp, t_args *tmp, t_mnours *mini, int i);
 t_env		*ft_envnew(char *line);
+int			check3(char *l, int i, int j, int k);
 
 // ---- Variables d'environnement ----
 char		**var_search(char **tab, t_env *env);

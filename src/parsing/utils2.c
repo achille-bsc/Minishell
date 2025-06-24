@@ -6,11 +6,20 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:43:02 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 05:11:53 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:41:23 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+int	check3(char *l, int i, int j, int k)
+{
+	if (l[i == '<' && l[i + 1] == '<' && l[i] + 2] == '<' && !(j || k))
+		return (perror("Syntax Error: near unexpected token `<<<'"), 1);
+	if (l[i] == '|' && l[i + 1] && l[i + 1] == '|' && !(j || k))
+		return (perror("Syntax Error: invalid pipe"), 1);
+	return (0);
+}
 
 void	check_quote_redir(int *j, char *lne)
 {
@@ -78,10 +87,7 @@ int	handle_redir(char *lne, int i, t_lst **word)
 	i = tmp;
 	while (lne[i] && (redirquote(lne, i, &q) == 1 || (lne[i] != ' '
 				&& lne[i] != '<' && lne[i] != '>' && lne[i] != '|')))
-	{
-		ft_dprintf(2, "check %c\n\n", lne[i]);
 		(*word)->content[j++] = lne[i++];
-	}
 	(*word)->next = ft_calloc(sizeof(t_lst), 1);
 	return ((*word) = (*word)->next, i);
 }

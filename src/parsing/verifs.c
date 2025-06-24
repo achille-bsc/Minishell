@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 05:24:43 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:41:11 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,29 @@ void	check_chars2(char *l, int *i, int *s_quote, int *d_quote)
 		*d_quote = !*d_quote;
 }
 
-int	check_chars(char *li)
+int	check_chars(char *l)
 {
 	int	i[3];
 
 	i[0] = 0;
 	i[1] = 0;
 	i[2] = 0;
-	while (li[i[0]])
+	while (l[i[0]])
 	{
-		if (li[i[0]] == '<' && li[i[0] + 1] == '<' && li[i[0] + 2] == '<' && !(i[1] || i[2]))
-			return (perror("Syntax Error: near unexpected token `<<<'"), 1);
-		if (li[i[0]] == '|' && li[i[0] + 1] && li[i[0] + 1] == '|' && !(i[1] || i[2]))
-			return (perror("Syntax Error: invalid pipe"), 1);
-		if (li[i[0]] == '<' && li[i[0] + 1] && li[i[0] + 1] == '<' && !(i[1] || i[2]))
+		if (check3(l, i[0], i[1], i[2]) == 1)
+			return (1);
+		if (l[i[0]] == '<' && l[i[0] + 1] && l[i[0] + 1] == '<'
+			&& !(i[1] || i[2]))
 		{
-			while (li[i[0]] && (li[i[0]] == '\t' || li[i[0]] == ' '
-					|| li[i[0]] == '<'))
+			while (l[i[0]] && (l[i[0]] == '\t' || l[i[0]] == ' '
+					|| l[i[0]] == '<'))
 				i[0]++;
-			if (!li[i[0]] || li[i[0]] == '\n')
+			if (!l[i[0]] || l[i[0]] == '\n')
 				return (perror("Parse Error: syntax error near"
-						"unexpected token `newline'"),
-					1);
+						"unexpected token `newline'"), 1);
 			i[0]--;
 		}
-		check_chars2(li, &(i[0]), &(i[1]), &(i[2]));
+		check_chars2(l, &(i[0]), &(i[1]), &(i[2]));
 	}
 	return (0);
 }
