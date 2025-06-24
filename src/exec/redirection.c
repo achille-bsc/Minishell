@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 18:00:39 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/22 23:44:53 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 06:02:28 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,5 @@ int	redir(t_exec *c, t_mnours *data)
 		c->l_hd = 0;
 	if (c->l_hd > 2)
 		close(c->l_hd);
-	return (1);
-}
-
-int	should_expand_heredoc(t_args *delimiter)
-{
-	if (delimiter->quote == S_Q)
-		return (0);
 	return (1);
 }
