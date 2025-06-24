@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:58:58 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 03:56:21 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:25:14 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,39 +93,3 @@ void	get_words2(t_lst *words)
 	}
 }
 
-int	hd_good(char *prompt, int i)
-{
-	ft_dprintf(2, "%c et %i\n", prompt[i], i);
-	if ((prompt[i] != '<' && prompt[i + 1] != '<')
-		|| (i != 0 && prompt[i] != '<' && prompt[i - 1] != '<'))
-		return (0);
-	return (1);
-}
-
-/*t_lst	*get_words(char *prompt)
-{
-	t_lst		*words[2];
-	int			i;
-	t_quotes	q;
-
-	i = 0;
-	q.sin = 0;
-	q.dou = 0;
-	words[1] = create_word();
-	words[0] = words[1];
-	while (prompt[i])
-	{
-		if (!q.sin && !q.dou && (prompt[i] == '<' || prompt[i] == '>'))
-			i = handle_redir(prompt, i, &(words[1]));
-		else if (!q.sin && !q.dou && prompt[i] == '|')
-			i = capipe(prompt, i, &(words[1]));
-		else if (!q.sin && !q.dou && (prompt[i] == ' ' || prompt[i] == '\t'))
-			while (prompt[i] == ' ' || prompt[i] == '\t')
-				i++;
-		else
-			i = complete(i, prompt, &(words[1]), &q);
-	}
-	words[1] = words[0];
-	get_words2(words[1]);
-	return (words[0]);
-}*/

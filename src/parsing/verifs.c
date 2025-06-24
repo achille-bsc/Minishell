@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:48:01 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 02:49:32 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:24:43 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int	check_chars(char *li)
 	i[2] = 0;
 	while (li[i[0]])
 	{
-		if (li[i[0]] == '<' && li[i[0] + 1] == '<' && li[i[0] + 2] == '<')
+		if (li[i[0]] == '<' && li[i[0] + 1] == '<' && li[i[0] + 2] == '<' && !(i[1] || i[2]))
 			return (perror("Syntax Error: near unexpected token `<<<'"), 1);
-		if (li[i[0]] == '|' && li[i[0] + 1] && li[i[0] + 1] == '|')
+		if (li[i[0]] == '|' && li[i[0] + 1] && li[i[0] + 1] == '|' && !(i[1] || i[2]))
 			return (perror("Syntax Error: invalid pipe"), 1);
-		if (li[i[0]] == '<' && li[i[0] + 1] && li[i[0] + 1] == '<')
+		if (li[i[0]] == '<' && li[i[0] + 1] && li[i[0] + 1] == '<' && !(i[1] || i[2]))
 		{
 			while (li[i[0]] && (li[i[0]] == '\t' || li[i[0]] == ' '
 					|| li[i[0]] == '<'))

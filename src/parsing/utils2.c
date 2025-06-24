@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:43:02 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 03:43:28 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:11:53 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	check_quote_redir(int *j, char *lne)
 
 int	redirquote(char *line, int i, t_quotes *q)
 {
-	ft_printf("kiwi, %c\n", line[i]);
 	if (line[i] == '\"' && !q->sin)
 		q->dou = !q->dou;
 	else if (line[i] == '\'' && !q->dou)

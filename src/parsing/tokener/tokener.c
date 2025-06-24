@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 03:54:42 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 05:11:29 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,31 +96,6 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 	}
 	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens), 0);
 }
-
-/* int	checker(t_exec *exec)
-{
-	t_args	*args;
-
-	while (exec)
-	{
-		args = exec->args;
-		if (!args || !args->name)
-			return (perror("Syntax error: empty command"), 1);
-		if (args->tok == OP && args->next && args->next->tok != CMD)
-			return (perror("Syntax error: redirection without command"), 1);
-		if (args->tok == AP && args->next && args->next->tok != CMD)
-			return (perror("Syntax error: append without command"), 1);
-		if (args->tok == TR && args->next && args->next->tok != CMD)
-			return (perror("Syntax error: truncate without command"), 1);
-		if (args->tok == HD && args->next && args->next
-			&& args->next->tok == PIP)
-			return (perror("Syntax error: here-document before pipe"), 1);
-		if (args->tok == HD && ft_strlen(args->name) == 0)
-			return (perror("Syntax error: here-document without delimiter"), 1);
-		exec = exec->next;
-	}
-	return (0);
-}*/
 
 int	set_token(t_mnours *data)
 {
