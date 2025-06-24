@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 00:05:07 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/24 01:21:54 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/24 03:54:42 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ int	verif_words(t_lst *words)
 	while (tmp)
 	{
 		if (tmp->content[0] == '|' && tmp->next && tmp->next->content[0] == '|')
+		{
 			return (perror("Syntax error: Double pipe '| |' not allowed"), 1);
+		}
 		if (tmp->content[0] == '|' && !tmp->next)
 			return (perror("Syntax error: Pipe '|' "
-							"at the end of command not allowed"),
-					1);
+					"at the end of command not allowed"), 1);
 		if (tmp->content[0] == '>' && !tmp->content[1] && tmp->next
 			&& tmp->next->content[0] == '|')
 			return (perror("Syntax error:  near unexpected token `|'"), 1);
@@ -96,7 +97,7 @@ int	tokener(t_mnours *mnours, t_exec *exec, t_args *tokens)
 	return (ft_free_word(words[0]), pre_token->next = NULL, free(tokens), 0);
 }
 
-int	checker(t_exec *exec)
+/* int	checker(t_exec *exec)
 {
 	t_args	*args;
 
@@ -119,7 +120,7 @@ int	checker(t_exec *exec)
 		exec = exec->next;
 	}
 	return (0);
-}
+}*/
 
 int	set_token(t_mnours *data)
 {

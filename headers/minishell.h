@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 00:11:54 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 22:13:04 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 03:57:14 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 
 extern int	g_signal;
 
+void		get_words2(t_lst *words);
+int			checker(t_exec *exec);
 int			got_ended(char *line, int i, char c);
 int			check_quotes_2(char c[2], int counter);
 void		prompter(t_mnours *mnours);

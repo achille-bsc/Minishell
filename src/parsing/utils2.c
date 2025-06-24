@@ -6,32 +6,83 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 19:43:02 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/23 21:17:52 by abosc            ###   ########.fr       */
+/*   Updated: 2025/06/24 03:43:28 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-int	got_ended(char *line, int i, char c)
+void	check_quote_redir(int *j, char *lne)
 {
-	i += 1;
-	while (line[i])
+	int	inquote[2];
+
+	inquote[0] = 0;
+	inquote[1] = 0;
+	while (lne[*j] && lne[*j] != ' ' && lne[*j] != '<' && lne[*j] != '>'
+		&& lne[*j] != '|')
 	{
-		if (line[i] == c)
-			return (1);
-		i++;
+		if (lne[*j] == '\'' || lne[*j] == '\"')
+		{
+			if (inquote[0] && inquote[0] == 0 && lne[*j] == '\'')
+				inquote[0] = 1;
+			else if (inquote[0] == 1 && lne[*j] == '\'')
+				inquote[0] = 0;
+			else if (inquote[1] == 0 && lne[*j] == '\"')
+				inquote[1] = 1;
+			else if (inquote[1] == 1 && lne[*j] == '\"')
+				inquote[1] = 0;
+		}
+		(*j)++;
 	}
+}
+
+int	redirquote(char *line, int i, t_quotes *q)
+{
+	ft_printf("kiwi, %c\n", line[i]);
+	if (line[i] == '\"' && !q->sin)
+		q->dou = !q->dou;
+	else if (line[i] == '\'' && !q->dou)
+		q->sin = !q->sin;
+	if (q->sin || q->dou)
+		return (1);
 	return (0);
 }
 
-int	check_quotes_2(char c[2], int counter)
+int	handle2(int *dbl, int j, char *lne, int i)
 {
-	if (counter % 2 == 1)
+	if (lne[j] == lne[j - 1])
+		j++;
+	*dbl = j - i + 1;
+	while (lne[j] == ' ')
+		j++;
+	return (j);
+}
+
+int	handle_redir(char *lne, int i, t_lst **word)
+{
+	int			j;
+	int			tmp;
+	int			dbl;
+	t_quotes	q;
+
+	q.sin = 0;
+	q.dou = 0;
+	j = i + 1;
+	dbl = 0;
+	tmp = handle2(&dbl, j, lne, i);
+	check_quote_redir(&j, lne);
+	(*word)->content = ft_calloc(sizeof(char), ft_strlen(lne) + 1);
+	j = 0;
+	if (lne[i] == lne[i + 1])
+		(*word)->content[j++] = lne[i++];
+	(*word)->content[j++] = lne[i++];
+	i = tmp;
+	while (lne[i] && (redirquote(lne, i, &q) == 1 || (lne[i] != ' '
+				&& lne[i] != '<' && lne[i] != '>' && lne[i] != '|')))
 	{
-		if (c[0] == '\"')
-			return (2);
-		else if (c[0] == '\'')
-			return (1);
+		ft_dprintf(2, "check %c\n\n", lne[i]);
+		(*word)->content[j++] = lne[i++];
 	}
-	return (0);
+	(*word)->next = ft_calloc(sizeof(t_lst), 1);
+	return ((*word) = (*word)->next, i);
 }

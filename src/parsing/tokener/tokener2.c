@@ -6,7 +6,7 @@
 /*   By: abosc <abosc@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 17:58:58 by abosc             #+#    #+#             */
-/*   Updated: 2025/06/21 01:22:16 by alegrix          ###   ########.fr       */
+/*   Updated: 2025/06/24 03:56:21 by alegrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,16 @@ void	get_words2(t_lst *words)
 	}
 }
 
-t_lst	*get_words(char *prompt)
+int	hd_good(char *prompt, int i)
+{
+	ft_dprintf(2, "%c et %i\n", prompt[i], i);
+	if ((prompt[i] != '<' && prompt[i + 1] != '<')
+		|| (i != 0 && prompt[i] != '<' && prompt[i - 1] != '<'))
+		return (0);
+	return (1);
+}
+
+/*t_lst	*get_words(char *prompt)
 {
 	t_lst		*words[2];
 	int			i;
@@ -119,4 +128,4 @@ t_lst	*get_words(char *prompt)
 	words[1] = words[0];
 	get_words2(words[1]);
 	return (words[0]);
-}
+}*/
